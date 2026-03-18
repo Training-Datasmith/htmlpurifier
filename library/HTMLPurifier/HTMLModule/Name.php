@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_Name extends HTMLPurifier_HTMLModule
 {
     /**

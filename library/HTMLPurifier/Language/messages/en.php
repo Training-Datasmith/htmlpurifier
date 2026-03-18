@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $fallback = false;
 
 $messages = [
@@ -49,7 +51,7 @@ $messages = [
 $errorNames = [
     E_ERROR => 'Error',
     E_WARNING => 'Warning',
-    E_NOTICE => 'Notice'
+    E_NOTICE => 'Notice',
 ];
 
 // vim: et sw=4 sts=4

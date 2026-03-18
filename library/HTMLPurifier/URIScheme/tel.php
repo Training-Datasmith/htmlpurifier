@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates tel (for phone numbers).
  *
@@ -35,9 +37,12 @@ class HTMLPurifier_URIScheme_tel extends HTMLPurifier_URIScheme
 
         // Delete all non-numeric characters, commas, and non-x characters
         // from phone number, EXCEPT for a leading plus sign.
-        $uri->path = preg_replace('/(?!^\+)[^\dx,]/', '',
-                     // Normalize e(x)tension to lower-case
-                     str_replace('X', 'x', rawurldecode($uri->path)));
+        $uri->path = preg_replace(
+            '/(?!^\+)[^\dx,]/',
+            '',
+            // Normalize e(x)tension to lower-case
+            str_replace('X', 'x', rawurldecode($uri->path))
+        );
 
         return true;
     }

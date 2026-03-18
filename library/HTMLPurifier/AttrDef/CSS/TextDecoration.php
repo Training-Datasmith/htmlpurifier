@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates the value for the CSS property text-decoration
  * @note This class could be generalized into a version that acts sort of
@@ -7,7 +9,6 @@
  */
 class HTMLPurifier_AttrDef_CSS_TextDecoration extends HTMLPurifier_AttrDef
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

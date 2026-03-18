@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_ImageTest extends HTMLPurifier_HTMLModuleHarness
 {
-
-
     public function testNormal()
     {
         $this->assertResult('<img height="40" width="40" src="" alt="" />');

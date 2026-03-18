@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * A "safe" object module. In theory, objects permitted by this module will
  * be safe, and untrusted users can be allowed to embed arbitrary flash objects
@@ -36,7 +38,7 @@ class HTMLPurifier_HTMLModule_SafeObject extends HTMLPurifier_HTMLModule
                 'data' => 'URI#embedded',
                 'codebase' => new HTMLPurifier_AttrDef_Enum(
                     [
-                        'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0'
+                        'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
                     ]
                 ),
             ]
@@ -51,7 +53,7 @@ class HTMLPurifier_HTMLModule_SafeObject extends HTMLPurifier_HTMLModule
             [
                 'id' => 'ID',
                 'name*' => 'Text',
-                'value' => 'Text'
+                'value' => 'Text',
             ]
         );
         $param->attr_transform_post[] = new HTMLPurifier_AttrTransform_SafeParam();

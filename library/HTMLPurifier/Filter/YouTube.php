@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Filter_YouTube extends HTMLPurifier_Filter
 {
-
     /**
      * @type string
      */

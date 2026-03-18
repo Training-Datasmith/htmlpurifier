@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Implements special behavior for class attribute (normally NMTOKENS)
  */
@@ -15,7 +17,7 @@ class HTMLPurifier_AttrDef_HTML_Class extends HTMLPurifier_AttrDef_HTML_Nmtokens
     {
         // really, this twiddle should be lazy loaded
         $name = $config->getDefinition('HTML')->doctype->name;
-        if ($name == "XHTML 1.1" || $name == "XHTML 2.0") {
+        if ($name == 'XHTML 1.1' || $name == 'XHTML 2.0') {
             return parent::split($string, $config, $context);
         }
         return preg_split('/\s+/', $string);

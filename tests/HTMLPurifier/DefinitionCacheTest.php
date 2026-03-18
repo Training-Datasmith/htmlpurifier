@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionCacheTest extends HTMLPurifier_Harness
 {
-
     public function test_isOld()
     {
         // using null subclass because parent is abstract
@@ -11,8 +12,8 @@ class HTMLPurifier_DefinitionCacheTest extends HTMLPurifier_Harness
         generate_mock_once('HTMLPurifier_Config');
         $config = new HTMLPurifier_ConfigMock();
         $config->version = '1.0.0'; // hopefully no conflicts
-        $config->returns('get', 10, array('Test.DefinitionRev'));
-        $config->returns('getBatchSerial', 'hash', array('Test'));
+        $config->returns('get', 10, ['Test.DefinitionRev']);
+        $config->returns('getBatchSerial', 'hash', ['Test']);
 
         $this->assertIdentical($cache->isOld('1.0.0,hash,10', $config), false);
         $this->assertIdentical($cache->isOld('1.5.0,hash,1', $config), true);

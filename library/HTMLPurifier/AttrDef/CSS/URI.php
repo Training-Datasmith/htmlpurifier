@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a URI in CSS syntax, which uses url('http://example.com')
  * @note While theoretically speaking a URI in a CSS document could
@@ -11,7 +13,6 @@
  */
 class HTMLPurifier_AttrDef_CSS_URI extends HTMLPurifier_AttrDef_URI
 {
-
     public function __construct()
     {
         parent::__construct(true); // always embedded
@@ -60,7 +61,7 @@ class HTMLPurifier_AttrDef_CSS_URI extends HTMLPurifier_AttrDef_URI
         }
 
         // extra sanity check; should have been done by URI
-        $result = str_replace(['"', "\\", "\n", "\x0c", "\r"], "", $result);
+        $result = str_replace(['"', '\\', "\n", "\x0c", "\r"], '', $result);
 
         // suspicious characters are ()'; we're going to percent encode
         // them for safety.

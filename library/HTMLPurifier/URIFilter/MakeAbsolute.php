@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // does not support network paths
 
 class HTMLPurifier_URIFilter_MakeAbsolute extends HTMLPurifier_URIFilter

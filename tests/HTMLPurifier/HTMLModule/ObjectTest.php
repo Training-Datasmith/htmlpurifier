@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_ObjectTest extends HTMLPurifier_HTMLModuleHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -13,7 +14,8 @@ class HTMLPurifier_HTMLModule_ObjectTest extends HTMLPurifier_HTMLModuleHarness
     {
         $this->config->set('HTML.Trusted', false);
         $this->assertResult(
-            '<object></object>', ''
+            '<object></object>',
+            ''
         );
     }
 
@@ -25,7 +27,7 @@ class HTMLPurifier_HTMLModule_ObjectTest extends HTMLPurifier_HTMLModuleHarness
     public function testStandardUseCase()
     {
         $this->assertResult(
-'<object type="video/x-ms-wmv" data="http://domain.com/video.wmv" width="320" height="256">
+            '<object type="video/x-ms-wmv" data="http://domain.com/video.wmv" width="320" height="256">
 <param name="src" value="http://domain.com/video.wmv" />
 <param name="autostart" value="false" />
 <param name="controller" value="true" />

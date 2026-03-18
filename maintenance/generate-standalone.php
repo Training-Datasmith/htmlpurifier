@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
 chdir(__DIR__);
 require_once 'common.php';
 assertCli();
@@ -97,7 +99,9 @@ function make_file_standalone($file)
 function copy_and_remove_includes($file, $sfile)
 {
     $contents = file_get_contents($file);
-    if (strrchr($file, '.') === '.php') $contents = replace_includes($contents);
+    if (strrchr($file, '.') === '.php') {
+        $contents = replace_includes($contents);
+    }
     return file_put_contents($sfile, $contents);
 }
 
@@ -110,12 +114,14 @@ function replace_includes_callback($matches)
     $file = $matches[1];
     $preserve = [
       // PEAR (external)
-      'XML/HTMLSax3.php' => 1
+      'XML/HTMLSax3.php' => 1,
     ];
     if (isset($preserve[$file])) {
         return $matches[0];
     }
-    if (isset($GLOBALS['loaded'][$file])) return '';
+    if (isset($GLOBALS['loaded'][$file])) {
+        return '';
+    }
     $GLOBALS['loaded'][$file] = true;
     return replace_includes(remove_php_tags(file_get_contents($file)));
 }

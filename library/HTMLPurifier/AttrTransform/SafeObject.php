@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Writes default type for all objects. Currently only supports flash.
  */
@@ -8,7 +10,7 @@ class HTMLPurifier_AttrTransform_SafeObject extends HTMLPurifier_AttrTransform
     /**
      * @type string
      */
-    public $name = "SafeObject";
+    public $name = 'SafeObject';
 
     /**
      * @param array $attr

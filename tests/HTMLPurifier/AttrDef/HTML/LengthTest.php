@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_HTML_LengthTest extends HTMLPurifier_AttrDef_HTML_PixelsTest
 {
-
     public function setup()
     {
         $this->def = new HTMLPurifier_AttrDef_HTML_Length();

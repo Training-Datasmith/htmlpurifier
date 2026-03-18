@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Injector_PurifierLinkifyTest extends HTMLPurifier_InjectorHarness
 {
-
     public function setup()
     {
         parent::setup();
@@ -28,31 +29,31 @@ class HTMLPurifier_Injector_PurifierLinkifyTest extends HTMLPurifier_InjectorHar
     public function testLinkifyBasic()
     {
         $this->assertResult(
-          '%Namespace.Directive',
-          '<a href="#Namespace.Directive">%Namespace.Directive</a>'
+            '%Namespace.Directive',
+            '<a href="#Namespace.Directive">%Namespace.Directive</a>'
         );
     }
 
     public function testLinkifyWithAdjacentTextNodes()
     {
         $this->assertResult(
-          'This %Namespace.Directive thing',
-          'This <a href="#Namespace.Directive">%Namespace.Directive</a> thing'
+            'This %Namespace.Directive thing',
+            'This <a href="#Namespace.Directive">%Namespace.Directive</a> thing'
         );
     }
 
     public function testLinkifyInBlock()
     {
         $this->assertResult(
-          '<div>This %Namespace.Directive thing</div>',
-          '<div>This <a href="#Namespace.Directive">%Namespace.Directive</a> thing</div>'
+            '<div>This %Namespace.Directive thing</div>',
+            '<div>This <a href="#Namespace.Directive">%Namespace.Directive</a> thing</div>'
         );
     }
 
     public function testPreserveInATag()
     {
         $this->assertResult(
-          '<a>%Namespace.Directive</a>'
+            '<a>%Namespace.Directive</a>'
         );
     }
 

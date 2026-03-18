@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Controller for PHPT that implements the SimpleTest unit-testing interface.
  */
 class PHPT_Controller_SimpleTest extends SimpleTestCase
 {
-
     protected $_path;
 
     public function __construct($path)
@@ -16,7 +17,7 @@ class PHPT_Controller_SimpleTest extends SimpleTestCase
 
     public function testPhpt()
     {
-        $suite = new PHPT_Suite(array($this->_path));
+        $suite = new PHPT_Suite([$this->_path]);
         $phpt_reporter = new PHPT_Reporter_SimpleTest($this->reporter);
         $suite->run($phpt_reporter);
     }

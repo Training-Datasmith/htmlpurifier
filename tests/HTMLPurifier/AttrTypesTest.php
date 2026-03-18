@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTypesTest extends HTMLPurifier_Harness
 {
-
     public function test_get()
     {
         $types = new HTMLPurifier_AttrTypes();
@@ -17,7 +18,7 @@ class HTMLPurifier_AttrTypesTest extends HTMLPurifier_Harness
 
         $this->assertIdentical(
             $types->get('Enum#foo,bar'),
-            new HTMLPurifier_AttrDef_Enum(array('foo', 'bar'))
+            new HTMLPurifier_AttrDef_Enum(['foo', 'bar'])
         );
 
     }

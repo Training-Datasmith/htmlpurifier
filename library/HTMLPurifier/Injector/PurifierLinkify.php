@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Injector that converts configuration directive syntax %Namespace.Directive
  * to links

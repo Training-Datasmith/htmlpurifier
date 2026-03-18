@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates the HTML type length (not to be confused with CSS's length).
  *
@@ -9,7 +11,6 @@
 
 class HTMLPurifier_AttrDef_HTML_Length extends HTMLPurifier_AttrDef_HTML_Pixels
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

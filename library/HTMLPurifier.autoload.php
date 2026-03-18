@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Convenience file that registers autoload handler for HTML Purifier.
@@ -19,7 +21,7 @@ if (function_exists('spl_autoload_register') && function_exists('spl_autoload_un
 
 // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.zend_ze1_compatibility_modeRemoved
 if (ini_get('zend.ze1_compatibility_mode')) {
-    trigger_error("HTML Purifier is not compatible with zend.ze1_compatibility_mode; please turn it off", E_USER_ERROR);
+    trigger_error('HTML Purifier is not compatible with zend.ze1_compatibility_mode; please turn it off', E_USER_ERROR);
 }
 
 // vim: et sw=4 sts=4

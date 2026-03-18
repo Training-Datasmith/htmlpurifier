@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Defines allowed child nodes and validates nodes against it.
  */

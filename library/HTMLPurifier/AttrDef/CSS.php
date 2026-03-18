@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates the HTML attribute style, otherwise known as CSS.
  * @note We don't implement the whole CSS specification, so it might be
@@ -13,7 +15,6 @@
  */
 class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
 {
-
     /**
      * @param string $css
      * @param HTMLPurifier_Config $config
@@ -25,7 +26,7 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
         $css = $this->parseCDATA($css);
 
         $definition = $config->getCSSDefinition();
-        $allow_duplicates = $config->get("CSS.AllowDuplicates");
+        $allow_duplicates = $config->get('CSS.AllowDuplicates');
 
         $universal_attrdef = new HTMLPurifier_AttrDef_Enum(
             [
@@ -40,14 +41,16 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
         // escape sequences.   So here is some dumb hack to
         // handle quotes.
         $len = strlen($css);
-        $accum = "";
+        $accum = '';
         $declarations = [];
         $quoted = false;
         for ($i = 0; $i < $len; $i++) {
             $c = strcspn($css, ";'\"", $i);
             $accum .= substr($css, $i, $c);
             $i += $c;
-            if ($i == $len) break;
+            if ($i == $len) {
+                break;
+            }
             $d = $css[$i];
             if ($quoted) {
                 $accum .= $d;
@@ -55,16 +58,18 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
                     $quoted = false;
                 }
             } else {
-                if ($d == ";") {
+                if ($d == ';') {
                     $declarations[] = $accum;
-                    $accum = "";
+                    $accum = '';
                 } else {
                     $accum .= $d;
                     $quoted = $d;
                 }
             }
         }
-        if ($accum != "") $declarations[] = $accum;
+        if ($accum != '') {
+            $declarations[] = $accum;
+        }
 
         $propvalues = [];
         $new_declarations = '';

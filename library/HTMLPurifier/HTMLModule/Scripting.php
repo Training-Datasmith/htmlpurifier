@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 
 WARNING: THIS MODULE IS EXTREMELY DANGEROUS AS IT ENABLES INLINE SCRIPTING
@@ -60,7 +62,7 @@ class HTMLPurifier_HTMLModule_Scripting extends HTMLPurifier_HTMLModule
         $this->info['script']->attr = [
             'defer' => new HTMLPurifier_AttrDef_Enum(['defer']),
             'src' => new HTMLPurifier_AttrDef_URI(true),
-            'type' => new HTMLPurifier_AttrDef_Enum(['text/javascript'])
+            'type' => new HTMLPurifier_AttrDef_Enum(['text/javascript']),
         ];
         $this->info['script']->content_model = '#PCDATA';
         $this->info['script']->content_model_type = 'optional';

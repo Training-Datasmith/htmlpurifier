@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Tables Module, fully defines accessible table elements.
  */
@@ -29,7 +31,7 @@ class HTMLPurifier_HTMLModule_Tables extends HTMLPurifier_HTMLModule
                 'frame' => 'Enum#void,above,below,hsides,lhs,rhs,vsides,box,border',
                 'rules' => 'Enum#none,groups,rows,cols,all',
                 'summary' => 'Text',
-                'width' => 'Length'
+                'width' => 'Length',
             ]
         );
 

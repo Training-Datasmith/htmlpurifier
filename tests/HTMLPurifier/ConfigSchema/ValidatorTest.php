@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Special test-case for cases that can't be tested using
  * HTMLPurifier_ConfigSchema_ValidatorTestCase.
  */
 class HTMLPurifier_ConfigSchema_ValidatorTest extends UnitTestCase
 {
-    public $validator, $interchange;
+    public $validator;
+    public $interchange;
 
     public function setup()
     {
@@ -84,14 +87,13 @@ class HTMLPurifier_ConfigSchema_ValidatorTest extends UnitTestCase
         $d->default = 'foo';
         $d->type = 'string';
         $d->description = 'Description';
-        $d->allowed = array('foo' => 1);
+        $d->allowed = ['foo' => 1];
 
         $this->expectValidationException("Allowed in directive 'Ns.Dir' must be a lookup array");
         $this->validator->validate($this->interchange);
     }
 
     // helper functions
-
 
     protected function makeDirective($key)
     {

@@ -1,21 +1,22 @@
 <?php
 
-class HTMLPurifier_AttrDef_CSS_Composite_Testable extends
-      HTMLPurifier_AttrDef_CSS_Composite
-{
+declare(strict_types=1);
 
+class HTMLPurifier_AttrDef_CSS_Composite_Testable extends
+    HTMLPurifier_AttrDef_CSS_Composite
+{
     // we need to pass by ref to get the mocks in
     public function __construct(&$defs)
     {
-        $this->defs =& $defs;
+        $this->defs = & $defs;
     }
 
 }
 
 class HTMLPurifier_AttrDef_CSS_CompositeTest extends HTMLPurifier_AttrDefHarness
 {
-
-    protected $def1, $def2;
+    protected $def1;
+    protected $def2;
 
     public function test()
     {
@@ -29,11 +30,11 @@ class HTMLPurifier_AttrDef_CSS_CompositeTest extends HTMLPurifier_AttrDefHarness
 
         $def1 = new HTMLPurifier_AttrDefMock();
         $def2 = new HTMLPurifier_AttrDefMock();
-        $defs = array(&$def1, &$def2);
+        $defs = [&$def1, &$def2];
         $def = new HTMLPurifier_AttrDef_CSS_Composite_Testable($defs);
         $input = 'FOOBAR';
         $output = 'foobar';
-        $def1_params = array($input, $config, $context);
+        $def1_params = [$input, $config, $context];
         $def1->expectOnce('validate', $def1_params);
         $def1->returns('validate', $output, $def1_params);
         $def2->expectNever('validate');
@@ -45,11 +46,11 @@ class HTMLPurifier_AttrDef_CSS_CompositeTest extends HTMLPurifier_AttrDefHarness
 
         $def1 = new HTMLPurifier_AttrDefMock();
         $def2 = new HTMLPurifier_AttrDefMock();
-        $defs = array(&$def1, &$def2);
+        $defs = [&$def1, &$def2];
         $def = new HTMLPurifier_AttrDef_CSS_Composite_Testable($defs);
         $input = 'BOOMA';
         $output = 'booma';
-        $def_params = array($input, $config, $context);
+        $def_params = [$input, $config, $context];
         $def1->expectOnce('validate', $def_params);
         $def1->returns('validate', false, $def_params);
         $def2->expectOnce('validate', $def_params);
@@ -62,11 +63,11 @@ class HTMLPurifier_AttrDef_CSS_CompositeTest extends HTMLPurifier_AttrDefHarness
 
         $def1 = new HTMLPurifier_AttrDefMock();
         $def2 = new HTMLPurifier_AttrDefMock();
-        $defs = array(&$def1, &$def2);
+        $defs = [&$def1, &$def2];
         $def = new HTMLPurifier_AttrDef_CSS_Composite_Testable($defs);
         $input = 'BOOMA';
         $output = false;
-        $def_params = array($input, $config, $context);
+        $def_params = [$input, $config, $context];
         $def1->expectOnce('validate', $def_params);
         $def1->returns('validate', false, $def_params);
         $def2->expectOnce('validate', $def_params);

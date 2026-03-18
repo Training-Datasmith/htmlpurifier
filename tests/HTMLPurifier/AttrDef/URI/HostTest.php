@@ -1,11 +1,11 @@
 <?php
 
-// takes a URI formatted host and validates it
+declare(strict_types=1);
 
+// takes a URI formatted host and validates it
 
 class HTMLPurifier_AttrDef_URI_HostTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $this->def = new HTMLPurifier_AttrDef_URI_Host();
@@ -44,20 +44,21 @@ class HTMLPurifier_AttrDef_URI_HostTest extends HTMLPurifier_AttrDefHarness
 
     public function testIDNA()
     {
-        if (!$GLOBALS['HTMLPurifierTest']['Net_IDNA2'] && !function_exists("idn_to_ascii")) {
+        if (!$GLOBALS['HTMLPurifierTest']['Net_IDNA2'] && !function_exists('idn_to_ascii')) {
             return false;
         }
         $this->config->set('Core.EnableIDNA', true);
-        $this->assertDef("\xE4\xB8\xAD\xE6\x96\x87.com.cn", "xn--fiq228c.com.cn");
-        $this->assertDef("faß.de", "xn--fa-hia.de");
+        $this->assertDef("\xE4\xB8\xAD\xE6\x96\x87.com.cn", 'xn--fiq228c.com.cn');
+        $this->assertDef('faß.de', 'xn--fa-hia.de');
         $this->assertDef("\xe2\x80\x85.com", false); // rejected
     }
 
-    function testAllowUnderscore() {
+    public function testAllowUnderscore()
+    {
         $this->config->set('Core.AllowHostnameUnderscore', true);
-        $this->assertDef("foo_bar.example.com");
-        $this->assertDef("foo_.example.com");
-        $this->assertDef("_dmarc.example.com");
+        $this->assertDef('foo_bar.example.com');
+        $this->assertDef('foo_.example.com');
+        $this->assertDef('_dmarc.example.com');
     }
 
 }

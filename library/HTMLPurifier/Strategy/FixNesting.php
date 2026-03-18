@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Takes a well formed list of tokens and fixes their nesting.
  *
@@ -31,7 +33,6 @@
 
 class HTMLPurifier_Strategy_FixNesting extends HTMLPurifier_Strategy
 {
-
     /**
      * @param HTMLPurifier_Token[] $tokens
      * @param HTMLPurifier_Config $config
@@ -61,7 +62,7 @@ class HTMLPurifier_Strategy_FixNesting extends HTMLPurifier_Strategy
         $context->register('IsInline', $is_inline);
 
         // setup error collector
-        $e =& $context->get('ErrorCollector', true);
+        $e = & $context->get('ErrorCollector', true);
 
         // variable that contains the start token while we are processing
         // nodes. This enables error reporting to do its job
@@ -96,7 +97,7 @@ class HTMLPurifier_Strategy_FixNesting extends HTMLPurifier_Strategy
             [$top_node,
                   $parent_def->descendants_are_inline,
                   $parent_def->excludes, // exclusions
-                  0]
+                  0],
             ];
 
         while (!empty($stack)) {
@@ -119,19 +120,25 @@ class HTMLPurifier_Strategy_FixNesting extends HTMLPurifier_Strategy
                     break;
                 }
             };
-            if ($go) continue;
+            if ($go) {
+                continue;
+            }
             list($token, $d) = $node->toTokenPair();
             // base case
             if ($excludes_enabled && isset($excludes[$node->name])) {
                 $node->dead = true;
-                if ($e) $e->send(E_ERROR, 'Strategy_FixNesting: Node excluded');
+                if ($e) {
+                    $e->send(E_ERROR, 'Strategy_FixNesting: Node excluded');
+                }
             } else {
                 // XXX I suppose it would be slightly more efficient to
                 // avoid the allocation here and have children
                 // strategies handle it
                 $children = [];
                 foreach ($node->children as $child) {
-                    if (!$child->dead) $children[] = $child;
+                    if (!$child->dead) {
+                        $children[] = $child;
+                    }
                 }
                 $result = $def->child->validateChildren($children, $config, $context);
                 if ($result === true) {
@@ -139,14 +146,16 @@ class HTMLPurifier_Strategy_FixNesting extends HTMLPurifier_Strategy
                     $node->children = $children;
                 } elseif ($result === false) {
                     $node->dead = true;
-                    if ($e) $e->send(E_ERROR, 'Strategy_FixNesting: Node removed');
+                    if ($e) {
+                        $e->send(E_ERROR, 'Strategy_FixNesting: Node removed');
+                    }
                 } else {
                     $node->children = $result;
                     if ($e) {
                         // XXX This will miss mutations of internal nodes. Perhaps defer to the child validators
                         if (empty($result) && !empty($children)) {
                             $e->send(E_ERROR, 'Strategy_FixNesting: Node contents removed');
-                        } else if ($result != $children) {
+                        } elseif ($result != $children) {
                             $e->send(E_WARNING, 'Strategy_FixNesting: Node reorganized');
                         }
                     }

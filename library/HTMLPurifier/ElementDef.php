@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Structure that stores an HTML element definition. Used by
  * HTMLPurifier_HTMLDefinition and HTMLPurifier_HTMLModule.
@@ -176,7 +178,7 @@ class HTMLPurifier_ElementDef
 
         if (!empty($def->content_model)) {
             $this->content_model =
-                str_replace("#SUPER", (string)$this->content_model, $def->content_model);
+                str_replace('#SUPER', (string)$this->content_model, $def->content_model);
             $this->child = false;
         }
         if (!empty($def->content_model_type)) {

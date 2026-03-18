@@ -1,24 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_UnitConverterTest extends HTMLPurifier_Harness
 {
-
     protected function assertConversion($input, $expect, $unit = null, $test_negative = true)
     {
         $length = HTMLPurifier_Length::make($input);
-        if ($expect !== false) $expectl = HTMLPurifier_Length::make($expect);
-        else $expectl = false;
+        if ($expect !== false) {
+            $expectl = HTMLPurifier_Length::make($expect);
+        } else {
+            $expectl = false;
+        }
         $to_unit = $unit !== null ? $unit : $expectl->getUnit();
 
         $converter = new HTMLPurifier_UnitConverter(4, 10);
         $result = $converter->convert($length, $to_unit);
-        if (!$result || !$expectl) $this->assertIdentical($result, $expectl);
-        else $this->assertIdentical($result->toString(), $expectl->toString());
+        if (!$result || !$expectl) {
+            $this->assertIdentical($result, $expectl);
+        } else {
+            $this->assertIdentical($result->toString(), $expectl->toString());
+        }
 
         $converter = new HTMLPurifier_UnitConverter(4, 10, true);
         $result = $converter->convert($length, $to_unit);
-        if (!$result || !$expectl) $this->assertIdentical($result, $expectl);
-        else $this->assertIdentical($result->toString(), $expectl->toString(), 'BCMath substitute: %s');
+        if (!$result || !$expectl) {
+            $this->assertIdentical($result, $expectl);
+        } else {
+            $this->assertIdentical($result->toString(), $expectl->toString(), 'BCMath substitute: %s');
+        }
 
         if ($test_negative) {
             $this->assertConversion(
@@ -101,7 +111,7 @@ class HTMLPurifier_UnitConverterTest extends HTMLPurifier_Harness
         $this->assertConversion('111.12pt', '1.5433in');
         $this->assertConversion('11.112pt', '0.15433in');
     }
-    
+
     public function testDecimalSeparatorComma()
     {
         setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'deu_deu');

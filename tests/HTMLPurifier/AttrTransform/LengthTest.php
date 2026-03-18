@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_LengthTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -11,38 +12,38 @@ class HTMLPurifier_AttrTransform_LengthTest extends HTMLPurifier_AttrTransformHa
 
     public function testEmptyInput()
     {
-        $this->assertResult( array() );
+        $this->assertResult([]);
     }
 
     public function testTransformPixel()
     {
         $this->assertResult(
-            array('width' => '10'),
-            array('style' => 'width:10px;')
+            ['width' => '10'],
+            ['style' => 'width:10px;']
         );
     }
 
     public function testTransformPercentage()
     {
         $this->assertResult(
-            array('width' => '10%'),
-            array('style' => 'width:10%;')
+            ['width' => '10%'],
+            ['style' => 'width:10%;']
         );
     }
 
     public function testPrependNewCSS()
     {
         $this->assertResult(
-            array('width' => '10%', 'style' => 'font-weight:bold'),
-            array('style' => 'width:10%;font-weight:bold')
+            ['width' => '10%', 'style' => 'font-weight:bold'],
+            ['style' => 'width:10%;font-weight:bold']
         );
     }
 
     public function testLenientTreatmentOfInvalidInput()
     {
         $this->assertResult(
-            array('width' => 'asdf'),
-            array('style' => 'width:asdf;')
+            ['width' => 'asdf'],
+            ['style' => 'width:asdf;']
         );
     }
 

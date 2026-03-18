@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Chainable filters for custom URI processing.
  *
@@ -27,7 +29,6 @@
  */
 abstract class HTMLPurifier_URIFilter
 {
-
     /**
      * Unique identifier of filter.
      * @type string

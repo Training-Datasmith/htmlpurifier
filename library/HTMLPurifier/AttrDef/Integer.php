@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates an integer.
  * @note While this class was modeled off the CSS definition, no currently
@@ -9,7 +11,6 @@
  */
 class HTMLPurifier_AttrDef_Integer extends HTMLPurifier_AttrDef
 {
-
     /**
      * Whether or not negative values are allowed.
      * @type bool

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * HTML Purifier's internal representation of a URI.
  * @note

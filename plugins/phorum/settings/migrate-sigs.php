@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function phorum_htmlpurifier_migrate_sigs_check()
 {
     global $PHORUM;
@@ -10,7 +12,7 @@ function phorum_htmlpurifier_migrate_sigs_check()
             exit;
         }
         $PHORUM['mod_htmlpurifier']['migrate-sigs'] = true;
-        phorum_db_update_settings(["mod_htmlpurifier"=>$PHORUM["mod_htmlpurifier"]]);
+        phorum_db_update_settings(['mod_htmlpurifier' => $PHORUM['mod_htmlpurifier']]);
         $offset = 1;
     } elseif (!empty($_GET['migrate-sigs']) && $PHORUM['mod_htmlpurifier']['migrate-sigs']) {
         $offset = (int) $_GET['migrate-sigs'];
@@ -22,7 +24,9 @@ function phorum_htmlpurifier_migrate_sigs($offset)
 {
     global $PHORUM;
 
-    if(!$offset) return; // bail out quick if $offset == 0
+    if (!$offset) {
+        return;
+    } // bail out quick if $offset == 0
 
     // theoretically, we could get rid of this multi-request
     // doo-hickery if safe mode is off
@@ -39,13 +43,15 @@ function phorum_htmlpurifier_migrate_sigs($offset)
     }
     $userinfos = phorum_db_user_get_fields($user_ids, 'signature');
     foreach ($userinfos as $user) {
-        if (empty($user['signature'])) continue;
+        if (empty($user['signature'])) {
+            continue;
+        }
         $sig = $user['signature'];
         // perform standard Phorum processing on the sig
-        $sig = str_replace(["&","<",">"], ["&amp;","&lt;","&gt;"], $sig);
-        $sig = preg_replace("/<((http|https|ftp):\/\/[a-z0-9;\/\?:@=\&\$\-_\.\+!*'\(\),~%]+?)>/i", "$1", $sig);
+        $sig = str_replace(['&','<','>'], ['&amp;','&lt;','&gt;'], $sig);
+        $sig = preg_replace("/<((http|https|ftp):\/\/[a-z0-9;\/\?:@=\&\$\-_\.\+!*'\(\),~%]+?)>/i", '$1', $sig);
         // prepare fake data to pass to migration function
-        $fake_data = [["author"=>"", "email"=>"", "subject"=>"", 'body' => $sig]];
+        $fake_data = [['author' => '', 'email' => '', 'subject' => '', 'body' => $sig]];
         list($fake_message) = phorum_htmlpurifier_migrate($fake_data);
         $user['signature'] = $fake_message['body'];
         if (!phorum_api_user_save($user)) {

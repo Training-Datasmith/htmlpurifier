@@ -1,3 +1,7 @@
 <?php
-class default_load { }
+
+declare(strict_types=1);
+class default_load
+{
+}
 echo "Default loaded\n";

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Custom validation class, accepts DTD child definitions
  *

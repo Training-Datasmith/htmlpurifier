@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Lexer_DomLexTest extends HTMLPurifier_Harness
 {
-
     protected $domLex;
 
     public function setUp()
@@ -16,11 +17,11 @@ class HTMLPurifier_Lexer_DomLexTest extends HTMLPurifier_Harness
         $config  = HTMLPurifier_Config::createDefault();
         $output = $this->domLex->tokenizeHTML('<b><3</b>', $config, $context);
 
-        $this->assertIdentical($output, array(
+        $this->assertIdentical($output, [
             new HTMLPurifier_Token_Start('b'),
             new HTMLPurifier_Token_Text('<3'),
-            new HTMLPurifier_Token_End('b')
-        ));
+            new HTMLPurifier_Token_End('b'),
+        ]);
     }
 
     public function testCoreAggressivelyFixLtComments()
@@ -29,10 +30,10 @@ class HTMLPurifier_Lexer_DomLexTest extends HTMLPurifier_Harness
         $config  = HTMLPurifier_Config::createDefault();
         $output = $this->domLex->tokenizeHTML('<!-- Nested <!-- Not to be included --> comment -->', $config, $context);
 
-        $this->assertIdentical($output, array(
+        $this->assertIdentical($output, [
             new HTMLPurifier_Token_Comment(' Nested <!-- Not to be included '),
-            new HTMLPurifier_Token_Text(' comment -->')
-        ));
+            new HTMLPurifier_Token_Text(' comment -->'),
+        ]);
     }
 
 }

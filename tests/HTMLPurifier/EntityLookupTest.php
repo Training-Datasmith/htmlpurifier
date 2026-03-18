@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 // this page is UTF-8 encoded!
 
 class HTMLPurifier_EntityLookupTest extends HTMLPurifier_Harness
 {
-
     public function test()
     {
         $lookup = HTMLPurifier_EntityLookup::instance();

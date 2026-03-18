@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Name is deprecated, but allowed in strict doctypes, so only
  */

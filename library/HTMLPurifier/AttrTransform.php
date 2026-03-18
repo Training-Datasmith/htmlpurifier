@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Processes an entire attribute array for corrections needing multiple values.
  *
@@ -16,7 +18,6 @@
 
 abstract class HTMLPurifier_AttrTransform
 {
-
     /**
      * Abstract: makes changes to the attributes dependent on multiple values.
      *

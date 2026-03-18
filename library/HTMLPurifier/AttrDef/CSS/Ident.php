@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates based on {ident} CSS grammar production
  */
 class HTMLPurifier_AttrDef_CSS_Ident extends HTMLPurifier_AttrDef
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

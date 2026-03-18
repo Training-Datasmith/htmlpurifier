@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 error_reporting(E_ALL);
 
 // load dual-libraries
@@ -8,14 +10,16 @@ require_once __DIR__ . '/../library/HTMLPurifier.auto.php';
 
 // setup HTML Purifier singleton
 HTMLPurifier::getInstance([
-    'AutoFormat.PurifierLinkify' => true
+    'AutoFormat.PurifierLinkify' => true,
 ]);
 
 $builder = new HTMLPurifier_ConfigSchema_InterchangeBuilder();
 $interchange = new HTMLPurifier_ConfigSchema_Interchange();
 $builder->buildDir($interchange);
 $loader = __DIR__ . '/../config-schema.php';
-if (file_exists($loader)) include $loader;
+if (file_exists($loader)) {
+    include $loader;
+}
 $interchange->validate();
 
 $style = 'plain'; // use $_GET in the future, careful to validate!

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Decorator that, depending on a token, switches between two definitions.
  */
 class HTMLPurifier_AttrDef_Switch
 {
-
     /**
      * @type string
      */

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Null cache object to use when no caching is on.
  */
 class HTMLPurifier_DefinitionCache_Null extends HTMLPurifier_DefinitionCache
 {
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config

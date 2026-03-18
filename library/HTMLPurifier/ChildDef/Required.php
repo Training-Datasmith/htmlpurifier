@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Definition that allows a set of elements, but disallows empty children.
  */

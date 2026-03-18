@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Dummy AttrDef that mimics another AttrDef, BUT it generates clones
  * with make.

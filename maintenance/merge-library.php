@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Deprecated in favor of generate-standalone.php.

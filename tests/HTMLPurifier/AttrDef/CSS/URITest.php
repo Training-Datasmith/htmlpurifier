@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_CSS_URITest extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $this->def = new HTMLPurifier_AttrDef_CSS_URI();
@@ -19,9 +20,13 @@ class HTMLPurifier_AttrDef_CSS_URITest extends HTMLPurifier_AttrDefHarness
         $this->assertDef('url("http://www.example.com/")', $result);
         $this->assertDef("url('http://www.example.com/')", $result);
         $this->assertDef(
-            '  url(  "http://www.example.com/" )   ', $result);
-        $this->assertDef("url(http://www.example.com/foo,bar\)\'\()",
-            'url("http://www.example.com/foo,bar%29%27%28")');
+            '  url(  "http://www.example.com/" )   ',
+            $result
+        );
+        $this->assertDef(
+            "url(http://www.example.com/foo,bar\)\'\()",
+            'url("http://www.example.com/foo,bar%29%27%28")'
+        );
     }
 
 }

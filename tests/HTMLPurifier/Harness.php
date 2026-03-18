@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * All-use harness, use this rather than SimpleTest's
  */
 class HTMLPurifier_Harness extends UnitTestCase
 {
-
     public function __construct($name = null)
     {
         parent::__construct($name);
@@ -52,7 +53,6 @@ class HTMLPurifier_Harness extends UnitTestCase
         $this->assertIdentical($expect, $result);
     }
 
-
     /**
      * Accepts config and context and prepares them into a valid state
      * @param &$config Reference to config variable
@@ -72,7 +72,7 @@ class HTMLPurifier_Harness extends UnitTestCase
      */
     protected function createCommon()
     {
-        return array(HTMLPurifier_Config::createDefault(), new HTMLPurifier_Context);
+        return [HTMLPurifier_Config::createDefault(), new HTMLPurifier_Context()];
     }
 
     /**
@@ -80,7 +80,7 @@ class HTMLPurifier_Harness extends UnitTestCase
      */
     protected function normalize(&$string)
     {
-        $string = str_replace(array("\r\n", "\r"), "\n", $string);
+        $string = str_replace(["\r\n", "\r"], "\n", $string);
     }
 
     /**
@@ -106,7 +106,7 @@ class HTMLPurifier_Harness extends UnitTestCase
         foreach (get_class_methods(get_class($this)) as $method) {
             if (strtolower(substr($method, 0, 10)) == '__onlytest') {
                 $this->reporter->paintSkip('All test methods besides ' . $method);
-                return array($method);
+                return [$method];
             }
         }
         return parent::getTests();

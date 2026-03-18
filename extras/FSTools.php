@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Filesystem tools not provided by default; can recursively create, copy
  * and delete folders. Some template methods are provided for extensibility.
@@ -9,7 +11,6 @@
  */
 class FSTools
 {
-
     private static $singleton;
 
     /**
@@ -17,7 +18,9 @@ class FSTools
      */
     public static function singleton()
     {
-        if (empty(FSTools::$singleton)) FSTools::$singleton = new FSTools();
+        if (empty(FSTools::$singleton)) {
+            FSTools::$singleton = new FSTools();
+        }
         return FSTools::$singleton;
     }
 
@@ -37,10 +40,10 @@ class FSTools
      */
     public function mkdirr($folder)
     {
-        $folders = preg_split("#[\\\\/]#", $folder);
+        $folders = preg_split('#[\\\\/]#', $folder);
         $base = '';
-        for($i = 0, $c = count($folders); $i < $c; $i++) {
-            if(empty($folders[$i])) {
+        for ($i = 0, $c = count($folders); $i < $c; $i++) {
+            if (empty($folders[$i])) {
                 if (!$i) {
                     // special case for root level
                     $base .= DIRECTORY_SEPARATOR;
@@ -48,7 +51,7 @@ class FSTools
                 continue;
             }
             $base .= $folders[$i];
-            if(!is_dir($base)){
+            if (!is_dir($base)) {
                 $this->mkdir($base);
             }
             $base .= DIRECTORY_SEPARATOR;
@@ -72,7 +75,7 @@ class FSTools
         }
         // Loop through the folder
         $dir = $this->dir($source);
-        while ( false !== ($entry = $dir->read()) ) {
+        while (false !== ($entry = $dir->read())) {
             // Skip pointers
             if ($entry == '.') {
                 continue;
@@ -145,9 +148,13 @@ class FSTools
     public function globr($dir, $pattern, $flags = 0)
     {
         $files = $this->glob("$dir/$pattern", $flags);
-        if ($files === false) $files = [];
+        if ($files === false) {
+            $files = [];
+        }
         $sub_dirs = $this->glob("$dir/*", GLOB_ONLYDIR);
-        if ($sub_dirs === false) $sub_dirs = [];
+        if ($sub_dirs === false) {
+            $sub_dirs = [];
+        }
         foreach ($sub_dirs as $sub_dir) {
             $sub_files = $this->globr($sub_dir, $pattern, $flags);
             $files = array_merge($files, $sub_files);

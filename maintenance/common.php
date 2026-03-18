@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function assertCli()
 {
     if (php_sapi_name() != 'cli' && !getenv('PHP_IS_CLI')) {

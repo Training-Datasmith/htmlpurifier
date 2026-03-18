@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModuleManagerTest extends HTMLPurifier_Harness
 {
-
     protected function createManager()
     {
         $manager = new HTMLPurifier_HTMLModuleManager();
@@ -27,7 +28,7 @@ class HTMLPurifier_HTMLModuleManagerTest extends HTMLPurifier_Harness
 
         $common_module = new HTMLPurifier_HTMLModule();
         $common_module->name = 'Common';
-        $common_module->attr_collections['Common'] = array('class' => 'NMTOKENS');
+        $common_module->attr_collections['Common'] = ['class' => 'NMTOKENS'];
         $common_module->content_sets['Flow'] = 'Block | Inline';
         $manager->addModule($common_module);
 
@@ -57,27 +58,27 @@ class HTMLPurifier_HTMLModuleManagerTest extends HTMLPurifier_Harness
 
         $p = new HTMLPurifier_ElementDef();
         $p->attr['class'] = $attrdef_nmtokens;
-        $p->child = new HTMLPurifier_ChildDef_Optional(array('em', '#PCDATA'));
+        $p->child = new HTMLPurifier_ChildDef_Optional(['em', '#PCDATA']);
         $p->content_model = 'em | #PCDATA';
         $p->content_model_type = 'optional';
         $p->descendants_are_inline = true;
 
         $em = new HTMLPurifier_ElementDef();
         $em->attr['class'] = $attrdef_nmtokens;
-        $em->child = new HTMLPurifier_ChildDef_Optional(array('em', '#PCDATA'));
+        $em->child = new HTMLPurifier_ChildDef_Optional(['em', '#PCDATA']);
         $em->content_model = 'em | #PCDATA';
         $em->content_model_type = 'optional';
         $em->descendants_are_inline = true;
 
         $this->assertEqual(
-            array('p' => $p, 'em' => $em),
+            ['p' => $p, 'em' => $em],
             $manager->getElements()
         );
 
         // test trusted parameter override
 
         $div = new HTMLPurifier_ElementDef();
-        $div->child = new HTMLPurifier_ChildDef_Optional(array('p', 'div', 'em', '#PCDATA'));
+        $div->child = new HTMLPurifier_ChildDef_Optional(['p', 'div', 'em', '#PCDATA']);
         $div->content_model = 'p | div | em | #PCDATA';
         $div->content_model_type = 'optional';
         $div->descendants_are_inline = false;
@@ -90,8 +91,9 @@ class HTMLPurifier_HTMLModuleManagerTest extends HTMLPurifier_Harness
     {
         $manager = new HTMLPurifier_HTMLModuleManager();
         $manager->doctypes->register(
-            'Fantasy Inventory 1.0', true,
-            array('Weapons', 'Magic')
+            'Fantasy Inventory 1.0',
+            true,
+            ['Weapons', 'Magic']
         );
 
         // register these modules so it doesn't blow up
@@ -103,18 +105,16 @@ class HTMLPurifier_HTMLModuleManagerTest extends HTMLPurifier_Harness
         $magic_module->name = 'Magic';
         $manager->registerModule($magic_module);
 
-        $config = HTMLPurifier_Config::create(array(
+        $config = HTMLPurifier_Config::create([
             'HTML.CustomDoctype' => 'Fantasy Inventory 1.0',
-            'HTML.AllowedModules' => 'Weapons'
-        ));
+            'HTML.AllowedModules' => 'Weapons',
+        ]);
         $manager->setup($config);
 
-        $this->assertTrue( isset($manager->modules['Weapons']));
+        $this->assertTrue(isset($manager->modules['Weapons']));
         $this->assertFalse(isset($manager->modules['Magic']));
 
     }
-
-
 
 }
 

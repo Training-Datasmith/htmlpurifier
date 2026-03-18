@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Represents a document type, contains information on which modules
  * need to be loaded.

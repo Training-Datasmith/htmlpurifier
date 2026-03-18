@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Supertype for classes that define a strategy for modifying/purifying tokens.
  *
@@ -8,10 +10,8 @@
  * features, such as custom tags, custom parsing of text, etc.
  */
 
-
 abstract class HTMLPurifier_Strategy
 {
-
     /**
      * Executes the strategy on the tokens.
      *

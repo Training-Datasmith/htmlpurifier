@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /** @file
  * Multiple PHP Versions test
  *
@@ -36,7 +38,7 @@ if (!SimpleReporter::inCli()) {
     exit;
 }
 
-$AC = array(); // parameters
+$AC = []; // parameters
 $AC['file']  = '';
 $AC['xml']   = false;
 $AC['quiet'] = false;
@@ -52,20 +54,24 @@ $AC['only-phpt'] = false; // --type=phpt
 $AC['exclude-normal'] = false; // --distro=standalone
 $AC['exclude-standalone'] = false; // --distro=normal
 $AC['verbose'] = false;
-$aliases = array(
+$aliases = [
     'f' => 'file',
     'q' => 'quiet',
     'v' => 'verbose',
-);
+];
 htmlpurifier_parse_args($AC, $aliases);
 
 // Backwards compat extra parsing
 if ($AC['only-phpt']) {
     $AC['type'] = 'phpt';
 }
-if ($AC['exclude-normal']) $AC['distro'] = 'standalone';
-elseif ($AC['exclude-standalone']) $AC['distro'] = 'normal';
-elseif ($AC['standalone']) $AC['distro'] = 'standalone';
+if ($AC['exclude-normal']) {
+    $AC['distro'] = 'standalone';
+} elseif ($AC['exclude-standalone']) {
+    $AC['distro'] = 'normal';
+} elseif ($AC['standalone']) {
+    $AC['distro'] = 'standalone';
+}
 
 if ($AC['xml']) {
     $reporter = new XmlReporter();
@@ -74,7 +80,9 @@ if ($AC['xml']) {
 }
 
 // Regenerate any necessary files
-if (!$AC['disable-flush']) htmlpurifier_flush($AC['php'], $reporter);
+if (!$AC['disable-flush']) {
+    htmlpurifier_flush($AC['php'], $reporter);
+}
 
 $file_arg = '';
 require 'test_files.php';
@@ -83,17 +91,19 @@ if ($AC['file']) {
     if (isset($test_files_lookup[$AC['file']])) {
         $file_arg = '--file=' . $AC['file'];
     } else {
-        throw new Exception("Invalid file passed");
+        throw new Exception('Invalid file passed');
     }
 }
 // This allows us to get out of having to do dry runs.
 $size = count($test_files);
 
 $type_arg = '';
-if ($AC['type']) $type_arg = '--type=' . $AC['type'];
+if ($AC['type']) {
+    $type_arg = '--type=' . $AC['type'];
+}
 
 if ($AC['quick']) {
-    $seriesArray = array();
+    $seriesArray = [];
     foreach ($versions_to_test as $version) {
         $series = substr($version, 0, strpos($version, '.', strpos($version, '.') + 1));
         if (!isset($seriesArray[$series])) {
@@ -122,29 +132,38 @@ foreach ($versions_to_test as $version) {
         switch ($AC['distro']) {
             case '':
                 $break = false;
+                // no break
             case 'normal':
                 $test->add(
                     new CliTestCase(
                         "$phpv $version index.php --xml $flush_arg $type_arg --disable-phpt $file_arg",
-                        $AC['quiet'], $size
+                        $AC['quiet'],
+                        $size
                     )
                 );
-                if ($break) break;
+                if ($break) {
+                    break;
+                }
+                // no break
             case 'standalone':
                 $test->add(
                     new CliTestCase(
                         "$phpv $version index.php --xml $flush_arg $type_arg --standalone --disable-phpt $file_arg",
-                        $AC['quiet'], $size
+                        $AC['quiet'],
+                        $size
                     )
                 );
-                if ($break) break;
+                if ($break) {
+                    break;
+                }
         }
     }
     if (!$AC['disable-phpt'] && (!$AC['type'] || $AC['type'] == 'phpt')) {
         $test->add(
             new CliTestCase(
                 $AC['php'] . " index.php --xml --php \"$phpv $version\" --type=phpt",
-                $AC['quiet'], $size
+                $AC['quiet'],
+                $size
             )
         );
     }

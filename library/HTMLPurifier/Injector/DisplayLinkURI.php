@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Injector that displays the URL of an anchor instead of linking to it, in addition to showing the text of the link.
  */

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_SafeEmbed extends HTMLPurifier_AttrTransform
 {
     /**
      * @type string
      */
-    public $name = "SafeEmbed";
+    public $name = 'SafeEmbed';
 
     /**
      * @param array $attr

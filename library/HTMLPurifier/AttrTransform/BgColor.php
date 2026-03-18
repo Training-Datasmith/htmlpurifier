@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Pre-transform that changes deprecated bgcolor attribute to CSS.
  */

@@ -1,9 +1,9 @@
 <?php
 
-class   HTMLPurifier_ChildDef_StrictBlockquoteTest
-extends HTMLPurifier_ChildDefHarness
-{
+declare(strict_types=1);
 
+class HTMLPurifier_ChildDef_StrictBlockquoteTest extends HTMLPurifier_ChildDefHarness
+{
     public function setUp()
     {
         parent::setUp();
@@ -38,7 +38,7 @@ extends HTMLPurifier_ChildDefHarness
     public function testWrapTextNextToValidElements()
     {
         $this->assertResult(
-               'Wrap'. '<p>Do not wrap</p>',
+            'Wrap'. '<p>Do not wrap</p>',
             '<p>Wrap</p><p>Do not wrap</p>'
         );
     }
@@ -71,7 +71,7 @@ extends HTMLPurifier_ChildDefHarness
     {
         $this->assertResult(
             '<foo>Bar</foo><bas /><b>People</b>Conniving.'. '<p>Fools!</p>',
-              '<p>Bar'.          '<b>People</b>Conniving.</p><p>Fools!</p>'
+            '<p>Bar'.          '<b>People</b>Conniving.</p><p>Fools!</p>'
         );
     }
 

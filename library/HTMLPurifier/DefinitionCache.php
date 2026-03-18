@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Abstract class representing Definition cache managers that implements
  * useful common methods and is a factory.

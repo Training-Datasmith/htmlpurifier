@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_TargetNoreferrerTest extends HTMLPurifier_HTMLModuleHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -44,7 +45,6 @@ class HTMLPurifier_HTMLModule_TargetNoreferrerTest extends HTMLPurifier_HTMLModu
             '<a href="http://google.com">x</a>'
         );
     }
-
 
 }
 

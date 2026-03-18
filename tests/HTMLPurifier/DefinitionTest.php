@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionTest extends HTMLPurifier_Harness
 {
     public function test_setup()
     {
         $def = new HTMLPurifier_DefinitionTestable();
         $config = HTMLPurifier_Config::createDefault();
-        $def->expectOnce('doSetup', array($config));
+        $def->expectOnce('doSetup', [$config]);
         $def->setup($config);
     }
     public function test_setup_redundant()

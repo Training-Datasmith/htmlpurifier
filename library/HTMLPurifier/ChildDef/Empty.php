@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Definition that disallows all elements.
  * @warning validateChildren() in this class is actually never called, because

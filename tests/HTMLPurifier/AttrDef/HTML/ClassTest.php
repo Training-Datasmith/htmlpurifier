@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_HTML_ClassTest extends HTMLPurifier_AttrDef_HTML_NmtokensTest
 {
     public function setUp()
@@ -9,14 +11,14 @@ class HTMLPurifier_AttrDef_HTML_ClassTest extends HTMLPurifier_AttrDef_HTML_Nmto
     }
     public function testAllowedClasses()
     {
-        $this->config->set('Attr.AllowedClasses', array('foo'));
+        $this->config->set('Attr.AllowedClasses', ['foo']);
         $this->assertDef('foo');
         $this->assertDef('bar', false);
         $this->assertDef('foo bar', 'foo');
     }
     public function testForbiddenClasses()
     {
-        $this->config->set('Attr.ForbiddenClasses', array('bar'));
+        $this->config->set('Attr.ForbiddenClasses', ['bar']);
         $this->assertDef('foo');
         $this->assertDef('bar', false);
         $this->assertDef('foo bar', 'foo');

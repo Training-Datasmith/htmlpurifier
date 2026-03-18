@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Definition cache decorator class that cleans up the cache
  * whenever there is a cache miss.

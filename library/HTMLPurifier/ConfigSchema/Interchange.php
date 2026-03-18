@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Generic schema interchange format that can be converted to a runtime
  * representation (HTMLPurifier_ConfigSchema) or HTML documentation. Members
@@ -7,7 +9,6 @@
  */
 class HTMLPurifier_ConfigSchema_Interchange
 {
-
     /**
      * Name of the application this schema is describing.
      * @type string

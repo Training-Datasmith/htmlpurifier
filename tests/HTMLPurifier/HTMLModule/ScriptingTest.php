@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_ScriptingTest extends HTMLPurifier_HTMLModuleHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -14,7 +15,8 @@ class HTMLPurifier_HTMLModule_ScriptingTest extends HTMLPurifier_HTMLModuleHarne
     {
         $this->config->set('HTML.Trusted', false);
         $this->assertResult(
-            '<script type="text/javascript">foo();</script>', ''
+            '<script type="text/javascript">foo();</script>',
+            ''
         );
     }
 
@@ -28,7 +30,7 @@ class HTMLPurifier_HTMLModule_ScriptingTest extends HTMLPurifier_HTMLModuleHarne
     public function testCDATAEnclosure()
     {
         $this->assertResult(
-'<script type="text/javascript">//<![CDATA[
+            '<script type="text/javascript">//<![CDATA[
 alert("<This is compatible with XHTML>");
 //]]></script>'
         );

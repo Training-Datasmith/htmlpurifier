@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_BdoDirTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -11,20 +12,20 @@ class HTMLPurifier_AttrTransform_BdoDirTest extends HTMLPurifier_AttrTransformHa
 
     public function testAddDefaultDir()
     {
-        $this->assertResult( array(), array('dir' => 'ltr') );
+        $this->assertResult([], ['dir' => 'ltr']);
     }
 
     public function testPreserveExistingDir()
     {
-        $this->assertResult( array('dir' => 'rtl') );
+        $this->assertResult(['dir' => 'rtl']);
     }
 
     public function testAlternateDefault()
     {
         $this->config->set('Attr.DefaultTextDir', 'rtl');
         $this->assertResult(
-            array(),
-            array('dir' => 'rtl')
+            [],
+            ['dir' => 'rtl']
         );
 
     }

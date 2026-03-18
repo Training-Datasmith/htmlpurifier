@@ -19,7 +19,6 @@ $LEXERS['DOMLex'] = new HTMLPurifier_Lexer_DOMLex();
 // custom class to aid unit testing
 class RowTimer extends Benchmark_Timer
 {
-
     public $name;
 
     public function __construct($name, $auto = false)
@@ -51,7 +50,9 @@ class RowTimer extends Benchmark_Timer
 
             //$out .= '<td align="right">' . $v['diff'] . '</td>';
 
-            if ($standard == false) $standard = $v['diff'];
+            if ($standard == false) {
+                $standard = $v['diff'];
+            }
 
             $perc = $v['diff'] * 100 / $standard;
             $bad_run = ($v['diff'] < 0);
@@ -59,7 +60,7 @@ class RowTimer extends Benchmark_Timer
             $out .= '<td align="right"'.
                    ($bad_run ? ' style="color:#AAA;"' : '').
                    '>' . number_format($perc, 2, '.', '') .
-                   '%</td><td>'.number_format($v['diff'],4,'.','').'</td>';
+                   '%</td><td>'.number_format($v['diff'], 4, '.', '').'</td>';
 
         }
 
@@ -72,7 +73,9 @@ function print_lexers()
     global $LEXERS;
     $first = true;
     foreach ($LEXERS as $key => $value) {
-        if (!$first) echo ' / ';
+        if (!$first) {
+            echo ' / ';
+        }
         echo htmlspecialchars($key);
         $first = false;
     }
@@ -88,8 +91,10 @@ function do_benchmark($name, $document)
     $timer = new RowTimer($name);
     $timer->start();
 
-    foreach($LEXERS as $key => $lexer) {
-        for ($i=0; $i<$RUNS; $i++) $tokens = $lexer->tokenizeHTML($document, $config, $context);
+    foreach ($LEXERS as $key => $lexer) {
+        for ($i = 0; $i < $RUNS; $i++) {
+            $tokens = $lexer->tokenizeHTML($document, $config, $context);
+        }
         $timer->setMarker($key);
     }
 
@@ -120,7 +125,9 @@ $dir = 'samples/Lexer';
 $dh  = opendir($dir);
 while (false !== ($filename = readdir($dh))) {
 
-    if (strpos($filename, '.html') !== strlen($filename) - 5) continue;
+    if (strpos($filename, '.html') !== strlen($filename) - 5) {
+        continue;
+    }
     $document = file_get_contents($dir . '/' . $filename);
     do_benchmark("File: $filename", $document);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * A "safe" embed module. See SafeObject. This is a proprietary element.
  */

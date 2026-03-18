@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates the border property as defined by CSS.
  */
 class HTMLPurifier_AttrDef_CSS_Border extends HTMLPurifier_AttrDef
 {
-
     /**
      * Local copy of properties this property is shorthand for.
      * @type HTMLPurifier_AttrDef[]

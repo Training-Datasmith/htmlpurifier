@@ -21,7 +21,7 @@ $purified_html = $purifier->purify($html);
 
 // generate style blocks
 foreach ($purifier->context->get('StyleBlocks') as $style) {
-?><style type="text/css">
+    ?><style type="text/css">
 <!--/*--><![CDATA[/*><!--*/
 <?php echo $style; ?>
 

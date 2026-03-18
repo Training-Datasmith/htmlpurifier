@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Special-case enum attribute definition that lazy loads allowed frame targets
  */
 class HTMLPurifier_AttrDef_HTML_FrameTarget extends HTMLPurifier_AttrDef_Enum
 {
-
     /**
      * @type array
      */

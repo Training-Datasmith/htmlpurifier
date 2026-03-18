@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifierTest extends HTMLPurifier_Harness
 {
     protected $purifier;
 
     public function testNull()
     {
-        $this->assertPurification("Null byte\0", "Null byte");
+        $this->assertPurification("Null byte\0", 'Null byte');
     }
 
     public function test_purifyArray()
     {
         $this->assertIdentical(
             $this->purifier->purifyArray(
-                array('Good', '<b>Sketchy', 'foo' => '<script>bad</script>')
+                ['Good', '<b>Sketchy', 'foo' => '<script>bad</script>']
             ),
-            array('Good', '<b>Sketchy</b>', 'foo' => '')
+            ['Good', '<b>Sketchy</b>', 'foo' => '']
         );
 
         $this->assertIsA($this->purifier->context, 'array');
@@ -26,14 +28,15 @@ class HTMLPurifierTest extends HTMLPurifier_Harness
     {
         $this->assertIdentical(
             $this->purifier->purifyArray(
-                array('Good', '<b>Sketchy', 'foo' => array('bar' => '<script>bad</script>'))
+                ['Good', '<b>Sketchy', 'foo' => ['bar' => '<script>bad</script>']]
             ),
-            array('Good', '<b>Sketchy</b>', 'foo' => array('bar' => ''))
+            ['Good', '<b>Sketchy</b>', 'foo' => ['bar' => '']]
         );
     }
 
-    public function test_purifyArray_empty() {
-        $purifiedEmptyArray = $this->purifier->purifyArray(array());
+    public function test_purifyArray_empty()
+    {
+        $purifiedEmptyArray = $this->purifier->purifyArray([]);
         $this->assertTrue(
             empty($purifiedEmptyArray)
         );

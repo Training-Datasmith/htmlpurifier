@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_SwitchTest extends HTMLPurifier_AttrDefHarness
 {
-
-    protected $with, $without;
+    protected $with;
+    protected $without;
 
     public function setUp()
     {

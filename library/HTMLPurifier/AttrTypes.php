@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Provides lookup array of attribute types to HTMLPurifier_AttrDef objects
  */

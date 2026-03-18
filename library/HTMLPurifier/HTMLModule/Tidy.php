@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Abstract class for a set of proprietary modules that clean up (tidy)
  * poorly written HTML.
@@ -30,7 +32,7 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
     public $fixesForLevel = [
         'light' => [],
         'medium' => [],
-        'heavy' => []
+        'heavy' => [],
     ];
 
     /**

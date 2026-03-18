@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_PropertyListTest extends UnitTestCase
 {
-
     public function testBasic()
     {
         $plist = new HTMLPurifier_PropertyList();
@@ -32,7 +33,7 @@ class HTMLPurifier_PropertyListTest extends UnitTestCase
         $parent_plist->set('key', 'value');
         $plist = new HTMLPurifier_PropertyList();
         $plist->setParent($parent_plist);
-        $plist->set('key',  'value2');
+        $plist->set('key', 'value2');
         $this->assertIdentical($plist->get('key'), 'value2');
     }
 
@@ -82,18 +83,18 @@ class HTMLPurifier_PropertyListTest extends UnitTestCase
         $plist->set('key3', 3);
         $this->assertIdentical(
             $plist->squash(),
-            array('key1' => 1, 'key2' => 2, 'key3' => 3)
+            ['key1' => 1, 'key2' => 2, 'key3' => 3]
         );
         // updates don't show up...
         $plist->set('key2', 22);
         $this->assertIdentical(
             $plist->squash(),
-            array('key1' => 1, 'key2' => 2, 'key3' => 3)
+            ['key1' => 1, 'key2' => 2, 'key3' => 3]
         );
         // until you force
         $this->assertIdentical(
             $plist->squash(true),
-            array('key1' => 1, 'key2' => 22, 'key3' => 3)
+            ['key1' => 1, 'key2' => 22, 'key3' => 3]
         );
     }
 }

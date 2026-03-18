@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Parses string hash files. File format is as such:
  *
@@ -27,7 +29,6 @@
  */
 class HTMLPurifier_StringHashParser
 {
-
     /**
      * @type string
      */

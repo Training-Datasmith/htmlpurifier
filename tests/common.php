@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 if (!defined('HTMLPurifierTest')) {
@@ -12,8 +14,12 @@ if (!defined('HTMLPurifierTest')) {
 function test_autoload($class)
 {
     if (!function_exists('spl_autoload_register')) {
-        if (HTMLPurifier_Bootstrap::autoload($class)) return true;
-        if (HTMLPurifierExtras::autoload($class)) return true;
+        if (HTMLPurifier_Bootstrap::autoload($class)) {
+            return true;
+        }
+        if (HTMLPurifierExtras::autoload($class)) {
+            return true;
+        }
     }
     require str_replace('_', '/', $class) . '.php';
     return true;
@@ -23,25 +29,27 @@ if (function_exists('spl_autoload_register')) {
 }
 
 // default settings (protect against register_globals)
-$GLOBALS['HTMLPurifierTest'] = array();
+$GLOBALS['HTMLPurifierTest'] = [];
 $GLOBALS['HTMLPurifierTest']['PEAR'] = false; // do PEAR tests
 $GLOBALS['HTMLPurifierTest']['PHPT'] = true; // do PHPT tests
 $GLOBALS['HTMLPurifierTest']['PH5P'] = class_exists('DOMDocument');
 
 // default library settings
-$versions_to_test = array();
+$versions_to_test = [];
 $php  = 'php';
 $phpv = 'phpv';
 
 // load configuration
-if (file_exists('../conf/test-settings.php')) include '../conf/test-settings.php';
-elseif (file_exists('../test-settings.php')) include '../test-settings.php';
-else {
+if (file_exists('../conf/test-settings.php')) {
+    include '../conf/test-settings.php';
+} elseif (file_exists('../test-settings.php')) {
+    include '../test-settings.php';
+} else {
     throw new Exception('Please create a test-settings.php file by copying test-settings.sample.php and configuring accordingly');
 }
 
 // load PEAR to include path
-if ( is_string($GLOBALS['HTMLPurifierTest']['PEAR']) ) {
+if (is_string($GLOBALS['HTMLPurifierTest']['PEAR'])) {
     // if PEAR is true, there's no need to add it to the path
     set_include_path($GLOBALS['HTMLPurifierTest']['PEAR'] . PATH_SEPARATOR .
         get_include_path());
@@ -83,7 +91,9 @@ function htmlpurifier_parse_args(&$AC, $aliases)
             if ($o !== false) {
                 $v = $opt;
             } else {
-                if ($opt === '') continue;
+                if ($opt === '') {
+                    continue;
+                }
                 if (strlen($opt) > 2 && strncmp($opt, '--', 2) === 0) {
                     $o = substr($opt, 2);
                 } elseif ($opt[0] == '-') {
@@ -110,7 +120,9 @@ function htmlpurifier_parse_args(&$AC, $aliases)
                 }
                 $val_is_bool = false;
             }
-            if ($o === false) continue;
+            if ($o === false) {
+                continue;
+            }
             htmlpurifier_args($AC, $aliases, $o, $v);
             $o = false;
         }
@@ -133,11 +145,21 @@ function htmlpurifier_parse_args(&$AC, $aliases)
  */
 function htmlpurifier_args(&$AC, $aliases, $o, $v)
 {
-    if (isset($aliases[$o])) $o = $aliases[$o];
-    if (!isset($AC[$o])) return;
-    if (is_string($AC[$o])) $AC[$o] = $v;
-    if (is_bool($AC[$o]))   $AC[$o] = ($v === '') ? true :(bool) $v;
-    if (is_int($AC[$o]))    $AC[$o] = (int) $v;
+    if (isset($aliases[$o])) {
+        $o = $aliases[$o];
+    }
+    if (!isset($AC[$o])) {
+        return;
+    }
+    if (is_string($AC[$o])) {
+        $AC[$o] = $v;
+    }
+    if (is_bool($AC[$o])) {
+        $AC[$o] = ($v === '') ? true : (bool) $v;
+    }
+    if (is_int($AC[$o])) {
+        $AC[$o] = (int) $v;
+    }
 }
 
 /**
@@ -145,7 +167,7 @@ function htmlpurifier_args(&$AC, $aliases, $o, $v)
  */
 function htmlpurifier_add_test($test, $test_file, $only_phpt = false)
 {
-    switch (strrchr($test_file, ".")) {
+    switch (strrchr($test_file, '.')) {
         case '.phpt':
             return $test->add(new PHPT_Controller_SimpleTest($test_file));
         case '.php':
@@ -166,7 +188,7 @@ function htmlpurifier_add_test($test, $test_file, $only_phpt = false)
 function printTokens($tokens, $index = null)
 {
     $string = '<pre>';
-    $generator = new HTMLPurifier_Generator(HTMLPurifier_Config::createDefault(), new HTMLPurifier_Context);
+    $generator = new HTMLPurifier_Generator(HTMLPurifier_Config::createDefault(), new HTMLPurifier_Context());
     foreach ($tokens as $i => $token) {
         $string .= printToken($generator, $token, $i, $index == $i);
     }
@@ -176,25 +198,29 @@ function printTokens($tokens, $index = null)
 
 function printToken($generator, $token, $i, $isCursor)
 {
-    $string = "";
-    if ($isCursor) $string .= '[<strong>';
+    $string = '';
+    if ($isCursor) {
+        $string .= '[<strong>';
+    }
     $string .= "<sup>$i</sup>";
     $string .= $generator->escape($generator->generateFromToken($token));
-    if ($isCursor) $string .= '</strong>]';
+    if ($isCursor) {
+        $string .= '</strong>]';
+    }
     return $string;
 }
 
 function printZipper($zipper, $token)
 {
     $string = '<pre>';
-    $generator = new HTMLPurifier_Generator(HTMLPurifier_Config::createDefault(), new HTMLPurifier_Context);
+    $generator = new HTMLPurifier_Generator(HTMLPurifier_Config::createDefault(), new HTMLPurifier_Context());
     foreach ($zipper->front as $i => $t) {
         $string .= printToken($generator, $t, $i, false);
     }
-    if ($token !== NULL) {
-        $string .= printToken($generator, $token, "", true);
+    if ($token !== null) {
+        $string .= printToken($generator, $token, '', true);
     }
-    for ($i = count($zipper->back)-1; $i >= 0; $i--) {
+    for ($i = count($zipper->back) - 1; $i >= 0; $i--) {
         $string .= printToken($generator, $zipper->back[$i], $i, false);
     }
     $string .= '</pre>';
@@ -206,7 +232,8 @@ function printZipper($zipper, $token)
  */
 class FailedTest extends UnitTestCase
 {
-    protected $msg, $details;
+    protected $msg;
+    protected $details;
     public function __construct($msg, $details = null)
     {
         $this->msg = $msg;
@@ -215,7 +242,9 @@ class FailedTest extends UnitTestCase
     public function test()
     {
         $this->fail($this->msg);
-        if ($this->details) $this->reporter->paintFormattedMessage($this->details);
+        if ($this->details) {
+            $this->reporter->paintFormattedMessage($this->details);
+        }
     }
 }
 

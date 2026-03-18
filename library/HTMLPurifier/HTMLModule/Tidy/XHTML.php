@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_Tidy_XHTML extends HTMLPurifier_HTMLModule_Tidy
 {
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Definition for list containers ul and ol.
  *
@@ -42,7 +44,7 @@ class HTMLPurifier_ChildDef_List extends HTMLPurifier_ChildDef
 
         // if li is not allowed, delete parent node
         if (!isset($config->getHTMLDefinition()->info['li'])) {
-            trigger_error("Cannot allow ul/ol without allowing li", E_USER_WARNING);
+            trigger_error('Cannot allow ul/ol without allowing li', E_USER_WARNING);
             return false;
         }
 

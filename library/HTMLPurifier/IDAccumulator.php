@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Component of HTMLPurifier_AttrContext that accumulates IDs to prevent dupes
  * @note In Slashdot-speak, dupe means duplicate.
@@ -8,7 +10,6 @@
  */
 class HTMLPurifier_IDAccumulator
 {
-
     /**
      * Lookup table of IDs we've accumulated.
      * @public

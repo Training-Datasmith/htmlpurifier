@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @warning HTML output is in flux, but eventually needs to be stabilized.
  */
 class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
 {
-
-    protected $language, $generator, $line;
+    protected $language;
+    protected $generator;
+    protected $line;
     protected $collector;
 
     public function setup()
@@ -15,9 +18,9 @@ class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
         generate_mock_once('HTMLPurifier_Generator');
         parent::setup();
         $this->language  = new HTMLPurifier_LanguageMock();
-        $this->language->returns('getErrorName',  'Error',   array(E_ERROR));
-        $this->language->returns('getErrorName',  'Warning', array(E_WARNING));
-        $this->language->returns('getErrorName',  'Notice',  array(E_NOTICE));
+        $this->language->returns('getErrorName', 'Error', [E_ERROR]);
+        $this->language->returns('getErrorName', 'Warning', [E_WARNING]);
+        $this->language->returns('getErrorName', 'Notice', [E_NOTICE]);
         // this might prove to be troublesome if we need to set config
         $this->generator = new HTMLPurifier_Generator($this->config, $this->context);
         $this->line = false;
@@ -30,10 +33,10 @@ class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
     public function test()
     {
         $language = $this->language;
-        $language->returns('getMessage',    'Message 1',   array('message-1'));
-        $language->returns('formatMessage', 'Message 2',   array('message-2', array(1 => 'param')));
-        $language->returns('formatMessage', ' at line 23', array('ErrorCollector: At line', array('line' => 23)));
-        $language->returns('formatMessage', ' at line 3',  array('ErrorCollector: At line', array('line' => 3)));
+        $language->returns('getMessage', 'Message 1', ['message-1']);
+        $language->returns('formatMessage', 'Message 2', ['message-2', [1 => 'param']]);
+        $language->returns('formatMessage', ' at line 23', ['ErrorCollector: At line', ['line' => 23]]);
+        $language->returns('formatMessage', ' at line 3', ['ErrorCollector: At line', ['line' => 3]]);
 
         $this->line = 23;
         $this->collector->send(E_ERROR, 'message-1');
@@ -41,10 +44,10 @@ class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
         $this->line = 3;
         $this->collector->send(E_WARNING, 'message-2', 'param');
 
-        $result = array(
-            0 => array(23, E_ERROR, 'Message 1', array()),
-            1 => array(3, E_WARNING, 'Message 2', array())
-        );
+        $result = [
+            0 => [23, E_ERROR, 'Message 1', []],
+            1 => [3, E_WARNING, 'Message 2', []],
+        ];
 
         $this->assertIdentical($this->collector->getRaw(), $result);
 
@@ -60,7 +63,7 @@ class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
 
     public function testNoErrors()
     {
-        $this->language->returns('getMessage', 'No errors', array('ErrorCollector: No errors'));
+        $this->language->returns('getMessage', 'No errors', ['ErrorCollector: No errors']);
 
         $formatted_result = '<p>No errors</p>';
         $this->assertIdentical(
@@ -71,16 +74,16 @@ class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
 
     public function testNoLineNumbers()
     {
-        $this->language->returns('getMessage', 'Message 1', array('message-1'));
-        $this->language->returns('getMessage', 'Message 2', array('message-2'));
+        $this->language->returns('getMessage', 'Message 1', ['message-1']);
+        $this->language->returns('getMessage', 'Message 2', ['message-2']);
 
         $this->collector->send(E_ERROR, 'message-1');
         $this->collector->send(E_ERROR, 'message-2');
 
-        $result = array(
-            0 => array(false, E_ERROR, 'Message 1', array()),
-            1 => array(false, E_ERROR, 'Message 2', array())
-        );
+        $result = [
+            0 => [false, E_ERROR, 'Message 1', []],
+            1 => [false, E_ERROR, 'Message 2', []],
+        ];
         $this->assertIdentical($this->collector->getRaw(), $result);
 
         /*
@@ -97,14 +100,20 @@ class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
         $this->context->register('CurrentToken', $current_token);
 
         // 0
-        $current_token = new HTMLPurifier_Token_Start('a', array('href' => 'http://example.com'), 32);
-        $this->language->returns('formatMessage', 'Token message',
-          array('message-data-token', array('CurrentToken' => $current_token)));
+        $current_token = new HTMLPurifier_Token_Start('a', ['href' => 'http://example.com'], 32);
+        $this->language->returns(
+            'formatMessage',
+            'Token message',
+            ['message-data-token', ['CurrentToken' => $current_token]]
+        );
         $this->collector->send(E_NOTICE, 'message-data-token');
 
         $current_attr  = 'href';
-        $this->language->returns('formatMessage', '$CurrentAttr.Name => $CurrentAttr.Value',
-          array('message-attr', array('CurrentToken' => $current_token)));
+        $this->language->returns(
+            'formatMessage',
+            '$CurrentAttr.Name => $CurrentAttr.Value',
+            ['message-attr', ['CurrentToken' => $current_token]]
+        );
 
         // 1
         $this->collector->send(E_NOTICE, 'message-attr'); // test when context isn't available
@@ -113,11 +122,11 @@ class HTMLPurifier_ErrorCollectorTest extends HTMLPurifier_Harness
         $this->context->register('CurrentAttr', $current_attr);
         $this->collector->send(E_NOTICE, 'message-attr');
 
-        $result = array(
-            0 => array(32, E_NOTICE, 'Token message', array()),
-            1 => array(32, E_NOTICE, '$CurrentAttr.Name => $CurrentAttr.Value', array()),
-            2 => array(32, E_NOTICE, 'href => http://example.com', array())
-        );
+        $result = [
+            0 => [32, E_NOTICE, 'Token message', []],
+            1 => [32, E_NOTICE, '$CurrentAttr.Name => $CurrentAttr.Value', []],
+            2 => [32, E_NOTICE, 'href => http://example.com', []],
+        ];
         $this->assertIdentical($this->collector->getRaw(), $result);
 
     }

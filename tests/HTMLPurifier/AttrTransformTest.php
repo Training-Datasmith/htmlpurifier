@@ -1,28 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 Mock::generatePartial(
-        'HTMLPurifier_AttrTransform',
-        'HTMLPurifier_AttrTransformTestable',
-        array('transform'));
+    'HTMLPurifier_AttrTransform',
+    'HTMLPurifier_AttrTransformTestable',
+    ['transform']
+);
 
 class HTMLPurifier_AttrTransformTest extends HTMLPurifier_Harness
 {
-
     public function test_prependCSS()
     {
         $t = new HTMLPurifier_AttrTransformTestable();
 
-        $attr = array();
+        $attr = [];
         $t->prependCSS($attr, 'style:new;');
-        $this->assertIdentical(array('style' => 'style:new;'), $attr);
+        $this->assertIdentical(['style' => 'style:new;'], $attr);
 
-        $attr = array('style' => 'style:original;');
+        $attr = ['style' => 'style:original;'];
         $t->prependCSS($attr, 'style:new;');
-        $this->assertIdentical(array('style' => 'style:new;style:original;'), $attr);
+        $this->assertIdentical(['style' => 'style:new;style:original;'], $attr);
 
-        $attr = array('style' => 'style:original;', 'misc' => 'un-related');
+        $attr = ['style' => 'style:original;', 'misc' => 'un-related'];
         $t->prependCSS($attr, 'style:new;');
-        $this->assertIdentical(array('style' => 'style:new;style:original;', 'misc' => 'un-related'), $attr);
+        $this->assertIdentical(['style' => 'style:new;style:original;', 'misc' => 'un-related'], $attr);
 
     }
 
@@ -30,13 +32,13 @@ class HTMLPurifier_AttrTransformTest extends HTMLPurifier_Harness
     {
         $t = new HTMLPurifier_AttrTransformTestable();
 
-        $attr = array('flavor' => 'sweet');
+        $attr = ['flavor' => 'sweet'];
         $this->assertIdentical('sweet', $t->confiscateAttr($attr, 'flavor'));
-        $this->assertIdentical(array(), $attr);
+        $this->assertIdentical([], $attr);
 
-        $attr = array('flavor' => 'sweet');
+        $attr = ['flavor' => 'sweet'];
         $this->assertIdentical(null, $t->confiscateAttr($attr, 'color'));
-        $this->assertIdentical(array('flavor' => 'sweet'), $attr);
+        $this->assertIdentical(['flavor' => 'sweet'], $attr);
 
     }
 

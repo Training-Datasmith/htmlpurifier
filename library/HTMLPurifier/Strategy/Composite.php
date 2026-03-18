@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Composite strategy that runs multiple strategies on tokens.
  */
 abstract class HTMLPurifier_Strategy_Composite extends HTMLPurifier_Strategy
 {
-
     /**
      * List of strategies to run tokens through.
      * @type HTMLPurifier_Strategy[]

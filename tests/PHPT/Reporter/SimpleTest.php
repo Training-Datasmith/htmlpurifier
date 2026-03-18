@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Proxies results from PHPT_Reporter to SimpleTest's reporter
  */
 class PHPT_Reporter_SimpleTest implements PHPT_Reporter
 {
-
     /** SimpleTest reporter to proxy results to */
     protected $reporter;
 

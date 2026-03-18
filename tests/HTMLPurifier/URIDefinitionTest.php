@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URIDefinitionTest extends HTMLPurifier_URIHarness
 {
-
     protected function createFilterMock($expect = true, $result = true, $post = false, $setup = true)
     {
         static $i = 0;
         generate_mock_once('HTMLPurifier_URIFilter');
         $mock = new HTMLPurifier_URIFilterMock();
-        if ($expect) $mock->expectOnce('filter');
-        else $mock->expectNever('filter');
+        if ($expect) {
+            $mock->expectOnce('filter');
+        } else {
+            $mock->expectNever('filter');
+        }
         $mock->returns('filter', $result);
         $mock->returns('prepare', $setup);
         $mock->name = $i++;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Adds important param elements to inside of object in order to make
  * things safe.

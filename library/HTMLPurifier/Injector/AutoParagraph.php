@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Injector that auto paragraphs text in the root node based on
  * double-spacing.

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // why is this a top level function? Because PHP 5.2.0 doesn't seem to
 // understand how to interpret this filter if it's a static method.
 // It's all really silly, but if we go this route it might be reasonable
@@ -72,7 +74,7 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
                 'visited',
                 'active',
                 'hover',
-                'focus'
+                'focus',
             ]
         );
         $this->_universal_attrdef = new HTMLPurifier_AttrDef_Enum(

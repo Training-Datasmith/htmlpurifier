@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @todo Make the callCount variable actually work, so we can precisely
  *       specify what errors we want: no more, no less
  */
 class HTMLPurifier_ErrorsHarness extends HTMLPurifier_Harness
 {
-
-    protected $config, $context;
-    protected $collector, $generator, $callCount;
+    protected $config;
+    protected $context;
+    protected $collector;
+    protected $generator;
+    protected $callCount;
 
     public function setup()
     {
-        $this->config = HTMLPurifier_Config::create(array('Core.CollectErrors' => true));
+        $this->config = HTMLPurifier_Config::create(['Core.CollectErrors' => true]);
         $this->context = new HTMLPurifier_Context();
         generate_mock_once('HTMLPurifier_ErrorCollector');
         $this->collector = new HTMLPurifier_ErrorCollectorEMock();

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Printer_HTMLDefinition extends HTMLPurifier_Printer
 {
-
     /**
      * @type HTMLPurifier_HTMLDefinition, for easy access
      */
@@ -15,7 +16,7 @@ class HTMLPurifier_Printer_HTMLDefinition extends HTMLPurifier_Printer
     public function render($config)
     {
         $ret = '';
-        $this->config =& $config;
+        $this->config = & $config;
 
         $this->def = $config->getHTMLDefinition();
 
@@ -45,7 +46,6 @@ class HTMLPurifier_Printer_HTMLDefinition extends HTMLPurifier_Printer
         $ret .= $this->row('Default Tidy Modules', implode(', ', $doctype->tidyModules));
         return $ret . $this->end('table');
     }
-
 
     /**
      * Renders environment table, which is miscellaneous info
@@ -200,7 +200,7 @@ class HTMLPurifier_Printer_HTMLDefinition extends HTMLPurifier_Printer
                     'thead',
                     'tfoot',
                     'tbody',
-                    'tr'
+                    'tr',
                 ]
             );
         }

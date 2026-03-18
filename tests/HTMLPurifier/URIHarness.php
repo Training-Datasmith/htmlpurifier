@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URIHarness extends HTMLPurifier_Harness
 {
-
     /**
      * Prepares two URIs into object form
      * @param &$uri Reference to string input URI
@@ -12,7 +13,9 @@ class HTMLPurifier_URIHarness extends HTMLPurifier_Harness
     protected function prepareURI(&$uri, &$expect_uri)
     {
         $parser = new HTMLPurifier_URIParser();
-        if ($expect_uri === true) $expect_uri = $uri;
+        if ($expect_uri === true) {
+            $expect_uri = $uri;
+        }
         $uri = $parser->parse($uri);
         if ($expect_uri !== false) {
             $expect_uri = $parser->parse($expect_uri);

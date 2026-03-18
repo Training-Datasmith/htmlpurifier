@@ -33,7 +33,7 @@ require 'common.php';
     CSS
 </div>
 </div>
-<?php 
+<?php
 $xml = simplexml_load_file('attrTransform.xml');
 // attr transform enabled HTML Purifier
 $config = HTMLPurifier_Config::createDefault();
@@ -44,7 +44,7 @@ foreach ($xml->group as $group) {
     echo '<h2>' . $group['title'] . '</h2>';
     foreach ($group->sample as $sample) {
         $sample = (string) $sample;
-?>
+        ?>
 <div class="container">
 <div class="test html">
     <?php echo $sample; ?>
@@ -59,5 +59,5 @@ foreach ($xml->group as $group) {
 ?>
 </body>
 </html>
-<?php 
+<?php
 // vim: et sw=4 sts=4

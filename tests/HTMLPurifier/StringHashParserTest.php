@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @note Sample input files are located in the StringHashParser/ directory.
  */
 class HTMLPurifier_StringHashParserTest extends UnitTestCase
 {
-
     /**
      * Instance of ConfigSchema_StringHashParser being tested.
      */
@@ -27,36 +28,36 @@ class HTMLPurifier_StringHashParserTest extends UnitTestCase
 
     public function testSimple()
     {
-        $this->assertParse('Simple.txt', array(
+        $this->assertParse('Simple.txt', [
             'ID' => 'Namespace.Directive',
             'TYPE' => 'string',
             'CHAIN-ME' => '2',
             'DESCRIPTION' => "Multiline\nstuff\n",
             'EMPTY' => '',
             'FOR-WHO' => "Single multiline\n",
-        ));
+        ]);
     }
 
     public function testOverrideSingle()
     {
-        $this->assertParse('OverrideSingle.txt', array(
+        $this->assertParse('OverrideSingle.txt', [
             'KEY' => 'New',
-        ));
+        ]);
     }
 
     public function testAppendMultiline()
     {
-        $this->assertParse('AppendMultiline.txt', array(
+        $this->assertParse('AppendMultiline.txt', [
             'KEY' => "Line1\nLine2\n",
-        ));
+        ]);
     }
 
     public function testDefault()
     {
         $this->parser->default = 'NEW-ID';
-        $this->assertParse('Default.txt', array(
+        $this->assertParse('Default.txt', [
             'NEW-ID' => 'DefaultValue',
-        ));
+        ]);
     }
 
     public function testError()
@@ -73,22 +74,22 @@ class HTMLPurifier_StringHashParserTest extends UnitTestCase
         $result = $this->parser->parseMultiFile(dirname(__FILE__) . '/StringHashParser/Multi.txt');
         $this->assertIdentical(
             $result,
-            array(
-                array(
+            [
+                [
                     'ID' => 'Namespace.Directive',
                     'TYPE' => 'string',
                     'CHAIN-ME' => '2',
                     'DESCRIPTION' => "Multiline\nstuff\n",
                     'FOR-WHO' => "Single multiline\n",
-                ),
-                array(
+                ],
+                [
                     'ID' => 'Namespace.Directive2',
                     'TYPE' => 'integer',
                     'CHAIN-ME' => '3',
                     'DESCRIPTION' => "M\nstuff\n",
                     'FOR-WHO' => "Single multiline2\n",
-                )
-            )
+                ],
+            ]
         );
     }
 

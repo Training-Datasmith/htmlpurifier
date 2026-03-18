@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Responsible for creating definition caches.
  */
@@ -97,7 +99,7 @@ class HTMLPurifier_DefinitionCacheFactory
     {
         if (is_string($decorator)) {
             $class = "HTMLPurifier_DefinitionCache_Decorator_$decorator";
-            $decorator = new $class;
+            $decorator = new $class();
         }
         $this->decorators[$decorator->name] = $decorator;
     }

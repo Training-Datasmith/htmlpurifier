@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Defines a function wrapper for HTML Purifier for quick use.

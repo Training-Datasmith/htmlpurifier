@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Parses string representations into their corresponding native PHP
  * variable type. The base implementation does a simple type-check.
  */
 class HTMLPurifier_VarParser
 {
-
-    const C_STRING = 1;
-    const ISTRING = 2;
-    const TEXT = 3;
-    const ITEXT = 4;
-    const C_INT = 5;
-    const C_FLOAT = 6;
-    const C_BOOL = 7;
-    const LOOKUP = 8;
-    const ALIST = 9;
-    const HASH = 10;
-    const C_MIXED = 11;
+    public const C_STRING = 1;
+    public const ISTRING = 2;
+    public const TEXT = 3;
+    public const ITEXT = 4;
+    public const C_INT = 5;
+    public const C_FLOAT = 6;
+    public const C_BOOL = 7;
+    public const LOOKUP = 8;
+    public const ALIST = 9;
+    public const HASH = 10;
+    public const C_MIXED = 11;
 
     /**
      * Lookup table of allowed types. Mainly for backwards compatibility, but
@@ -34,7 +35,7 @@ class HTMLPurifier_VarParser
         'lookup' => self::LOOKUP,
         'list' => self::ALIST,
         'hash' => self::HASH,
-        'mixed' => self::C_MIXED
+        'mixed' => self::C_MIXED,
     ];
 
     /**
@@ -161,7 +162,7 @@ class HTMLPurifier_VarParser
     {
         throw new HTMLPurifier_Exception(
             "Inconsistency in $class: " . HTMLPurifier_VarParser::getTypeName($type) .
-            " not implemented"
+            ' not implemented'
         );
     }
 
@@ -173,7 +174,7 @@ class HTMLPurifier_VarParser
     protected function errorGeneric($var, $type)
     {
         $vtype = gettype($var);
-        $this->error("Expected type " . HTMLPurifier_VarParser::getTypeName($type) . ", got $vtype");
+        $this->error('Expected type ' . HTMLPurifier_VarParser::getTypeName($type) . ", got $vtype");
     }
 
     /**

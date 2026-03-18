@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_RubyTest extends HTMLPurifier_HTMLModuleHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -26,7 +27,7 @@ class HTMLPurifier_HTMLModule_RubyTest extends HTMLPurifier_HTMLModuleHarness
     public function testComplexUse()
     {
         $this->assertResult(
-'<ruby>
+            '<ruby>
   <rbc>
     <rb>10</rb>
     <rb>31</rb>

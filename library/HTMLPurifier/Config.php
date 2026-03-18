@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Configuration object that triggers customizable behavior.
  *
@@ -16,7 +18,6 @@
  */
 class HTMLPurifier_Config
 {
-
     /**
      * HTML Purifier's version
      * @type string
@@ -133,7 +134,9 @@ class HTMLPurifier_Config
         }
         if (is_string($config)) {
             $ret->loadIni($config);
-        } elseif (is_array($config)) $ret->loadArray($config);
+        } elseif (is_array($config)) {
+            $ret->loadArray($config);
+        }
         return $ret;
     }
 
@@ -472,7 +475,7 @@ class HTMLPurifier_Config
     public function getDefinition($type, $raw = false, $optimized = false)
     {
         if ($optimized && !$raw) {
-            throw new HTMLPurifier_Exception("Cannot set optimized = true when raw = false");
+            throw new HTMLPurifier_Exception('Cannot set optimized = true when raw = false');
         }
         if (!$this->finalized) {
             $this->autoFinalize();
@@ -533,26 +536,26 @@ class HTMLPurifier_Config
             $def = $this->definitions[$type];
             if ($def->setup && !$optimized) {
                 $extra = $this->chatty ?
-                    " (try moving this code block earlier in your initialization)" :
-                    "";
+                    ' (try moving this code block earlier in your initialization)' :
+                    '';
                 throw new HTMLPurifier_Exception(
-                    "Cannot retrieve raw definition after it has already been setup" .
+                    'Cannot retrieve raw definition after it has already been setup' .
                     $extra
                 );
             }
             if ($def->optimized === null) {
-                $extra = $this->chatty ? " (try flushing your cache)" : "";
+                $extra = $this->chatty ? ' (try flushing your cache)' : '';
                 throw new HTMLPurifier_Exception(
-                    "Optimization status of definition is unknown" . $extra
+                    'Optimization status of definition is unknown' . $extra
                 );
             }
             if ($def->optimized !== $optimized) {
-                $msg = $optimized ? "optimized" : "unoptimized";
+                $msg = $optimized ? 'optimized' : 'unoptimized';
                 $extra = $this->chatty ?
                     " (this backtrace is for the first inconsistent call, which was for a $msg raw definition)"
-                    : "";
+                    : '';
                 throw new HTMLPurifier_Exception(
-                    "Inconsistent use of optimized and unoptimized raw definition retrievals" . $extra
+                    'Inconsistent use of optimized and unoptimized raw definition retrievals' . $extra
                 );
             }
         }
@@ -598,7 +601,7 @@ class HTMLPurifier_Config
                     );
                 } else {
                     $this->triggerError(
-                        "Useless DefinitionID declaration",
+                        'Useless DefinitionID declaration',
                         E_USER_WARNING
                     );
                 }
@@ -779,8 +782,8 @@ class HTMLPurifier_Config
      */
     public function mergeArrayFromForm($array, $index = false, $allowed = true, $mq_fix = true)
     {
-         $ret = HTMLPurifier_Config::prepareArrayFromForm($array, $index, $allowed, $mq_fix, $this->def);
-         $this->loadArray($ret);
+        $ret = HTMLPurifier_Config::prepareArrayFromForm($array, $index, $allowed, $mq_fix, $this->def);
+        $this->loadArray($ret);
     }
 
     /**
@@ -896,7 +899,7 @@ class HTMLPurifier_Config
             }
         }
         if ($no == E_USER_ERROR) {
-          throw new Exception($msg . $extra);
+            throw new Exception($msg . $extra);
         }
         trigger_error($msg . $extra, $no);
     }

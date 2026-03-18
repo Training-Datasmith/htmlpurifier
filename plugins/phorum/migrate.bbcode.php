@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is responsible for migrating from a specific markup language
  * like BBCode or Markdown to HTML. WARNING: THIS PROCESS IS NOT REVERSIBLE
@@ -15,9 +17,11 @@
  * explicitly says, "No, I do not need to migrate."
  */
 
-if(!defined("PHORUM")) exit;
+if (!defined('PHORUM')) {
+    exit;
+}
 
-require_once(__DIR__ . "/../bbcode/bbcode.php");
+require_once(__DIR__ . '/../bbcode/bbcode.php');
 
 /**
  * 'format' hook style function that will be called to convert

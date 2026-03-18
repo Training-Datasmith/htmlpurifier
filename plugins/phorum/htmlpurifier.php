@@ -30,13 +30,13 @@
  */
 function phorum_htmlpurifier_format(array $data)
 {
-    $PHORUM = $GLOBALS["PHORUM"];
+    $PHORUM = $GLOBALS['PHORUM'];
 
-    $purifier =& HTMLPurifier::getInstance();
+    $purifier = & HTMLPurifier::getInstance();
     $cache_serial = $PHORUM['mod_htmlpurifier']['body_cache_serial'];
 
-    foreach($data as $message_id => $message){
-        if(isset($message['body'])) {
+    foreach ($data as $message_id => $message) {
+        if (isset($message['body'])) {
 
             if ($message_id) {
                 // we're dealing with a real message, not a fake, so
@@ -129,12 +129,12 @@ function phorum_htmlpurifier_format(array $data)
 function phorum_htmlpurifier_generate_sig(array $row)
 {
     $phorum_sig = '';
-    if(isset($row["user"]["signature"])
-       && isset($row['meta']['show_signature']) && $row['meta']['show_signature']==1){
-           $phorum_sig=trim($row["user"]["signature"]);
-           if(!empty($phorum_sig)){
-               $phorum_sig="\n\n$phorum_sig";
-           }
+    if (isset($row['user']['signature'])
+       && isset($row['meta']['show_signature']) && $row['meta']['show_signature'] == 1) {
+        $phorum_sig = trim($row['user']['signature']);
+        if (!empty($phorum_sig)) {
+            $phorum_sig = "\n\n$phorum_sig";
+        }
     }
     return $phorum_sig;
 }
@@ -146,10 +146,10 @@ function phorum_htmlpurifier_generate_editmessage(array $row)
 {
     $PHORUM = $GLOBALS['PHORUM'];
     $editmessage = '';
-    if(isset($row['meta']['edit_count']) && $row['meta']['edit_count'] > 0) {
-        $editmessage = str_replace ("%count%", $row['meta']['edit_count'], $PHORUM["DATA"]["LANG"]["EditedMessage"]);
-        $editmessage = str_replace ("%lastedit%", phorum_date($PHORUM["short_date_time"],$row['meta']['edit_date']),  $editmessage);
-        $editmessage = str_replace ("%lastuser%", $row['meta']['edit_username'],  $editmessage);
+    if (isset($row['meta']['edit_count']) && $row['meta']['edit_count'] > 0) {
+        $editmessage = str_replace('%count%', $row['meta']['edit_count'], $PHORUM['DATA']['LANG']['EditedMessage']);
+        $editmessage = str_replace('%lastedit%', phorum_date($PHORUM['short_date_time'], $row['meta']['edit_date']), $editmessage);
+        $editmessage = str_replace('%lastuser%', $row['meta']['edit_username'], $editmessage);
         $editmessage = "\n\n\n\n$editmessage";
     }
     return $editmessage;
@@ -169,8 +169,12 @@ function phorum_htmlpurifier_remove_sig_and_editmessage(array &$row)
     $replacements = [];
     // we need to remove add <phorum break> as that is the form these
     // extra bits are in.
-    if ($signature) $replacements[str_replace("\n", "<phorum break>\n", $signature)] = '';
-    if ($editmessage) $replacements[str_replace("\n", "<phorum break>\n", $editmessage)] = '';
+    if ($signature) {
+        $replacements[str_replace("\n", "<phorum break>\n", $signature)] = '';
+    }
+    if ($editmessage) {
+        $replacements[str_replace("\n", "<phorum break>\n", $editmessage)] = '';
+    }
     $row['body'] = strtr($row['body'], $replacements);
     return [$signature, $editmessage];
 }
@@ -183,7 +187,7 @@ function phorum_htmlpurifier_remove_sig_and_editmessage(array &$row)
  */
 function phorum_htmlpurifier_posting(array $message)
 {
-    $PHORUM = $GLOBALS["PHORUM"];
+    $PHORUM = $GLOBALS['PHORUM'];
     unset($message['meta']['body_cache']); // invalidate the cache
     $message['meta']['body_cache_serial'] = $PHORUM['mod_htmlpurifier']['body_cache_serial'];
     return $message;
@@ -194,7 +198,7 @@ function phorum_htmlpurifier_posting(array $message)
  */
 function phorum_htmlpurifier_quote($array)
 {
-    $purifier =& HTMLPurifier::getInstance();
+    $purifier = & HTMLPurifier::getInstance();
     $text = $purifier->purify($array[1]);
     $source = htmlspecialchars($array[0]);
     return "<blockquote cite=\"$source\">\n$text\n</blockquote>";
@@ -227,7 +231,10 @@ function phorum_htmlpurifier_common()
 
     if (!function_exists('phorum_htmlpurifier_migrate')) {
         // Dummy function
-        function phorum_htmlpurifier_migrate($data) {return $data;}
+        function phorum_htmlpurifier_migrate($data)
+        {
+            return $data;
+        }
     }
 
 }
@@ -243,7 +250,7 @@ function phorum_htmlpurifier_before_editor(array $message)
             $body = $message['body'];
             // de-entity-ize contents
             $body = str_replace(['&lt;','&gt;','&amp;'], ['<','>','&'], $body);
-            $purifier =& HTMLPurifier::getInstance();
+            $purifier = & HTMLPurifier::getInstance();
             $body = $purifier->purify($body);
             // re-entity-ize contents
             $body = htmlspecialchars($body, ENT_QUOTES, $GLOBALS['PHORUM']['DATA']['CHARSET']);
@@ -260,7 +267,7 @@ function phorum_htmlpurifier_editor_after_subject()
     if (!empty($GLOBALS['PHORUM']['mod_htmlpurifier']['wysiwyg'])) {
         $i = $GLOBALS['PHORUM']['DATA']['MODE'];
         if ($i == 'quote' || $i == 'edit' || $i == 'moderation') {
-          ?>
+            ?>
           <div>
             <p>
               <strong>Notice:</strong> HTML has been scrubbed for your safety.
@@ -272,30 +279,34 @@ function phorum_htmlpurifier_editor_after_subject()
         }
         return;
     }
-    if (!empty($GLOBALS['PHORUM']['mod_htmlpurifier']['suppress_message'])) return;
+    if (!empty($GLOBALS['PHORUM']['mod_htmlpurifier']['suppress_message'])) {
+        return;
+    }
     ?><div class="htmlpurifier-help">
     <p>
         <strong>HTML input</strong> is enabled. Make sure you escape all HTML and
         angled brackets with <code>&amp;lt;</code> and <code>&amp;gt;</code>.
     </p><?php
-            $purifier =& HTMLPurifier::getInstance();
-            $config = $purifier->config;
-            if ($config->get('AutoFormat.AutoParagraph')) {
-                ?><p>
+            $purifier = & HTMLPurifier::getInstance();
+    $config = $purifier->config;
+    if ($config->get('AutoFormat.AutoParagraph')) {
+        ?><p>
                     <strong>Auto-paragraphing</strong> is enabled. Double
                     newlines will be converted to paragraphs; for single
                     newlines, use the <code>pre</code> tag.
                 </p><?php
-            }
-            $html_definition = $config->getDefinition('HTML');
-            $allowed = [];
-            foreach ($html_definition->info as $name => $x) $allowed[] = "<code>$name</code>";
-            sort($allowed);
-            $allowed_text = implode(', ', $allowed);
-            ?><p><strong>Allowed tags:</strong> <?php
-            echo $allowed_text;
-            ?>.</p><?php
-        ?>
+    }
+    $html_definition = $config->getDefinition('HTML');
+    $allowed = [];
+    foreach ($html_definition->info as $name => $x) {
+        $allowed[] = "<code>$name</code>";
+    }
+    sort($allowed);
+    $allowed_text = implode(', ', $allowed);
+    ?><p><strong>Allowed tags:</strong> <?php
+    echo $allowed_text;
+    ?>.</p><?php
+    ?>
     </p>
     <p>
         For inputting literal code such as HTML and PHP for display, use

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_BackgroundTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -11,22 +12,22 @@ class HTMLPurifier_AttrTransform_BackgroundTest extends HTMLPurifier_AttrTransfo
 
     public function testEmptyInput()
     {
-        $this->assertResult( array() );
+        $this->assertResult([]);
     }
 
     public function testBasicTransform()
     {
         $this->assertResult(
-            array('background' => 'logo.png'),
-            array('style' => 'background-image:url(logo.png);')
+            ['background' => 'logo.png'],
+            ['style' => 'background-image:url(logo.png);']
         );
     }
 
     public function testPrependNewCSS()
     {
         $this->assertResult(
-            array('background' => 'logo.png', 'style' => 'font-weight:bold'),
-            array('style' => 'background-image:url(logo.png);font-weight:bold')
+            ['background' => 'logo.png', 'style' => 'font-weight:bold'],
+            ['style' => 'background-image:url(logo.png);font-weight:bold']
         );
     }
 
@@ -35,8 +36,8 @@ class HTMLPurifier_AttrTransform_BackgroundTest extends HTMLPurifier_AttrTransfo
         // notice that we rely on the CSS validator later to fix this invalid
         // stuff
         $this->assertResult(
-            array('background' => 'logo.png);foo:('),
-            array('style' => 'background-image:url(logo.png);foo:();')
+            ['background' => 'logo.png);foo:('],
+            ['style' => 'background-image:url(logo.png);foo:();']
         );
     }
 

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_MakeWellFormed_EndRewindInjector extends HTMLPurifier_Injector
 {
     public $name = 'EndRewindInjector';
-    public $needed = array('span');
+    public $needed = ['span'];
     private $deleteElement = false;
 
     public function handleElement(&$token)

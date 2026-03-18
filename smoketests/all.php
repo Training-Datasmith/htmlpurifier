@@ -25,13 +25,26 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
 $dir = './';
 $dh  = opendir($dir);
 while (false !== ($filename = readdir($dh))) {
-    if ($filename[0] == '.') continue;
-    if (strpos($filename, '.php') === false) continue;
-    if ($filename == 'common.php') continue;
-    if ($filename == 'all.php') continue;
-    if ($filename == 'testSchema.php') continue;
+    if ($filename[0] == '.') {
+        continue;
+    }
+    if (strpos($filename, '.php') === false) {
+        continue;
+    }
+    if ($filename == 'common.php') {
+        continue;
+    }
+    if ($filename == 'all.php') {
+        continue;
+    }
+    if ($filename == 'testSchema.php') {
+        continue;
+    }
     ?>
-    <iframe src="<?php echo escapeHTML($filename); if (isset($_GET['standalone'])) {echo '?standalone';} ?>"></iframe>
+    <iframe src="<?php echo escapeHTML($filename);
+    if (isset($_GET['standalone'])) {
+        echo '?standalone';
+    } ?>"></iframe>
     <?php
 }
 

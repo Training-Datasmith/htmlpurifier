@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URIFilter_DisableExternalTest extends HTMLPurifier_URIFilterHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -12,7 +13,8 @@ class HTMLPurifier_URIFilter_DisableExternalTest extends HTMLPurifier_URIFilterH
     public function testRemoveExternal()
     {
         $this->assertFiltering(
-            'http://example.com', false
+            'http://example.com',
+            false
         );
     }
 
@@ -43,7 +45,8 @@ class HTMLPurifier_URIFilter_DisableExternalTest extends HTMLPurifier_URIFilterH
     {
         $this->config->set('URI.Host', 'www.example.com');
         $this->assertFiltering(
-            'http://example.com', false
+            'http://example.com',
+            false
         );
     }
 

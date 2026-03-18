@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * This file compares our version of PH5P with Jero's original version, and

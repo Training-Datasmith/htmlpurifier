@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 List Module, defines list-oriented elements. Core Module.
  */

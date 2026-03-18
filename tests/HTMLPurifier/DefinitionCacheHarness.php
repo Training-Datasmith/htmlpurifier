@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionCacheHarness extends HTMLPurifier_Harness
 {
-
     /**
      * Generate a configuration mock object that returns $values
      * to a getBatch() call
@@ -12,7 +13,7 @@ class HTMLPurifier_DefinitionCacheHarness extends HTMLPurifier_Harness
     {
         generate_mock_once('HTMLPurifier_Config');
         $config = new HTMLPurifier_ConfigMock();
-        $config->returns('getBatchSerial', $serial, array('Test'));
+        $config->returns('getBatchSerial', $serial, ['Test']);
         $config->version = '1.0.0';
         return $config;
     }
@@ -20,7 +21,7 @@ class HTMLPurifier_DefinitionCacheHarness extends HTMLPurifier_Harness
     /**
      * Returns an anonymous def that has been setup and named Test
      */
-    protected function generateDefinition($member_vars = array())
+    protected function generateDefinition($member_vars = [])
     {
         $def = new HTMLPurifier_DefinitionTestable();
         $def->setup = true;

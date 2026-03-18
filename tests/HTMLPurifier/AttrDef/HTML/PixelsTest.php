@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_HTML_PixelsTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function setup()
     {
         $this->def = new HTMLPurifier_AttrDef_HTML_Pixels();

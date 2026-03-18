@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
 {
-
     protected function createURI($uri)
     {
         $parser = new HTMLPurifier_URIParser();
@@ -12,18 +13,19 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     public function test_construct()
     {
         $uri1 = new HTMLPurifier_URI('HTTP', 'bob', 'example.com', '23', '/foo', 'bar=2', 'slash');
-        $uri2 = new HTMLPurifier_URI('http', 'bob', 'example.com',  23,  '/foo', 'bar=2', 'slash');
+        $uri2 = new HTMLPurifier_URI('http', 'bob', 'example.com', 23, '/foo', 'bar=2', 'slash');
         $this->assertIdentical($uri1, $uri2);
     }
 
     protected $oldRegistry;
 
-    protected function &setUpSchemeRegistryMock() {
+    protected function &setUpSchemeRegistryMock()
+    {
         $this->oldRegistry = HTMLPurifier_URISchemeRegistry::instance();
         generate_mock_once('HTMLPurifier_URIScheme');
         generate_mock_once('HTMLPurifier_URISchemeRegistry');
         $registry = HTMLPurifier_URISchemeRegistry::instance(
-          new HTMLPurifier_URISchemeRegistryMock()
+            new HTMLPurifier_URISchemeRegistryMock()
         );
         return $registry;
     }
@@ -32,14 +34,14 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     {
         $registry = $this->setUpSchemeRegistryMock();
         $scheme_mock = new HTMLPurifier_URISchemeMock();
-        $registry->returns('getScheme', $scheme_mock, array($name, '*', '*'));
+        $registry->returns('getScheme', $scheme_mock, [$name, '*', '*']);
         return $scheme_mock;
     }
 
     protected function setUpNoValidSchemes()
     {
         $registry = $this->setUpSchemeRegistryMock();
-        $registry->returns('getScheme', false, array('*', '*', '*'));
+        $registry->returns('getScheme', false, ['*', '*', '*']);
     }
 
     protected function tearDownSchemeRegistryMock()
@@ -108,7 +110,13 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     {
         $this->assertToString(
             'http://bob@example.com:300/foo?bar=baz#fragment',
-            'http', 'bob', 'example.com', 300, '/foo', 'bar=baz', 'fragment'
+            'http',
+            'bob',
+            'example.com',
+            300,
+            '/foo',
+            'bar=baz',
+            'fragment'
         );
     }
 
@@ -116,7 +124,13 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     {
         $this->assertToString(
             'http:',
-            'http', null, null, null, '', null, null
+            'http',
+            null,
+            null,
+            null,
+            '',
+            null,
+            null
         );
     }
 
@@ -124,7 +138,13 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     {
         $this->assertToString(
             '//bob@example.com:8080',
-            null, 'bob', 'example.com', 8080, '', null, null
+            null,
+            'bob',
+            'example.com',
+            8080,
+            '',
+            null,
+            null
         );
     }
 
@@ -132,7 +152,13 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     {
         $this->assertToString(
             '/path/to',
-            null, null, null, null, '/path/to', null, null
+            null,
+            null,
+            null,
+            null,
+            '/path/to',
+            null,
+            null
         );
     }
 
@@ -140,7 +166,13 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     {
         $this->assertToString(
             '?q=string',
-            null, null, null, null, '', 'q=string', null
+            null,
+            null,
+            null,
+            null,
+            '',
+            'q=string',
+            null
         );
     }
 
@@ -148,13 +180,21 @@ class HTMLPurifier_URITest extends HTMLPurifier_URIHarness
     {
         $this->assertToString(
             '#fragment',
-            null, null, null, null, '', null, 'fragment'
+            null,
+            null,
+            null,
+            null,
+            '',
+            null,
+            'fragment'
         );
     }
 
     protected function assertValidation($uri, $expect_uri = true)
     {
-        if ($expect_uri === true) $expect_uri = $uri;
+        if ($expect_uri === true) {
+            $expect_uri = $uri;
+        }
         $uri = $this->createURI($uri);
         $result = $uri->validate($this->config, $this->context);
         if ($expect_uri === false) {

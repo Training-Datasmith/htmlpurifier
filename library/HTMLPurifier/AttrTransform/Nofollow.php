@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // must be called POST validation
 
 /**

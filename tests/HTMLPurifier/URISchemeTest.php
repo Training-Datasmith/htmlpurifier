@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 // WARNING: All the URI schemes are far to relaxed, we need to tighten
 // the checks.
 
 class HTMLPurifier_URISchemeTest extends HTMLPurifier_URIHarness
 {
-
     private $pngBase64;
 
     public function __construct()
@@ -22,7 +23,7 @@ class HTMLPurifier_URISchemeTest extends HTMLPurifier_URIHarness
     protected function assertValidation($uri, $expect_uri = true)
     {
         $this->prepareURI($uri, $expect_uri);
-        $this->config->set('URI.AllowedSchemes', array($uri->scheme));
+        $this->config->set('URI.AllowedSchemes', [$uri->scheme]);
         // convenience hack: the scheme should be explicitly specified
         $scheme = $uri->getSchemeObj($this->config, $this->context);
         $result = $scheme->validate($uri, $this->config, $this->context);
@@ -175,14 +176,16 @@ class HTMLPurifier_URISchemeTest extends HTMLPurifier_URIHarness
     public function test_tel_strip_punctuation()
     {
         $this->assertValidation(
-            'tel:+1 (555) 555-5555', 'tel:+15555555555'
+            'tel:+1 (555) 555-5555',
+            'tel:+15555555555'
         );
     }
 
     public function test_tel_with_url_encoding()
     {
         $this->assertValidation(
-            'tel:+1%20(555)%20555-5555', 'tel:+15555555555'
+            'tel:+1%20(555)%20555-5555',
+            'tel:+15555555555'
         );
     }
 
@@ -196,14 +199,16 @@ class HTMLPurifier_URISchemeTest extends HTMLPurifier_URIHarness
     public function test_tel_with_extension()
     {
         $this->assertValidation(
-            'tel:+1-555-555-5555x123', 'tel:+15555555555x123'
+            'tel:+1-555-555-5555x123',
+            'tel:+15555555555x123'
         );
     }
 
     public function test_tel_no_plus()
     {
         $this->assertValidation(
-            'tel:555-555-5555', 'tel:5555555555'
+            'tel:555-555-5555',
+            'tel:5555555555'
         );
     }
 

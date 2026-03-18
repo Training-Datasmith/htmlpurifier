@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_ConfigSchema_InterchangeTest extends UnitTestCase
 {
-
     protected $interchange;
 
     public function setup()

@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_NofollowTest extends HTMLPurifier_HTMLModuleHarness
 {
-
     public function setUp()
     {
         parent::setUp();
         $this->config->set('HTML.Nofollow', true);
-        $this->config->set('Attr.AllowedRel', array("nofollow", "blah"));
+        $this->config->set('Attr.AllowedRel', ['nofollow', 'blah']);
     }
 
     public function testNofollow()

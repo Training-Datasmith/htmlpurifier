@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_ElementDefTest extends HTMLPurifier_Harness
 {
-
     public function test_mergeIn()
     {
         $def1 = new HTMLPurifier_ElementDef();
@@ -16,12 +17,12 @@ class HTMLPurifier_ElementDefTest extends HTMLPurifier_Harness
         $removed = 5;
 
         $def1->standalone = true;
-        $def1->attr = array(
-            0 => array('old-include'),
+        $def1->attr = [
+            0 => ['old-include'],
             'old-attr' => $old,
             'overloaded-attr' => $overloaded_old,
             'removed-attr' => $removed,
-        );
+        ];
         /*
         $def1->attr_transform_pre =
         $def1->attr_transform_post = array(
@@ -36,18 +37,18 @@ class HTMLPurifier_ElementDefTest extends HTMLPurifier_Harness
         $def1->content_model = 'old';
         $def1->content_model_type = $overloaded_old;
         $def1->descendants_are_inline = false;
-        $def1->excludes = array(
+        $def1->excludes = [
             'old' => true,
-            'removed-old' => true
-        );
+            'removed-old' => true,
+        ];
 
         $def2->standalone = false;
-        $def2->attr = array(
-            0 => array('new-include'),
+        $def2->attr = [
+            0 => ['new-include'],
             'new-attr' => $new,
             'overloaded-attr' => $overloaded_new,
             'removed-attr' => false,
-        );
+        ];
         /*
         $def2->attr_transform_pre =
         $def2->attr_transform_post = array(
@@ -62,23 +63,23 @@ class HTMLPurifier_ElementDefTest extends HTMLPurifier_Harness
         $def2->content_model = '#SUPER | new';
         $def2->content_model_type = $overloaded_new;
         $def2->descendants_are_inline = true;
-        $def2->excludes = array(
+        $def2->excludes = [
             'new' => true,
-            'removed-old' => false
-        );
+            'removed-old' => false,
+        ];
 
         $def1->mergeIn($def2);
         $def1->mergeIn($def3); // empty, has no effect
 
         $this->assertIdentical($def1->standalone, true);
-        $this->assertIdentical($def1->attr, array(
-            0 => array('old-include', 'new-include'),
+        $this->assertIdentical($def1->attr, [
+            0 => ['old-include', 'new-include'],
             'old-attr' => $old,
             'overloaded-attr' => $overloaded_new,
             'new-attr' => $new,
-        ));
+        ]);
         $this->assertIdentical($def1->attr_transform_pre, $def1->attr_transform_post);
-        $this->assertIdentical($def1->attr_transform_pre, array($old, $new));
+        $this->assertIdentical($def1->attr_transform_pre, [$old, $new]);
         /*
         $this->assertIdentical($def1->attr_transform_pre, array(
             'old-transform' => $old,
@@ -90,10 +91,10 @@ class HTMLPurifier_ElementDefTest extends HTMLPurifier_Harness
         $this->assertIdentical($def1->content_model, 'old | new');
         $this->assertIdentical($def1->content_model_type, $overloaded_new);
         $this->assertIdentical($def1->descendants_are_inline, true);
-        $this->assertIdentical($def1->excludes, array(
+        $this->assertIdentical($def1->excludes, [
             'old' => true,
-            'new' => true
-        ));
+            'new' => true,
+        ]);
 
     }
 

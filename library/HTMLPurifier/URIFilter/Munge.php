@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URIFilter_Munge extends HTMLPurifier_URIFilter
 {
     /**
@@ -48,7 +50,7 @@ class HTMLPurifier_URIFilter_Munge extends HTMLPurifier_URIFilter
         $this->doEmbed = $config->get('URI.MungeResources');
         $this->secretKey = $config->get('URI.MungeSecretKey');
         if ($this->secretKey && !function_exists('hash_hmac')) {
-            throw new Exception("Cannot use %URI.MungeSecretKey without hash_hmac support.");
+            throw new Exception('Cannot use %URI.MungeSecretKey without hash_hmac support.');
         }
         return true;
     }
@@ -107,7 +109,7 @@ class HTMLPurifier_URIFilter_Munge extends HTMLPurifier_URIFilter
         $this->replace['%p'] = $context->get('CurrentCSSProperty', true) ?: '';
         // not always available
         if ($this->secretKey) {
-            $this->replace['%t'] = hash_hmac("sha256", $string, $this->secretKey);
+            $this->replace['%t'] = hash_hmac('sha256', $string, $this->secretKey);
         }
     }
 }

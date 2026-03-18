@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModuleTest extends HTMLPurifier_Harness
 {
-
     public function test_addElementToContentSet()
     {
         $module = new HTMLPurifier_HTMLModule();
 
         $module->addElementToContentSet('b', 'Inline');
-        $this->assertIdentical($module->content_sets, array('Inline' => 'b'));
+        $this->assertIdentical($module->content_sets, ['Inline' => 'b']);
 
         $module->addElementToContentSet('i', 'Inline');
-        $this->assertIdentical($module->content_sets, array('Inline' => 'b | i'));
+        $this->assertIdentical($module->content_sets, ['Inline' => 'b | i']);
 
     }
 
@@ -19,22 +20,25 @@ class HTMLPurifier_HTMLModuleTest extends HTMLPurifier_Harness
     {
         $module = new HTMLPurifier_HTMLModule();
         $def = $module->addElement(
-            'a', 'Inline', 'Optional: #PCDATA', array('Common'),
-            array(
-                'href' => 'URI'
-            )
+            'a',
+            'Inline',
+            'Optional: #PCDATA',
+            ['Common'],
+            [
+                'href' => 'URI',
+            ]
         );
 
         $module2 = new HTMLPurifier_HTMLModule();
         $def2 = new HTMLPurifier_ElementDef();
         $def2->content_model = '#PCDATA';
         $def2->content_model_type = 'optional';
-        $def2->attr = array(
+        $def2->attr = [
             'href' => 'URI',
-            0 => array('Common')
-        );
+            0 => ['Common'],
+        ];
         $module2->info['a'] = $def2;
-        $module2->elements = array('a');
+        $module2->elements = ['a'];
         $module2->content_sets['Inline'] = 'a';
 
         $this->assertIdentical($module, $module2);
@@ -50,42 +54,42 @@ class HTMLPurifier_HTMLModuleTest extends HTMLPurifier_Harness
         // pre-defined templates
         $this->assertIdentical(
             $module->parseContents('Inline'),
-            array('optional', 'Inline | #PCDATA')
+            ['optional', 'Inline | #PCDATA']
         );
         $this->assertIdentical(
             $module->parseContents('Flow'),
-            array('optional', 'Flow | #PCDATA')
+            ['optional', 'Flow | #PCDATA']
         );
         $this->assertIdentical(
             $module->parseContents('Empty'),
-            array('empty', '')
+            ['empty', '']
         );
 
         // normalization procedures
         $this->assertIdentical(
             $module->parseContents('optional: a'),
-            array('optional', 'a')
+            ['optional', 'a']
         );
         $this->assertIdentical(
             $module->parseContents('OPTIONAL :a'),
-            array('optional', 'a')
+            ['optional', 'a']
         );
         $this->assertIdentical(
             $module->parseContents('Optional: a'),
-            array('optional', 'a')
+            ['optional', 'a']
         );
 
         // others
         $this->assertIdentical(
             $module->parseContents('Optional: a | b | c'),
-            array('optional', 'a | b | c')
+            ['optional', 'a | b | c']
         );
 
         // object pass-through
         generate_mock_once('HTMLPurifier_AttrDef');
         $this->assertIdentical(
             $module->parseContents(new HTMLPurifier_AttrDefMock()),
-            array(null, null)
+            [null, null]
         );
 
     }
@@ -94,13 +98,13 @@ class HTMLPurifier_HTMLModuleTest extends HTMLPurifier_Harness
     {
         $module = new HTMLPurifier_HTMLModule();
 
-        $attr = array();
+        $attr = [];
         $module->mergeInAttrIncludes($attr, 'Common');
-        $this->assertIdentical($attr, array(0 => array('Common')));
+        $this->assertIdentical($attr, [0 => ['Common']]);
 
-        $attr = array('a' => 'b');
-        $module->mergeInAttrIncludes($attr, array('Common', 'Good'));
-        $this->assertIdentical($attr, array('a' => 'b', 0 => array('Common', 'Good')));
+        $attr = ['a' => 'b'];
+        $module->mergeInAttrIncludes($attr, ['Common', 'Good']);
+        $this->assertIdentical($attr, ['a' => 'b', 0 => ['Common', 'Good']]);
 
     }
 
@@ -123,20 +127,20 @@ class HTMLPurifier_HTMLModuleTest extends HTMLPurifier_Harness
 
         $this->assertIdentical(
             $module->makeLookup('foo'),
-            array('foo' => true)
+            ['foo' => true]
         );
         $this->assertIdentical(
-            $module->makeLookup(array('foo')),
-            array('foo' => true)
+            $module->makeLookup(['foo']),
+            ['foo' => true]
         );
 
         $this->assertIdentical(
             $module->makeLookup('foo', 'two'),
-            array('foo' => true, 'two' => true)
+            ['foo' => true, 'two' => true]
         );
         $this->assertIdentical(
-            $module->makeLookup(array('foo', 'two')),
-            array('foo' => true, 'two' => true)
+            $module->makeLookup(['foo', 'two']),
+            ['foo' => true, 'two' => true]
         );
 
     }

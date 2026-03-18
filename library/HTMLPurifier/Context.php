@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Registry object that contains information about the current context.
  * @warning Is a bit buggy when variables are set to null: it thinks
@@ -9,7 +11,6 @@
  */
 class HTMLPurifier_Context
 {
-
     /**
      * Private array that stores the references.
      * @type array
@@ -26,7 +27,7 @@ class HTMLPurifier_Context
         if (array_key_exists($name, $this->_storage)) {
             throw new Exception("Name $name produces collision, cannot re-register");
         }
-        $this->_storage[$name] =& $ref;
+        $this->_storage[$name] = & $ref;
     }
 
     /**

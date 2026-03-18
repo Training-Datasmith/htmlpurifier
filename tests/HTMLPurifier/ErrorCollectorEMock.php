@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 generate_mock_once('HTMLPurifier_ErrorCollector');
 
 /**
@@ -7,10 +9,9 @@ generate_mock_once('HTMLPurifier_ErrorCollector');
  */
 class HTMLPurifier_ErrorCollectorEMock extends HTMLPurifier_ErrorCollectorMock
 {
-
     private $_context;
-    private $_expected_context = array();
-    private $_expected_context_at = array();
+    private $_expected_context = [];
+    private $_expected_context_at = [];
 
     public function prepare($context)
     {

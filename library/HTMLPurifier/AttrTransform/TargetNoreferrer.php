@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // must be called POST validation
 
 /**
@@ -34,4 +36,3 @@ class HTMLPurifier_AttrTransform_TargetNoreferrer extends HTMLPurifier_AttrTrans
         return $attr;
     }
 }
-

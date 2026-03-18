@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_MakeWellFormed_EndInsertInjectorTest extends HTMLPurifier_StrategyHarness
 {
     public function setUp()
     {
         parent::setUp();
         $this->obj = new HTMLPurifier_Strategy_MakeWellFormed();
-        $this->config->set('AutoFormat.Custom', array(
-            new HTMLPurifier_Strategy_MakeWellFormed_EndInsertInjector()
-        ));
+        $this->config->set('AutoFormat.Custom', [
+            new HTMLPurifier_Strategy_MakeWellFormed_EndInsertInjector(),
+        ]);
     }
     public function testEmpty()
     {

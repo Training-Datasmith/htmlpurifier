@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Decorator which enables CSS properties to be disabled for specific elements.
  */

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionCacheFactoryTest extends HTMLPurifier_Harness
 {
-
     protected $factory;
     protected $oldFactory;
 

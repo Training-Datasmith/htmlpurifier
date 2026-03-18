@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 generate_mock_once('HTMLPurifier_DefinitionCache');
 
 class HTMLPurifier_DefinitionCache_DecoratorHarness extends HTMLPurifier_DefinitionCacheHarness
 {
-
     public $cache;
 
     public $mock;

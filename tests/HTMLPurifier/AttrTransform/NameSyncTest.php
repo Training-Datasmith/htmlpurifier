@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_NameSyncTest extends HTMLPurifier_AttrTransformHarness
 {
-
     /**
      * @type HTMLPurifier_IDAccumulator
      */
@@ -19,20 +20,20 @@ class HTMLPurifier_AttrTransform_NameSyncTest extends HTMLPurifier_AttrTransform
 
     public function testEmpty()
     {
-        $this->assertResult( array() );
+        $this->assertResult([]);
     }
 
     public function testAllowSame()
     {
         $this->assertResult(
-            array('name' => 'free', 'id' => 'free')
+            ['name' => 'free', 'id' => 'free']
         );
     }
 
     public function testAllowDifferent()
     {
         $this->assertResult(
-            array('name' => 'tryit', 'id' => 'thisgood')
+            ['name' => 'tryit', 'id' => 'thisgood']
         );
     }
 
@@ -40,8 +41,8 @@ class HTMLPurifier_AttrTransform_NameSyncTest extends HTMLPurifier_AttrTransform
     {
         $this->accumulator->add('notok');
         $this->assertResult(
-            array('name' => 'notok', 'id' => 'ok'),
-            array('id' => 'ok')
+            ['name' => 'notok', 'id' => 'ok'],
+            ['id' => 'ok']
         );
     }
 

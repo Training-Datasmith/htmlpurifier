@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates https (Secure HTTP) according to http scheme.
  */

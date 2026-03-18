@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_XMLCommonAttributes extends HTMLPurifier_HTMLModule
 {
     /**
@@ -13,7 +15,7 @@ class HTMLPurifier_HTMLModule_XMLCommonAttributes extends HTMLPurifier_HTMLModul
     public $attr_collections = [
         'Lang' => [
             'xml:lang' => 'LanguageCode',
-        ]
+        ],
     ];
 }
 

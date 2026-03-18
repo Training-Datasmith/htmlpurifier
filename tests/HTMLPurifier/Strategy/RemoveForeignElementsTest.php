@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_RemoveForeignElementsTest extends HTMLPurifier_StrategyHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -54,7 +55,7 @@ class HTMLPurifier_Strategy_RemoveForeignElementsTest extends HTMLPurifier_Strat
 
     public function testRemoveOnlyScriptTags()
     {
-        $this->config->set('Core.HiddenElements', array());
+        $this->config->set('Core.HiddenElements', []);
         $this->assertResult(
             '<script>alert();</script>',
             'alert();'
@@ -82,10 +83,10 @@ class HTMLPurifier_Strategy_RemoveForeignElementsTest extends HTMLPurifier_Strat
         $this->config->set('HTML.Trusted', true);
         $this->config->set('Output.CommentScriptContents', false); // simplify output
         $this->assertResult(
-'<script type="text/javascript"><!--
+            '<script type="text/javascript"><!--
 alert(<b>bold</b>);
 // --></script>',
-'<script type="text/javascript">
+            '<script type="text/javascript">
 alert(&lt;b&gt;bold&lt;/b&gt;);
 // </script>'
         );
@@ -94,7 +95,7 @@ alert(&lt;b&gt;bold&lt;/b&gt;);
     public function testRequiredAttributesTestNotPerformedOnEndTag()
     {
         $def = $this->config->getHTMLDefinition(true);
-        $def->addElement('f', 'Block', 'Optional: #PCDATA', false, array('req*' => 'Text'));
+        $def->addElement('f', 'Block', 'Optional: #PCDATA', false, ['req*' => 'Text']);
         $this->assertResult('<f req="text">Foo</f> Bar');
     }
 
@@ -118,7 +119,7 @@ alert(&lt;b&gt;bold&lt;/b&gt;);
 
     public function testPreserveCommentsWithLookup()
     {
-        $this->config->set('HTML.AllowedComments', array('allowed'));
+        $this->config->set('HTML.AllowedComments', ['allowed']);
         $this->assertResult('<!-- allowed --><!-- not allowed -->', '<!-- allowed -->');
     }
 

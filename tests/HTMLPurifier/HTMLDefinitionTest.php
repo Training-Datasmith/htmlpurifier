@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLDefinitionTest extends HTMLPurifier_Harness
 {
-
     public function expectError($error = false, $message = '%s')
     {
         // Because we're testing a definition, it's vital that the cache
@@ -21,44 +22,45 @@ class HTMLPurifier_HTMLDefinitionTest extends HTMLPurifier_Harness
 
         $this->assertEqual(
             $def->parseTinyMCEAllowedList(''),
-            array(array(), array())
+            [[], []]
         );
 
         $this->assertEqual(
             $def->parseTinyMCEAllowedList('a,b,c'),
-            array(array('a' => true, 'b' => true, 'c' => true), array())
+            [['a' => true, 'b' => true, 'c' => true], []]
         );
 
         $this->assertEqual(
             $def->parseTinyMCEAllowedList('a[x|y|z]'),
-            array(array('a' => true), array('a.x' => true, 'a.y' => true, 'a.z' => true))
+            [['a' => true], ['a.x' => true, 'a.y' => true, 'a.z' => true]]
         );
 
         $this->assertEqual(
             $def->parseTinyMCEAllowedList('*[id]'),
-            array(array(), array('*.id' => true))
+            [[], ['*.id' => true]]
         );
 
         $this->assertEqual(
             $def->parseTinyMCEAllowedList('a[*]'),
-            array(array('a' => true), array('a.*' => true))
+            [['a' => true], ['a.*' => true]]
         );
 
         $this->assertEqual(
             $def->parseTinyMCEAllowedList('span[style],strong,a[href|title]'),
-            array(array('span' => true, 'strong' => true, 'a' => true),
-            array('span.style' => true, 'a.href' => true, 'a.title' => true))
+            [['span' => true, 'strong' => true, 'a' => true],
+            ['span.style' => true, 'a.href' => true, 'a.title' => true]]
         );
 
         $this->assertEqual(
             // alternate form:
             $def->parseTinyMCEAllowedList(
-'span[style]
+                'span[style]
 strong
 a[href|title]
-'),
-            $val = array(array('span' => true, 'strong' => true, 'a' => true),
-            array('span.style' => true, 'a.href' => true, 'a.title' => true))
+'
+            ),
+            $val = [['span' => true, 'strong' => true, 'a' => true],
+            ['span.style' => true, 'a.href' => true, 'a.title' => true]]
         );
 
         $this->assertEqual(
@@ -70,14 +72,14 @@ a[href|title]
 
     public function test_Allowed()
     {
-        $config1 = HTMLPurifier_Config::create(array(
-            'HTML.AllowedElements' => array('b', 'i', 'p', 'a'),
-            'HTML.AllowedAttributes' => array('a@href', '*@id')
-        ));
+        $config1 = HTMLPurifier_Config::create([
+            'HTML.AllowedElements' => ['b', 'i', 'p', 'a'],
+            'HTML.AllowedAttributes' => ['a@href', '*@id'],
+        ]);
 
-        $config2 = HTMLPurifier_Config::create(array(
-            'HTML.Allowed' => 'b,i,p,a[href],*[id]'
-        ));
+        $config2 = HTMLPurifier_Config::create([
+            'HTML.Allowed' => 'b,i,p,a[href],*[id]',
+        ]);
 
         $this->assertEqual($config1->getHTMLDefinition(), $config2->getHTMLDefinition());
 
@@ -126,19 +128,20 @@ a[href|title]
     {
         $this->assertPurification(
             '<p style="font-weight:bold;" class="foo">Jelly</p><br style="clear:both;" />',
-            '<p style="font-weight:bold;">Jelly</p><br style="clear:both;" />');
+            '<p style="font-weight:bold;">Jelly</p><br style="clear:both;" />'
+        );
     }
 
     public function test_AllowedAttributes_global_preferredSyntax()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', 'style');
         $this->assertPurification_AllowedAttributes_global_style();
     }
 
     public function test_AllowedAttributes_global_verboseSyntax()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', '*@style');
         $this->assertPurification_AllowedAttributes_global_style();
     }
@@ -146,7 +149,7 @@ a[href|title]
     public function test_AllowedAttributes_global_discouragedSyntax()
     {
         // Emit errors eventually
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', '*.style');
         $this->assertPurification_AllowedAttributes_global_style();
     }
@@ -155,26 +158,27 @@ a[href|title]
     {
         $this->assertPurification(
             '<p style="font-weight:bold;" class="foo">Jelly</p><br style="clear:both;" />',
-            '<p style="font-weight:bold;">Jelly</p><br />');
+            '<p style="font-weight:bold;">Jelly</p><br />'
+        );
     }
 
     public function test_AllowedAttributes_local_preferredSyntax()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', 'p@style');
         $this->assertPurification_AllowedAttributes_local_p_style();
     }
 
     public function test_AllowedAttributes_local_discouragedSyntax()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', 'p.style');
         $this->assertPurification_AllowedAttributes_local_p_style();
     }
 
     public function test_AllowedAttributes_multiple()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', 'p@style,br@class,title');
         $this->assertPurification(
             '<p style="font-weight:bold;" class="foo" title="foo">Jelly</p><br style="clear:both;" class="foo" title="foo" />',
@@ -184,23 +188,23 @@ a[href|title]
 
     public function test_AllowedAttributes_local_invalidAttribute()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
-        $this->config->set('HTML.AllowedAttributes', array('p@style', 'p@<foo>'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
+        $this->config->set('HTML.AllowedAttributes', ['p@style', 'p@<foo>']);
         $this->expectError(new PatternExpectation("/Attribute '&lt;foo&gt;' in element 'p' not supported/"));
         $this->assertPurification_AllowedAttributes_local_p_style();
     }
 
     public function test_AllowedAttributes_global_invalidAttribute()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
-        $this->config->set('HTML.AllowedAttributes', array('style', '<foo>'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
+        $this->config->set('HTML.AllowedAttributes', ['style', '<foo>']);
         $this->expectError(new PatternExpectation("/Global attribute '&lt;foo&gt;' is not supported in any elements/"));
         $this->assertPurification_AllowedAttributes_global_style();
     }
 
     public function test_AllowedAttributes_local_invalidAttributeDueToMissingElement()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', 'p.style,foo.style');
         $this->expectError(new PatternExpectation("/Cannot allow attribute 'style' if element 'foo' is not allowed\/supported/"));
         $this->assertPurification_AllowedAttributes_local_p_style();
@@ -208,14 +212,14 @@ a[href|title]
 
     public function test_AllowedAttributes_duplicate()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', 'p.style,p@style');
         $this->assertPurification_AllowedAttributes_local_p_style();
     }
 
     public function test_AllowedAttributes_multipleErrors()
     {
-        $this->config->set('HTML.AllowedElements', array('p', 'br'));
+        $this->config->set('HTML.AllowedElements', ['p', 'br']);
         $this->config->set('HTML.AllowedAttributes', 'p.style,foo.style,<foo>');
         $this->expectError(new PatternExpectation("/Cannot allow attribute 'style' if element 'foo' is not allowed\/supported/"));
         $this->expectError(new PatternExpectation("/Global attribute '&lt;foo&gt;' is not supported in any elements/"));
@@ -224,7 +228,7 @@ a[href|title]
 
     public function test_AllowedAttributes_invalidAttributeDueToConsistingOfNumbers_UsingDirectLex()
     {
-        $this->config->set('HTML.AllowedElements', array('a'));
+        $this->config->set('HTML.AllowedElements', ['a']);
         $this->config->set('HTML.AllowedAttributes', 'href');
         $this->config->set('Core.LexerImpl', 'DirectLex');
         $this->assertPurification(
@@ -250,7 +254,8 @@ a[href|title]
     {
         $this->assertPurification(
             '<b style="float:left;">b</b><i style="float:left;">i</i>',
-            '<b>b</b><i style="float:left;">i</i>');
+            '<b>b</b><i style="float:left;">i</i>'
+        );
     }
 
     public function test_ForbiddenAttributes()
@@ -262,14 +267,14 @@ a[href|title]
     public function test_ForbiddenAttributes_incorrectSyntax()
     {
         $this->config->set('HTML.ForbiddenAttributes', 'b.style');
-        $this->expectError("Error with b.style: tag.attr syntax not supported for HTML.ForbiddenAttributes; use tag@attr instead");
+        $this->expectError('Error with b.style: tag.attr syntax not supported for HTML.ForbiddenAttributes; use tag@attr instead');
         $this->assertPurification('<b style="float:left;">Test</b>');
     }
 
     public function test_ForbiddenAttributes_incorrectGlobalSyntax()
     {
         $this->config->set('HTML.ForbiddenAttributes', '*.style');
-        $this->expectError("Error with *.style: *.attr syntax not supported for HTML.ForbiddenAttributes; use attr instead");
+        $this->expectError('Error with *.style: *.attr syntax not supported for HTML.ForbiddenAttributes; use attr instead');
         $this->assertPurification('<b style="float:left;">Test</b>');
     }
 
@@ -277,7 +282,8 @@ a[href|title]
     {
         $this->assertPurification(
             '<b class="foo" style="float:left;">b</b><i style="float:left;">i</i>',
-            '<b class="foo">b</b><i>i</i>');
+            '<b class="foo">b</b><i>i</i>'
+        );
     }
 
     public function test_ForbiddenAttributes_global()
@@ -323,7 +329,7 @@ a[href|title]
     {
         $config = HTMLPurifier_Config::createDefault();
         $def = $config->getHTMLDefinition(true);
-        $def->addElement('marquee', 'Inline', 'Inline', 'Common', array('width' => 'Length'));
+        $def->addElement('marquee', 'Inline', 'Inline', 'Common', ['width' => 'Length']);
 
         $purifier = new HTMLPurifier($config);
         $input = '<span><marquee width="50">Foobar</marquee></span>';
@@ -342,10 +348,11 @@ a[href|title]
         $module = $this->config->getHTMLDefinition(true)->getAnonymousModule();
         $module->info_injector[] = $injector;
 
-        $this->assertIdentical($this->config->getHTMLDefinition()->info_injector,
-            array(
+        $this->assertIdentical(
+            $this->config->getHTMLDefinition()->info_injector,
+            [
                 'MyInjector' => $injector,
-            )
+            ]
         );
     }
 
@@ -359,8 +366,9 @@ a[href|title]
         $module = $this->config->getHTMLDefinition(true)->getAnonymousModule();
         $module->info_injector[] = $injector;
 
-        $this->assertIdentical($this->config->getHTMLDefinition()->info_injector,
-            array()
+        $this->assertIdentical(
+            $this->config->getHTMLDefinition()->info_injector,
+            []
         );
     }
 
@@ -371,7 +379,7 @@ a[href|title]
 
         $this->assertIdentical(
             $this->config->getHTMLDefinition()->info_injector,
-            array('Linkify' => new HTMLPurifier_Injector_Linkify())
+            ['Linkify' => new HTMLPurifier_Injector_Linkify()]
         );
     }
 
@@ -384,7 +392,7 @@ a[href|title]
 
         $this->assertIdentical(
             $this->config->getHTMLDefinition()->info_injector,
-            array()
+            []
         );
     }
 

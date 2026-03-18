@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @todo Aim for complete code coverage with mocks
  */
 class HTMLPurifier_AttrDef_URITest extends HTMLPurifier_AttrDefHarness
 {
-
     public function setUp()
     {
         $this->def = new HTMLPurifier_AttrDef_URI();
@@ -113,10 +114,10 @@ class HTMLPurifier_AttrDef_URITest extends HTMLPurifier_AttrDefHarness
 
         generate_mock_once('HTMLPurifier_URIDefinition');
         $uri_def = new HTMLPurifier_URIDefinitionMock();
-        $uri_def->expectOnce('filter', array($uri, '*', '*'));
-        $uri_def->returns('filter', true, array($uri, '*', '*'));
-        $uri_def->expectOnce('postFilter', array($uri, '*', '*'));
-        $uri_def->returns('postFilter', true, array($uri, '*', '*'));
+        $uri_def->expectOnce('filter', [$uri, '*', '*']);
+        $uri_def->returns('filter', true, [$uri, '*', '*']);
+        $uri_def->expectOnce('postFilter', [$uri, '*', '*']);
+        $uri_def->returns('postFilter', true, [$uri, '*', '*']);
         $uri_def->setup = true;
 
         // Since definitions are no longer passed by reference, we need

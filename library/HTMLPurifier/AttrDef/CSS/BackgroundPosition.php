@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* W3C says:
     [ // adjective and number must be in correct order, even if
       // you could switch them without introducing ambiguity.
@@ -43,7 +45,6 @@
  */
 class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
 {
-
     /**
      * @type HTMLPurifier_AttrDef_CSS_Length
      */
@@ -85,7 +86,7 @@ class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
             'bottom' => 'v',
             'left' => 'h',
             'right' => 'h',
-            'center' => 'c'
+            'center' => 'c',
         ];
 
         foreach ($bits as $bit) {

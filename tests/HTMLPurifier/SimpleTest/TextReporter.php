@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_SimpleTest_TextReporter extends TextReporter
 {
     protected $verbose = false;

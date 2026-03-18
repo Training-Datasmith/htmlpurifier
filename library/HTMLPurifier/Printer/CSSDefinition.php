@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Printer_CSSDefinition extends HTMLPurifier_Printer
 {
     /**

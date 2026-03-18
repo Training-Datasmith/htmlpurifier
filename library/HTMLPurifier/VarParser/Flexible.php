@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Performs safe variable parsing based on types which can be used by
  * users. This may not be able to represent all possible data inputs,
@@ -104,7 +106,7 @@ class HTMLPurifier_VarParser_Flexible extends HTMLPurifier_VarParser
                     break;
                 }
                 if ($type === self::ALIST) {
-                    trigger_error("Array list did not have consecutive integer indexes", E_USER_WARNING);
+                    trigger_error('Array list did not have consecutive integer indexes', E_USER_WARNING);
                     return array_values($var);
                 }
                 if ($type === self::LOOKUP) {
@@ -112,7 +114,7 @@ class HTMLPurifier_VarParser_Flexible extends HTMLPurifier_VarParser
                         if ($value !== true) {
                             trigger_error(
                                 "Lookup array has non-true value at key '$key'; " .
-                                "maybe your input array was not indexed numerically",
+                                'maybe your input array was not indexed numerically',
                                 E_USER_WARNING
                             );
                         }

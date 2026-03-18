@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_InputTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -11,93 +12,93 @@ class HTMLPurifier_AttrTransform_InputTest extends HTMLPurifier_AttrTransformHar
 
     public function testEmptyInput()
     {
-        $this->assertResult(array());
+        $this->assertResult([]);
     }
 
     public function testInvalidCheckedWithEmpty()
     {
-        $this->assertResult(array('checked' => 'checked'), array());
+        $this->assertResult(['checked' => 'checked'], []);
     }
 
     public function testInvalidCheckedWithPassword()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'checked' => 'checked',
-            'type' => 'password'
-        ), array(
-            'type' => 'password'
-        ));
+            'type' => 'password',
+        ], [
+            'type' => 'password',
+        ]);
     }
 
     public function testValidCheckedWithUcCheckbox()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'checked' => 'checked',
             'type' => 'CHECKBOX',
             'value' => 'bar',
-        ));
+        ]);
     }
 
     public function testInvalidMaxlength()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'maxlength' => '10',
             'type' => 'checkbox',
             'value' => 'foo',
-        ), array(
+        ], [
             'type' => 'checkbox',
             'value' => 'foo',
-        ));
+        ]);
     }
 
     public function testValidMaxLength()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'maxlength' => '10',
-        ));
+        ]);
     }
 
     // these two are really bad test-cases
 
     public function testSizeWithCheckbox()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'type' => 'checkbox',
             'value' => 'foo',
             'size' => '100px',
-        ), array(
+        ], [
             'type' => 'checkbox',
             'value' => 'foo',
             'size' => '100',
-        ));
+        ]);
     }
 
     public function testSizeWithText()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'type' => 'password',
             'size' => '100px', // spurious value, to indicate no validation takes place
-        ), array(
+        ], [
             'type' => 'password',
             'size' => '100px',
-        ));
+        ]);
     }
 
     public function testInvalidSrc()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'src' => 'img.png',
-        ), array());
+        ], []);
     }
 
     public function testMissingValue()
     {
-        $this->assertResult(array(
+        $this->assertResult([
             'type' => 'checkbox',
-        ), array(
+        ], [
             'type' => 'checkbox',
             'value' => '',
-        ));
+        ]);
     }
 
 }

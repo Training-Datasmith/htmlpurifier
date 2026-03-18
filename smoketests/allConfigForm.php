@@ -19,7 +19,7 @@ $printer_config_form = new HTMLPurifier_Printer_ConfigForm(
 );
 
 $purifier = new HTMLPurifier($config);
-$html = isset($_POST['html']) ? $_POST['html'] : "";
+$html = isset($_POST['html']) ? $_POST['html'] : '';
 $purified = $purifier->purify($html);
 
 echo '<?xml version="1.0" encoding="UTF-8" ?>';

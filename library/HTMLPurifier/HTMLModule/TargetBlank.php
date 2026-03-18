@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Module adds the target=blank attribute transformation to a tags.  It
  * is enabled by HTML.TargetBlank

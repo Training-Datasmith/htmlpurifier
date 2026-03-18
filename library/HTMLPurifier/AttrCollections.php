@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Defines common attribute collections that modules reference
  */
 
 class HTMLPurifier_AttrCollections
 {
-
     /**
      * Associative array of attribute collections, indexed by name.
      * @type array

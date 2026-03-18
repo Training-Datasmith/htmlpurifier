@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates file as defined by RFC 1630 and RFC 1738.
  */

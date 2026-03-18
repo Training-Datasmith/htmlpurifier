@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Defines a mutation of an obsolete tag into a valid tag.
  */
 abstract class HTMLPurifier_TagTransform
 {
-
     /**
      * Tag name to transform the tag to.
      * @type string

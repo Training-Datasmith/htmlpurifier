@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Represents a pre or post processing filter on HTML Purifier's output
  *
@@ -21,7 +23,6 @@
 
 class HTMLPurifier_Filter
 {
-
     /**
      * Name of the filter for identification purposes.
      * @type string

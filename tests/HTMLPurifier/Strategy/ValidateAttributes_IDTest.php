@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_ValidateAttributes_IDTest extends HTMLPurifier_StrategyHarness
 {
-
     public function setUp()
     {
         parent::setUp();
         $this->obj = new HTMLPurifier_Strategy_ValidateAttributes();
         $this->config->set('Attr.EnableID', true);
     }
-
 
     public function testPreserveIDWhenEnabled()
     {
@@ -50,7 +50,7 @@ class HTMLPurifier_Strategy_ValidateAttributes_IDTest extends HTMLPurifier_Strat
 
     public function testIDBlacklist()
     {
-        $this->config->set('Attr.IDBlacklist', array('invalid'));
+        $this->config->set('Attr.IDBlacklist', ['invalid']);
         $this->assertResult(
             '<div id="invalid">Invalid</div>',
             '<div>Invalid</div>'

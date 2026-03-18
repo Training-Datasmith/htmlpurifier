@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates contents based on NMTOKENS attribute type.
  */
 class HTMLPurifier_AttrDef_HTML_Nmtokens extends HTMLPurifier_AttrDef
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

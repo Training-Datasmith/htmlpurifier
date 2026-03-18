@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Decorator which enables !important to be used in CSS values.
  */

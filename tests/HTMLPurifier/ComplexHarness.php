@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * General-purpose test-harness that makes testing functions that require
  * configuration and context objects easier when those two parameters are
@@ -7,7 +9,6 @@
  */
 class HTMLPurifier_ComplexHarness extends HTMLPurifier_Harness
 {
-
     /**
      * Instance of the object that will execute the method.
      * @type object
@@ -128,7 +129,7 @@ class HTMLPurifier_ComplexHarness extends HTMLPurifier_Harness
      */
     protected function generateTokens($children)
     {
-        $dummy = new HTMLPurifier_Node_Element("dummy");
+        $dummy = new HTMLPurifier_Node_Element('dummy');
         $dummy->children = $children;
         return HTMLPurifier_Arborize::flatten($dummy, $this->context, $this->config);
     }

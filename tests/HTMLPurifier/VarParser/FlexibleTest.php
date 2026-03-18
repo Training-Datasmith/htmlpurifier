@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_VarParser_FlexibleTest extends HTMLPurifier_VarParserHarness
 {
-
     public function testValidate()
     {
         $this->assertValid('foobar', 'string');
@@ -23,29 +24,29 @@ class HTMLPurifier_VarParser_FlexibleTest extends HTMLPurifier_VarParserHarness
         $this->assertInvalid(34, 'bool');
         $this->assertInvalid(null, 'bool');
 
-        $this->assertValid(array('1', '2', '3'), 'list');
-        $this->assertValid('foo,bar, cow', 'list', array('foo', 'bar', 'cow'));
-        $this->assertValid('', 'list', array());
-        $this->assertValid("foo\nbar", 'list', array('foo', 'bar'));
-        $this->assertValid("foo\nbar,baz", 'list', array('foo', 'bar', 'baz'));
+        $this->assertValid(['1', '2', '3'], 'list');
+        $this->assertValid('foo,bar, cow', 'list', ['foo', 'bar', 'cow']);
+        $this->assertValid('', 'list', []);
+        $this->assertValid("foo\nbar", 'list', ['foo', 'bar']);
+        $this->assertValid("foo\nbar,baz", 'list', ['foo', 'bar', 'baz']);
 
-        $this->assertValid(array('1' => true, '2' => true), 'lookup');
-        $this->assertValid(array('1', '2'), 'lookup', array('1' => true, '2' => true));
-        $this->assertValid('foo,bar', 'lookup', array('foo' => true, 'bar' => true));
-        $this->assertValid("foo\nbar", 'lookup', array('foo' => true, 'bar' => true));
-        $this->assertValid("foo\nbar,baz", 'lookup', array('foo' => true, 'bar' => true, 'baz' => true));
-        $this->assertValid('', 'lookup', array());
-        $this->assertValid(array(), 'lookup');
+        $this->assertValid(['1' => true, '2' => true], 'lookup');
+        $this->assertValid(['1', '2'], 'lookup', ['1' => true, '2' => true]);
+        $this->assertValid('foo,bar', 'lookup', ['foo' => true, 'bar' => true]);
+        $this->assertValid("foo\nbar", 'lookup', ['foo' => true, 'bar' => true]);
+        $this->assertValid("foo\nbar,baz", 'lookup', ['foo' => true, 'bar' => true, 'baz' => true]);
+        $this->assertValid('', 'lookup', []);
+        $this->assertValid([], 'lookup');
 
-        $this->assertValid(array('foo' => 'bar'), 'hash');
-        $this->assertValid(array(1 => 'moo'), 'hash');
-        $this->assertInvalid(array(0 => 'moo'), 'hash');
-        $this->assertValid('', 'hash', array());
-        $this->assertValid('foo:bar,too:two', 'hash', array('foo' => 'bar', 'too' => 'two'));
-        $this->assertValid("foo:bar\ntoo:two,three:free", 'hash', array('foo' => 'bar', 'too' => 'two', 'three' => 'free'));
-        $this->assertValid('foo:bar,too', 'hash', array('foo' => 'bar'));
-        $this->assertValid('foo:bar,', 'hash', array('foo' => 'bar'));
-        $this->assertValid('foo:bar:baz', 'hash', array('foo' => 'bar:baz'));
+        $this->assertValid(['foo' => 'bar'], 'hash');
+        $this->assertValid([1 => 'moo'], 'hash');
+        $this->assertInvalid([0 => 'moo'], 'hash');
+        $this->assertValid('', 'hash', []);
+        $this->assertValid('foo:bar,too:two', 'hash', ['foo' => 'bar', 'too' => 'two']);
+        $this->assertValid("foo:bar\ntoo:two,three:free", 'hash', ['foo' => 'bar', 'too' => 'two', 'three' => 'free']);
+        $this->assertValid('foo:bar,too', 'hash', ['foo' => 'bar']);
+        $this->assertValid('foo:bar,', 'hash', ['foo' => 'bar']);
+        $this->assertValid('foo:bar:baz', 'hash', ['foo' => 'bar:baz']);
 
         $this->assertValid(23, 'mixed');
 

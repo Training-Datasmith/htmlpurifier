@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_HTML_NmtokensTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function setUp()
     {
         parent::setUp();

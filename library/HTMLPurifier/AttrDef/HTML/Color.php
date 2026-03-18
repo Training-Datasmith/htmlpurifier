@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a color according to the HTML spec.
  */
 class HTMLPurifier_AttrDef_HTML_Color extends HTMLPurifier_AttrDef
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

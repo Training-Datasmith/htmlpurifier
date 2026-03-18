@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_ValidateAttributes_TidyTest extends HTMLPurifier_StrategyHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -393,7 +394,6 @@ class HTMLPurifier_Strategy_ValidateAttributes_TidyTest extends HTMLPurifier_Str
             '<li />'
         );
     }
-
 
 }
 

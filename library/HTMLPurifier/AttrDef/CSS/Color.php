@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates Color as defined by CSS.
  */
 class HTMLPurifier_AttrDef_CSS_Color extends HTMLPurifier_AttrDef
 {
-
     /**
      * @type HTMLPurifier_AttrDef_CSS_AlphaValue
      */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Legacy module defines elements that were previously
  * deprecated.
@@ -37,7 +39,7 @@ class HTMLPurifier_HTMLModule_Legacy extends HTMLPurifier_HTMLModule
                 'color' => 'Color',
                 'face' => 'Text', // extremely broad, we should
                 'size' => 'Text', // tighten it
-                'id' => 'ID'
+                'id' => 'ID',
             ]
         );
         $this->addElement('center', 'Block', 'Flow', 'Common');
@@ -47,7 +49,7 @@ class HTMLPurifier_HTMLModule_Legacy extends HTMLPurifier_HTMLModule
             'Required: li',
             'Common',
             [
-                'compact' => 'Bool#compact'
+                'compact' => 'Bool#compact',
             ]
         );
         $this->addElement(
@@ -67,7 +69,7 @@ class HTMLPurifier_HTMLModule_Legacy extends HTMLPurifier_HTMLModule
             'Required: li',
             'Common',
             [
-                'compact' => 'Bool#compact'
+                'compact' => 'Bool#compact',
             ]
         );
 

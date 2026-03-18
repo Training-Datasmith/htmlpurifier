@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Object that provides entity lookup table from entity name to character
  */

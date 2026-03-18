@@ -1,9 +1,9 @@
 <?php
 
-class HTMLPurifier_Strategy_RemoveForeignElements_TidyTest
-  extends HTMLPurifier_StrategyHarness
-{
+declare(strict_types=1);
 
+class HTMLPurifier_Strategy_RemoveForeignElements_TidyTest extends HTMLPurifier_StrategyHarness
+{
     public function setUp()
     {
         parent::setUp();

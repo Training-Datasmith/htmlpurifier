@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_MakeWellFormedTest extends HTMLPurifier_StrategyHarness
 {
-
     public function setUp()
     {
         parent::setUp();

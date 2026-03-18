@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/common.php';
 require_once __DIR__ . '/../library/HTMLPurifier.auto.php';
 assertCli();
@@ -27,9 +29,13 @@ $interchange = new HTMLPurifier_ConfigSchema_Interchange();
 $builder->buildDir($interchange);
 
 $loader = __DIR__ . '/../config-schema.php';
-if (file_exists($loader)) include $loader;
+if (file_exists($loader)) {
+    include $loader;
+}
 foreach ($_SERVER['argv'] as $i => $dir) {
-    if ($i === 0) continue;
+    if ($i === 0) {
+        continue;
+    }
     $builder->buildDir($interchange, realpath($dir));
 }
 
@@ -38,7 +44,7 @@ $interchange->validate();
 $schema_builder = new HTMLPurifier_ConfigSchema_Builder_ConfigSchema();
 $schema = $schema_builder->build($interchange);
 
-echo "Saving schema... ";
+echo 'Saving schema... ';
 file_put_contents($target, serialize($schema));
 echo "done!\n";
 

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DoctypeRegistry
 {
-
     /**
      * Hash of doctype names to doctype objects.
      * @type array

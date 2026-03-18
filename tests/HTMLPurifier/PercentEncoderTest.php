@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_PercentEncoderTest extends HTMLPurifier_Harness
 {
-
     protected $PercentEncoder;
     protected $func;
 
@@ -14,7 +15,9 @@ class HTMLPurifier_PercentEncoderTest extends HTMLPurifier_Harness
 
     public function assertDecode($string, $expect = true)
     {
-        if ($expect === true) $expect = $string;
+        if ($expect === true) {
+            $expect = $string;
+        }
         $this->assertIdentical($this->PercentEncoder->{$this->func}($string), $expect);
     }
 
@@ -40,7 +43,9 @@ class HTMLPurifier_PercentEncoderTest extends HTMLPurifier_Harness
 
     public function assertEncode($string, $expect = true, $preserve = false)
     {
-        if ($expect === true) $expect = $string;
+        if ($expect === true) {
+            $expect = $string;
+        }
         $encoder = new HTMLPurifier_PercentEncoder($preserve);
         $result = $encoder->encode($string);
         $this->assertIdentical($result, $expect);

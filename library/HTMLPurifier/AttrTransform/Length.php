@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class for handling width/height length attribute transformations to CSS
  */
 class HTMLPurifier_AttrTransform_Length extends HTMLPurifier_AttrTransform
 {
-
     /**
      * @type string
      */

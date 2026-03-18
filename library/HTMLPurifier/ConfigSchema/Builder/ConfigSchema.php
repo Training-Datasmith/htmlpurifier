@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Converts HTMLPurifier_ConfigSchema_Interchange to our runtime
  * representation used to perform checks on user configuration.
  */
 class HTMLPurifier_ConfigSchema_Builder_ConfigSchema
 {
-
     /**
      * @param HTMLPurifier_ConfigSchema_Interchange $interchange
      * @return HTMLPurifier_ConfigSchema

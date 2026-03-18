@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Initializes the appropriate configuration from either a PHP file
  * or a module configuration value

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Abstract class of a tag token (start, end or empty), and its behavior.
  */
@@ -60,7 +62,8 @@ abstract class HTMLPurifier_Token_Tag extends HTMLPurifier_Token
         $this->armor = $armor;
     }
 
-    public function toNode() {
+    public function toNode()
+    {
         return new HTMLPurifier_Node_Element($this->name, $this->attr, $this->line, $this->col, $this->armor);
     }
 }

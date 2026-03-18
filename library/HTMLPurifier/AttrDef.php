@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Base class for all validating attribute definitions.
  *
@@ -12,7 +14,6 @@
 
 abstract class HTMLPurifier_AttrDef
 {
-
     /**
      * Tells us whether or not an HTML attribute is minimized.
      * Has no meaning in other contexts.

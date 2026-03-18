@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_Tidy_XHTMLAndHTML4 extends HTMLPurifier_HTMLModule_Tidy
 {
-
     /**
      * @return array
      */
@@ -33,7 +34,7 @@ class HTMLPurifier_HTMLModule_Tidy_XHTMLAndHTML4 extends HTMLPurifier_HTMLModule
                     'left' => 'text-align:left;',
                     'right' => 'text-align:right;',
                     'top' => 'caption-side:top;',
-                    'bottom' => 'caption-side:bottom;' // not supported by IE
+                    'bottom' => 'caption-side:bottom;', // not supported by IE
                 ]
             );
 
@@ -57,7 +58,7 @@ class HTMLPurifier_HTMLModule_Tidy_XHTMLAndHTML4 extends HTMLPurifier_HTMLModule
                 [
                     'left' => 'float:left;',
                     'center' => 'margin-left:auto;margin-right:auto;',
-                    'right' => 'float:right;'
+                    'right' => 'float:right;',
                 ]
             );
 
@@ -72,7 +73,7 @@ class HTMLPurifier_HTMLModule_Tidy_XHTMLAndHTML4 extends HTMLPurifier_HTMLModule
                     // solution
                     'left' => 'margin-left:0;margin-right:auto;text-align:left;',
                     'center' => 'margin-left:auto;margin-right:auto;text-align:center;',
-                    'right' => 'margin-left:auto;margin-right:0;text-align:right;'
+                    'right' => 'margin-left:auto;margin-right:0;text-align:right;',
                 ]
             );
 
@@ -149,14 +150,14 @@ class HTMLPurifier_HTMLModule_Tidy_XHTMLAndHTML4 extends HTMLPurifier_HTMLModule
         $ul_types = [
             'disc' => 'list-style-type:disc;',
             'square' => 'list-style-type:square;',
-            'circle' => 'list-style-type:circle;'
+            'circle' => 'list-style-type:circle;',
         ];
         $ol_types = [
             '1' => 'list-style-type:decimal;',
             'i' => 'list-style-type:lower-roman;',
             'I' => 'list-style-type:upper-roman;',
             'a' => 'list-style-type:lower-alpha;',
-            'A' => 'list-style-type:upper-alpha;'
+            'A' => 'list-style-type:upper-alpha;',
         ];
         $li_types = $ul_types + $ol_types;
         // }}}

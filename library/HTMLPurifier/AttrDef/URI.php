@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a URI as defined by RFC 3986.
  * @note Scheme-specific mechanics deferred to HTMLPurifier_URIScheme
  */
 class HTMLPurifier_AttrDef_URI extends HTMLPurifier_AttrDef
 {
-
     /**
      * @type HTMLPurifier_URIParser
      */

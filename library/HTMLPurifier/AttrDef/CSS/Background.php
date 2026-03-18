@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates shorthand CSS property background.
  * @warning Does not support url tokens that have internal spaces.
  */
 class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
 {
-
     /**
      * Local copy of component validators.
      * @type HTMLPurifier_AttrDef[]

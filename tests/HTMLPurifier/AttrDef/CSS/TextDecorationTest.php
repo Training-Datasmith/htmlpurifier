@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_CSS_TextDecorationTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function testCaseInsensitive()
     {
         $this->def = new HTMLPurifier_AttrDef_CSS_TextDecoration();

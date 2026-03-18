@@ -1,10 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
 {
-
     protected function assertParsing(
-        $uri, $scheme, $userinfo, $host, $port, $path, $query, $fragment, $config = null, $context = null
+        $uri,
+        $scheme,
+        $userinfo,
+        $host,
+        $port,
+        $path,
+        $query,
+        $fragment,
+        $config = null,
+        $context = null
     ) {
         $this->prepareCommon($config, $context);
         $parser = new HTMLPurifier_URIParser();
@@ -17,7 +27,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             '%G',
-            null, null, null, null, '%25G', null, null
+            null,
+            null,
+            null,
+            null,
+            '%25G',
+            null,
+            null
         );
     }
 
@@ -25,7 +41,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://www.example.com/webhp?q=foo#result2',
-            'http', null, 'www.example.com', null, '/webhp', 'q=foo', 'result2'
+            'http',
+            null,
+            'www.example.com',
+            null,
+            '/webhp',
+            'q=foo',
+            'result2'
         );
     }
 
@@ -33,7 +55,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://user@authority.part:80/now/the/path?query#fragment',
-            'http', 'user', 'authority.part', 80, '/now/the/path', 'query', 'fragment'
+            'http',
+            'user',
+            'authority.part',
+            80,
+            '/now/the/path',
+            'query',
+            'fragment'
         );
     }
 
@@ -41,7 +69,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://en.wikipedia.org/wiki/Clich%C3%A9',
-            'http', null, 'en.wikipedia.org', null, '/wiki/Clich%C3%A9', null, null
+            'http',
+            null,
+            'en.wikipedia.org',
+            null,
+            '/wiki/Clich%C3%A9',
+            null,
+            null
         );
     }
 
@@ -49,7 +83,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://www.example.com/?#',
-            'http', null, 'www.example.com', null, '/', '', null
+            'http',
+            null,
+            'www.example.com',
+            null,
+            '/',
+            '',
+            null
         );
     }
 
@@ -57,7 +97,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://www.example.com',
-            'http', null, 'www.example.com', null, '', null, null
+            'http',
+            null,
+            'www.example.com',
+            null,
+            '',
+            null,
+            null
         );
     }
 
@@ -65,7 +111,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'mailto:bob@example.com',
-            'mailto', null, null, null, 'bob@example.com', null, null
+            'mailto',
+            null,
+            null,
+            null,
+            'bob@example.com',
+            null,
+            null
         );
     }
 
@@ -73,11 +125,23 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'tel:+1 (555) 555-5555',
-            'tel', null, null, null, '+1 (555) 555-5555', null, null
+            'tel',
+            null,
+            null,
+            null,
+            '+1 (555) 555-5555',
+            null,
+            null
         );
         $this->assertParsing(
-          'tel:+1%20(555)%20555-5555',
-          'tel', null, null, null, '+1%20(555)%20555-5555', null, null
+            'tel:+1%20(555)%20555-5555',
+            'tel',
+            null,
+            null,
+            null,
+            '+1%20(555)%20555-5555',
+            null,
+            null
         );
     }
 
@@ -85,7 +149,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://192.0.34.166/',
-            'http', null, '192.0.34.166', null, '/', null, null
+            'http',
+            null,
+            '192.0.34.166',
+            null,
+            '/',
+            null,
+            null
         );
     }
 
@@ -93,7 +163,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://333.123.32.123/',
-            'http', null, '333.123.32.123', null, '/', null, null
+            'http',
+            null,
+            '333.123.32.123',
+            null,
+            '/',
+            null,
+            null
         );
     }
 
@@ -101,7 +177,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://[2001:db8::7]/c=GB?objectClass?one',
-            'http', null, '[2001:db8::7]', null, '/c=GB', 'objectClass?one', null
+            'http',
+            null,
+            '[2001:db8::7]',
+            null,
+            '/c=GB',
+            'objectClass?one',
+            null
         );
     }
 
@@ -109,7 +191,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             "http://t\xC5\xABdali\xC5\x86.lv",
-            'http', null, "t\xC5\xABdali\xC5\x86.lv", null, '', null, null
+            'http',
+            null,
+            "t\xC5\xABdali\xC5\x86.lv",
+            null,
+            '',
+            null,
+            null
         );
     }
 
@@ -117,7 +205,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://example.com:foobar',
-            'http', null, 'example.com', null, '', null, null
+            'http',
+            null,
+            'example.com',
+            null,
+            '',
+            null,
+            null
         );
     }
 
@@ -125,7 +219,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http:/this/is/path',
-            'http', null, null, null, '/this/is/path', null, null
+            'http',
+            null,
+            null,
+            null,
+            '/this/is/path',
+            null,
+            null
         );
     }
 
@@ -134,7 +234,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
         // this should not be used but is allowed
         $this->assertParsing(
             'http:this/is/path',
-            'http', null, null, null, 'this/is/path', null, null
+            'http',
+            null,
+            null,
+            null,
+            'this/is/path',
+            null,
+            null
         );
     }
 
@@ -142,7 +248,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http:',
-            'http', null, null, null, '', null, null
+            'http',
+            null,
+            null,
+            null,
+            '',
+            null,
+            null
         );
     }
 
@@ -150,7 +262,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             '/a/b',
-            null, null, null, null, '/a/b', null, null
+            null,
+            null,
+            null,
+            null,
+            '/a/b',
+            null,
+            null
         );
     }
 
@@ -158,7 +276,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             'http://www.example.com/>',
-            'http', null, 'www.example.com', null, '/', null, null
+            'http',
+            null,
+            'www.example.com',
+            null,
+            '/',
+            null,
+            null
         );
     }
 
@@ -166,7 +290,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             '',
-            null, null, null, null, '', null, null
+            null,
+            null,
+            null,
+            null,
+            '',
+            null,
+            null
         );
     }
 
@@ -174,7 +304,13 @@ class HTMLPurifier_URIParserTest extends HTMLPurifier_Harness
     {
         $this->assertParsing(
             '{:test:}',
-            null, null, null, null, '{:test:}', null, null
+            null,
+            null,
+            null,
+            null,
+            '{:test:}',
+            null,
+            null
         );
     }
 

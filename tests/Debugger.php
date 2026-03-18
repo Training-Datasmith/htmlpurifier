@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Debugging tools.
  *
@@ -23,56 +25,54 @@ TODO
  */
 function paint($mixed)
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->paint($mixed);
 }
 function paintIf($mixed, $conditional)
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->paintIf($mixed, $conditional);
 }
-function paintWhen($mixed, $scopes = array())
+function paintWhen($mixed, $scopes = [])
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->paintWhen($mixed, $scopes);
 }
-function paintIfWhen($mixed, $conditional, $scopes = array())
+function paintIfWhen($mixed, $conditional, $scopes = [])
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->paintIfWhen($mixed, $conditional, $scopes);
 }
 function addScope($id = false)
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->addScope($id);
 }
 function removeScope($id)
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->removeScope($id);
 }
 function resetScopes()
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->resetScopes();
 }
-function isInScopes($array = array())
+function isInScopes($array = [])
 {
-    $Debugger =& Debugger::instance();
+    $Debugger = & Debugger::instance();
     return $Debugger->isInScopes($array);
 }
 /**#@-*/
-
 
 /**
  * The debugging singleton. Most interesting stuff happens here.
  */
 class Debugger
 {
-
     public $shouldPaint = false;
     public $paints  = 0;
-    public $current_scopes = array();
+    public $current_scopes = [];
     public $scope_nextID = 1;
     public $add_pre = true;
 
@@ -81,37 +81,52 @@ class Debugger
         $this->add_pre = !extension_loaded('xdebug');
     }
 
-    public static function &instance() {
+    public static function &instance()
+    {
         static $soleInstance = false;
-        if (!$soleInstance) $soleInstance = new Debugger();
+        if (!$soleInstance) {
+            $soleInstance = new Debugger();
+        }
         return $soleInstance;
     }
 
     public function paintIf($mixed, $conditional)
     {
-        if (!$conditional) return;
+        if (!$conditional) {
+            return;
+        }
         $this->paint($mixed);
     }
 
-    public function paintWhen($mixed, $scopes = array())
+    public function paintWhen($mixed, $scopes = [])
     {
-        if (!$this->isInScopes($scopes)) return;
+        if (!$this->isInScopes($scopes)) {
+            return;
+        }
         $this->paint($mixed);
     }
 
-    public function paintIfWhen($mixed, $conditional, $scopes = array())
+    public function paintIfWhen($mixed, $conditional, $scopes = [])
     {
-        if (!$conditional) return;
-        if (!$this->isInScopes($scopes)) return;
+        if (!$conditional) {
+            return;
+        }
+        if (!$this->isInScopes($scopes)) {
+            return;
+        }
         $this->paint($mixed);
     }
 
     public function paint($mixed)
     {
         $this->paints++;
-        if($this->add_pre) echo '<pre>';
+        if ($this->add_pre) {
+            echo '<pre>';
+        }
         var_dump($mixed);
-        if($this->add_pre) echo '</pre>';
+        if ($this->add_pre) {
+            echo '</pre>';
+        }
     }
 
     public function addScope($id = false)
@@ -124,22 +139,24 @@ class Debugger
 
     public function removeScope($id)
     {
-        if (isset($this->current_scopes[$id])) unset($this->current_scopes[$id]);
+        if (isset($this->current_scopes[$id])) {
+            unset($this->current_scopes[$id]);
+        }
     }
 
     public function resetScopes()
     {
-        $this->current_scopes = array();
+        $this->current_scopes = [];
         $this->scope_nextID = 1;
     }
 
-    public function isInScopes($scopes = array())
+    public function isInScopes($scopes = [])
     {
         if (empty($this->current_scopes)) {
             return false;
         }
         if (!is_array($scopes)) {
-            $scopes = array($scopes);
+            $scopes = [$scopes];
         }
         foreach ($scopes as $scope_id) {
             if (empty($this->current_scopes[$scope_id])) {
@@ -150,7 +167,7 @@ class Debugger
             if ($this->scope_nextID == 1) {
                 return false;
             }
-            for($i = 1; $i < $this->scope_nextID; $i++) {
+            for ($i = 1; $i < $this->scope_nextID; $i++) {
                 if (empty($this->current_scopes[$i])) {
                     return false;
                 }

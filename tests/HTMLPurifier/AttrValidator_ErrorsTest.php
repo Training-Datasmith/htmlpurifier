@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrValidator_ErrorsTest extends HTMLPurifier_ErrorsHarness
 {
-
     /**
      * @type HTMLPurifier_Language
      */
@@ -30,32 +31,32 @@ class HTMLPurifier_AttrValidator_ErrorsTest extends HTMLPurifier_ErrorsHarness
         $def = $this->config->getHTMLDefinition(true);
         generate_mock_once('HTMLPurifier_AttrTransform');
         $transform = new HTMLPurifier_AttrTransformMock();
-        $input = array('original' => 'value');
-        $output = array('class' => 'value'); // must be valid
-        $transform->returns('transform', $output, array($input, new AnythingExpectation(), new AnythingExpectation()));
+        $input = ['original' => 'value'];
+        $output = ['class' => 'value']; // must be valid
+        $transform->returns('transform', $output, [$input, new AnythingExpectation(), new AnythingExpectation()]);
         $def->info_attr_transform_pre[] = $transform;
 
         $token = new HTMLPurifier_Token_Start('span', $input, 1);
         $this->invoke($token);
 
         $result = $this->collector->getRaw();
-        $expect = array(
-            array(1, E_NOTICE, 'Attributes on <span> transformed from original to class', array()),
-        );
+        $expect = [
+            [1, E_NOTICE, 'Attributes on <span> transformed from original to class', []],
+        ];
         $this->assertIdentical($result, $expect);
     }
 
     public function testAttributesTransformedLocalPre()
     {
         $this->config->set('HTML.TidyLevel', 'heavy');
-        $input = array('align' => 'right');
-        $output = array('style' => 'text-align:right;');
+        $input = ['align' => 'right'];
+        $output = ['style' => 'text-align:right;'];
         $token = new HTMLPurifier_Token_Start('p', $input, 1);
         $this->invoke($token);
         $result = $this->collector->getRaw();
-        $expect = array(
-            array(1, E_NOTICE, 'Attributes on <p> transformed from align to style', array()),
-        );
+        $expect = [
+            [1, E_NOTICE, 'Attributes on <p> transformed from align to style', []],
+        ];
         $this->assertIdentical($result, $expect);
     }
 
@@ -63,12 +64,12 @@ class HTMLPurifier_AttrValidator_ErrorsTest extends HTMLPurifier_ErrorsHarness
 
     public function testAttributeRemoved()
     {
-        $token = new HTMLPurifier_Token_Start('p', array('foobar' => 'right'), 1);
+        $token = new HTMLPurifier_Token_Start('p', ['foobar' => 'right'], 1);
         $this->invoke($token);
         $result = $this->collector->getRaw();
-        $expect = array(
-            array(1, E_ERROR, 'foobar attribute on <p> removed', array()),
-        );
+        $expect = [
+            [1, E_ERROR, 'foobar attribute on <p> removed', []],
+        ];
         $this->assertIdentical($result, $expect);
     }
 

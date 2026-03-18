@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Performs miscellaneous cross attribute validation and filtering for
  * input elements. This is meant to be a post-transform.

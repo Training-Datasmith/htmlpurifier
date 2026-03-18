@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Represents a directive ID in the interchange format.
  */
 class HTMLPurifier_ConfigSchema_Interchange_Id
 {
-
     /**
      * @type string
      */
@@ -34,7 +35,7 @@ class HTMLPurifier_ConfigSchema_Interchange_Id
      */
     public function getRootNamespace()
     {
-        return substr($this->key, 0, strpos($this->key, "."));
+        return substr($this->key, 0, strpos($this->key, '.'));
     }
 
     /**
@@ -42,7 +43,7 @@ class HTMLPurifier_ConfigSchema_Interchange_Id
      */
     public function getDirective()
     {
-        return substr($this->key, strpos($this->key, ".") + 1);
+        return substr($this->key, strpos($this->key, '.') + 1);
     }
 
     /**

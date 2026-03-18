@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Implements an external test-case like RemoteTestCase that parses its
  * output from XML returned by a command line call
@@ -9,7 +11,7 @@ class CliTestCase
     public $_command;
     public $_out = false;
     public $_quiet = false;
-    public $_errors = array();
+    public $_errors = [];
     public $_size = false;
     /**
      * @param $command Command to execute to retrieve XML
@@ -27,12 +29,14 @@ class CliTestCase
     }
     public function run($reporter)
     {
-        if (!$this->_quiet) $reporter->paintFormattedMessage('Running ['.$this->_command.']');
+        if (!$this->_quiet) {
+            $reporter->paintFormattedMessage('Running ['.$this->_command.']');
+        }
         return $this->_invokeCommand($this->_command, $reporter);
     }
     public function _invokeCommand($command, $reporter)
     {
-       $xml = shell_exec($command);
+        $xml = shell_exec($command);
         if (! $xml) {
             if (!$this->_quiet) {
                 $reporter->paintFail('Command did not have any output [' . $command . ']');
@@ -41,7 +45,7 @@ class CliTestCase
         }
         $parser = $this->_createParser($reporter);
 
-        set_error_handler(array($this, '_errorHandler'));
+        set_error_handler([$this, '_errorHandler']);
         $status = $parser->parse($xml);
         restore_error_handler();
 
@@ -56,7 +60,7 @@ class CliTestCase
                 } else {
                     $msg = $xml;
                 }
-                $reporter->paintFail("Command produced malformed XML");
+                $reporter->paintFail('Command produced malformed XML');
                 $reporter->paintFormattedMessage($msg);
             }
             return false;
@@ -81,7 +85,7 @@ class CliTestCase
     }
     public function _errorHandler($a, $b, $c, $d)
     {
-        $this->_errors[] = array($a, $b, $c, $d); // see set_error_handler()
+        $this->_errors[] = [$a, $b, $c, $d]; // see set_error_handler()
     }
 }
 

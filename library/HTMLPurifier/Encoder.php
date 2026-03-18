@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * A UTF-8 specific character encoder that handles cleaning and transforming.
  * @note All functions in this class should be static.
  */
 class HTMLPurifier_Encoder
 {
-
     /**
      * Constructor throws fatal error if you attempt to instantiate class
      */
@@ -143,7 +144,7 @@ class HTMLPurifier_Encoder
         }
 
         $mState = 0; // cached expected number of octets after the current octet
-                     // until the beginning of the next UTF8 character sequence
+        // until the beginning of the next UTF8 character sequence
         $mUcs4  = 0; // cached Unicode character
         $mBytes = 1; // cached expected number of octets in the current sequence
 
@@ -278,7 +279,7 @@ class HTMLPurifier_Encoder
                     $mState = 0;
                     $mUcs4  = 0;
                     $mBytes = 1;
-                    $char ='';
+                    $char = '';
                 }
             }
         }
@@ -314,7 +315,7 @@ class HTMLPurifier_Encoder
     public static function unichr($code)
     {
         if ($code > 1114111 or $code < 0 or
-          ($code >= 55296 and $code <= 57343) ) {
+          ($code >= 55296 and $code <= 57343)) {
             // bits are set outside the "valid" range as defined
             // by UNICODE 4.1.0
             return '';
@@ -488,7 +489,7 @@ class HTMLPurifier_Encoder
                 $working += ($bytevalue & 0x3F);
                 $bytesleft--;
                 if ($bytesleft <= 0) {
-                    $result .= "&#" . $working . ";";
+                    $result .= '&#' . $working . ';';
                 }
             } elseif ($bytevalue <= 0xDF) { //110x xxxx
                 $working = $bytevalue & 0x1F;
@@ -505,15 +506,15 @@ class HTMLPurifier_Encoder
     }
 
     /** No bugs detected in iconv. */
-    const ICONV_OK = 0;
+    public const ICONV_OK = 0;
 
     /** Iconv truncates output if converting from UTF-8 to another
      *  character set with //IGNORE, and a non-encodable character is found */
-    const ICONV_TRUNCATES = 1;
+    public const ICONV_TRUNCATES = 1;
 
     /** Iconv does not support //IGNORE, making it unusable for
      *  transcoding purposes */
-    const ICONV_UNUSABLE = 2;
+    public const ICONV_UNUSABLE = 2;
 
     /**
      * glibc iconv has a known bug where it doesn't handle the magic

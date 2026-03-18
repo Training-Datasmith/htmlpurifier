@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates an IPv4 address
  * @author Feyd @ forums.devnetwork.net (public domain)
  */
 class HTMLPurifier_AttrDef_URI_IPv4 extends HTMLPurifier_AttrDef
 {
-
     /**
      * IPv4 regex, protected so that IPv6 can reuse it.
      * @type string

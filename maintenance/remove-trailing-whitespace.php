@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
 chdir(__DIR__);
 require_once 'common.php';
 assertCli();
@@ -47,7 +49,9 @@ foreach ($files as $file) {
     }
     $contents = file_get_contents($file);
     $result = preg_replace('/^(.*?)[ \t]+(\r?)$/m', '\1\2', $contents, -1, $count);
-    if (!$count) continue;
+    if (!$count) {
+        continue;
+    }
     echo "$file\n";
     file_put_contents($file, $result);
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a rel/rev link attribute against a directive of allowed values
  * @note We cannot use Enum because link types allow multiple
@@ -8,7 +10,6 @@
  */
 class HTMLPurifier_AttrDef_HTML_LinkTypes extends HTMLPurifier_AttrDef
 {
-
     /**
      * Name config attribute to pull.
      * @type string
@@ -22,7 +23,7 @@ class HTMLPurifier_AttrDef_HTML_LinkTypes extends HTMLPurifier_AttrDef
     {
         $configLookup = [
             'rel' => 'AllowedRel',
-            'rev' => 'AllowedRev'
+            'rev' => 'AllowedRev',
         ];
         if (!isset($configLookup[$name])) {
             throw new Exception('Unrecognized attribute name for link relationship.');

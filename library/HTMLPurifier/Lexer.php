@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Forgivingly lexes HTML (SGML-style) markup into tokens.
  *
@@ -41,7 +43,6 @@
  */
 class HTMLPurifier_Lexer
 {
-
     /**
      * Whether or not this lexer implements line-number/column-number tracking.
      * If it does, set to true.
@@ -76,9 +77,9 @@ class HTMLPurifier_Lexer
         if (!($config instanceof HTMLPurifier_Config)) {
             $lexer = $config;
             trigger_error(
-                "Passing a prototype to
+                'Passing a prototype to
                 HTMLPurifier_Lexer::create() is deprecated, please instead
-                use %Core.LexerImpl",
+                use %Core.LexerImpl',
                 E_USER_WARNING
             );
         } else {
@@ -129,7 +130,7 @@ class HTMLPurifier_Lexer
                     break;
                 default:
                     throw new HTMLPurifier_Exception(
-                        "Cannot instantiate unrecognized Lexer type " .
+                        'Cannot instantiate unrecognized Lexer type ' .
                         htmlspecialchars($lexer)
                     );
             }
@@ -171,14 +172,16 @@ class HTMLPurifier_Lexer
             '&gt;' => '>',
             '&#39;' => "'",
             '&#039;' => "'",
-            '&#x27;' => "'"
+            '&#x27;' => "'",
         ];
 
-    public function parseText($string, $config) {
+    public function parseText($string, $config)
+    {
         return $this->parseData($string, false, $config);
     }
 
-    public function parseAttr($string, $config) {
+    public function parseAttr($string, $config)
+    {
         return $this->parseData($string, true, $config);
     }
 
@@ -313,7 +316,7 @@ class HTMLPurifier_Lexer
         if ($config->get('Core.ConvertDocumentToFragment')) {
             $e = false;
             if ($config->get('Core.CollectErrors')) {
-                $e =& $context->get('ErrorCollector');
+                $e = & $context->get('ErrorCollector');
             }
             $new_html = $this->extractBody($html);
             if ($e && $new_html != $html) {
@@ -340,7 +343,7 @@ class HTMLPurifier_Lexer
         $hidden_elements = $config->get('Core.HiddenElements');
         if ($config->get('Core.AggressivelyRemoveScript') &&
             !($config->get('HTML.Trusted') || !$config->get('Core.RemoveScriptContents')
-            || empty($hidden_elements["script"]))) {
+            || empty($hidden_elements['script']))) {
             return preg_replace('#<script[^>]*>.*?</script>#i', '', $html);
         }
 

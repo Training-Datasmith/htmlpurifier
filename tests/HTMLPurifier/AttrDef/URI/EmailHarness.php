@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_URI_EmailHarness extends HTMLPurifier_AttrDefHarness
 {
-
     /**
      * Tests common email strings that are obviously pass/fail
      */

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_LanguageFactoryTest extends HTMLPurifier_Harness
 {
-
     /**
      * Protected reference of global factory we're testing.
      */

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 // we're using empty tags to compact the tests: under real circumstances
 // there would be contents in them
 
 class HTMLPurifier_ChildDef_TableTest extends HTMLPurifier_ChildDefHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -32,8 +33,9 @@ class HTMLPurifier_ChildDef_TableTest extends HTMLPurifier_ChildDefHarness
     public function testReorderContents()
     {
         $this->assertResult(
-          '<col /><colgroup /><tbody /><tfoot /><thead /><tr>1</tr><caption /><tr />',
-          '<caption /><col /><colgroup /><thead /><tfoot /><tbody /><tbody><tr>1</tr><tr /></tbody>');
+            '<col /><colgroup /><tbody /><tfoot /><thead /><tr>1</tr><caption /><tr />',
+            '<caption /><col /><colgroup /><thead /><tfoot /><tbody /><tbody><tr>1</tr><tr /></tbody>'
+        );
     }
 
     public function testXhtml11Illegal()
@@ -71,8 +73,8 @@ class HTMLPurifier_ChildDef_TableTest extends HTMLPurifier_ChildDefHarness
     public function testDuplicateProcessing()
     {
         $this->assertResult(
-          '<caption>1</caption><caption /><tbody /><tbody /><tfoot>1</tfoot><tfoot />',
-          '<caption>1</caption><tfoot>1</tfoot><tbody /><tbody /><tbody />'
+            '<caption>1</caption><caption /><tbody /><tbody /><tfoot>1</tfoot><tfoot />',
+            '<caption>1</caption><tfoot>1</tfoot><tbody /><tbody /><tbody />'
         );
     }
 
@@ -91,8 +93,8 @@ class HTMLPurifier_ChildDef_TableTest extends HTMLPurifier_ChildDefHarness
     {
         $this->config->set('Output.Newline', "\n");
         $this->assertResult(
-          "\n\t<tbody />\n\t\t<tfoot />\n\t\t\t",
-          "\n\t<tfoot />\n\t\t\t<tbody />\n\t\t"
+            "\n\t<tbody />\n\t\t<tfoot />\n\t\t\t",
+            "\n\t<tfoot />\n\t\t\t<tbody />\n\t\t"
         );
 
     }

@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 Mock::generatePartial(
-        'HTMLPurifier_AttrDef',
-        'HTMLPurifier_AttrDefTestable',
-        array('validate'));
+    'HTMLPurifier_AttrDef',
+    'HTMLPurifier_AttrDefTestable',
+    ['validate']
+);
 
 class HTMLPurifier_AttrDefTest extends HTMLPurifier_Harness
 {
-
     public function test_parseCDATA()
     {
         $def = new HTMLPurifier_AttrDefTestable();

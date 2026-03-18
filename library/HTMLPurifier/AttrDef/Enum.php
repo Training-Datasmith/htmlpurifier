@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // Enum = Enumerated
 /**
  * Validates a keyword against a list of valid values.
@@ -9,7 +11,6 @@
  */
 class HTMLPurifier_AttrDef_Enum extends HTMLPurifier_AttrDef
 {
-
     /**
      * Lookup table of valid values.
      * @type array

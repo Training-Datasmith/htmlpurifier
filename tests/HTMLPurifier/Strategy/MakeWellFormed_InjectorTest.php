@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_MakeWellFormed_InjectorTest extends HTMLPurifier_StrategyHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -17,20 +18,20 @@ class HTMLPurifier_Strategy_MakeWellFormed_InjectorTest extends HTMLPurifier_Str
     {
         $mock = new HTMLPurifier_InjectorMock();
         $b = new HTMLPurifier_Token_End('b');
-        $b->skip = array(0 => true);
+        $b->skip = [0 => true];
         $b->start = new HTMLPurifier_Token_Start('b');
-        $b->start->skip = array(0 => true, 1 => true);
-        $mock->expectAt(0, 'handleEnd', array($b));
+        $b->start->skip = [0 => true, 1 => true];
+        $mock->expectAt(0, 'handleEnd', [$b]);
         $i = new HTMLPurifier_Token_End('i');
         $i->start = new HTMLPurifier_Token_Start('i');
-        $i->skip = array(0 => true);
-        $i->start->skip = array(0 => true, 1 => true);
-        $mock->expectAt(1, 'handleEnd', array($i));
+        $i->skip = [0 => true];
+        $i->start->skip = [0 => true, 1 => true];
+        $mock->expectAt(1, 'handleEnd', [$i]);
         $mock->expectCallCount('handleEnd', 2);
         $mock->returns('getRewindOffset', false);
         $this->config->set('AutoFormat.AutoParagraph', false);
-        $this->config->set('AutoFormat.Linkify',       false);
-        $this->config->set('AutoFormat.Custom', array($mock));
+        $this->config->set('AutoFormat.Linkify', false);
+        $this->config->set('AutoFormat.Custom', [$mock]);
         $this->assertResult('<i><b>asdf</b>', '<i><b>asdf</b></i>');
     }
 
@@ -85,7 +86,7 @@ class HTMLPurifier_Strategy_MakeWellFormed_InjectorTest extends HTMLPurifier_Str
     {
         $this->assertResult(
             "http://example.com\n\nhttp://dev.example.com",
-'<p><a href="http://example.com">http://example.com</a></p>
+            '<p><a href="http://example.com">http://example.com</a></p>
 
 <p><a href="http://dev.example.com">http://dev.example.com</a></p>'
         );
@@ -95,7 +96,7 @@ class HTMLPurifier_Strategy_MakeWellFormed_InjectorTest extends HTMLPurifier_Str
     {
         $this->assertResult(
             'http://example.com <div>http://example.com</div>',
-'<p><a href="http://example.com">http://example.com</a> </p>
+            '<p><a href="http://example.com">http://example.com</a> </p>
 
 <div><a href="http://example.com">http://example.com</a></div>'
         );
@@ -112,12 +113,12 @@ class HTMLPurifier_Strategy_MakeWellFormed_InjectorTest extends HTMLPurifier_Str
     public function testParagraphAfterLinkifiedURL()
     {
         $this->assertResult(
-"http://google.com
+            'http://google.com
 
-<b>b</b>",
-"<p><a href=\"http://google.com\">http://google.com</a></p>
+<b>b</b>',
+            '<p><a href="http://google.com">http://google.com</a></p>
 
-<p><b>b</b></p>"
+<p><b>b</b></p>'
         );
     }
 
@@ -127,34 +128,34 @@ class HTMLPurifier_Strategy_MakeWellFormed_InjectorTest extends HTMLPurifier_Str
         // the two don't error out together, at least.
         // Change this behavior!
         $this->assertResult(
-"<p>asdf
+            '<p>asdf
 
 asdf<b></b></p>
 
-<p></p><i></i>",
-"<p>asdf</p>
+<p></p><i></i>',
+            '<p>asdf</p>
 
 <p>asdf</p>
 
-"
+'
         );
     }
 
     public function testRewindAndParagraph()
     {
         $this->assertResult(
-"bar
+            'bar
 
 <p><i></i>
 
 </p>
 
-foo",
-"<p>bar</p>
+foo',
+            '<p>bar</p>
 
 
 
-<p>foo</p>"
+<p>foo</p>'
         );
     }
 

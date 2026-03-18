@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Decorator/extender XSLT processor specifically for HTML documents.
  */
 class ConfigDoc_HTMLXSLTProcessor
 {
-
     /**
      * Instance of XSLTProcessor
      */
@@ -13,7 +14,9 @@ class ConfigDoc_HTMLXSLTProcessor
 
     public function __construct($proc = false)
     {
-        if ($proc === false) $proc = new XSLTProcessor();
+        if ($proc === false) {
+            $proc = new XSLTProcessor();
+        }
         $this->xsltProcessor = $proc;
     }
 
@@ -56,9 +59,9 @@ class ConfigDoc_HTMLXSLTProcessor
             $config = [
                 'indent'        => true,
                 'output-xhtml'  => true,
-                'wrap'          => 80
+                'wrap'          => 80,
             ];
-            $tidy = new Tidy;
+            $tidy = new Tidy();
             $tidy->parseString($out, $config, 'utf8');
             $tidy->cleanRepair();
             $out = (string) $tidy;

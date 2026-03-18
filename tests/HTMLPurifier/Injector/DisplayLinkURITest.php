@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Injector_DisplayLinkURITest extends HTMLPurifier_InjectorHarness
 {
-
     public function setup()
     {
         parent::setup();

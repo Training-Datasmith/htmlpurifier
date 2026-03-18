@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Primitive email validation class based on the regexp found at
  * http://www.regular-expressions.info/email.html
  */
 class HTMLPurifier_AttrDef_URI_Email_SimpleCheck extends HTMLPurifier_AttrDef_URI_Email
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

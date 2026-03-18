@@ -34,7 +34,7 @@ for ($i = 0; $i < 256; $i++) {
     $html .= '>A"'; // in our out the attribute? ;-)
     $html .= "onerror=alert('$i')>O";
     $pure_html = $purifier->purify($html);
-?>
+    ?>
 <tr>
     <td><?php echo $i; ?></td>
     <td style="font-size:8pt;"><?php echo escapeHTML($html); ?></td>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 abstract class HTMLPurifier_TestDefinition extends HTMLPurifier_Definition
 {
     public $info;
@@ -8,8 +10,9 @@ abstract class HTMLPurifier_TestDefinition extends HTMLPurifier_Definition
 }
 
 Mock::generatePartial(
-        'HTMLPurifier_TestDefinition',
-        'HTMLPurifier_DefinitionTestable',
-        array('doSetup'));
+    'HTMLPurifier_TestDefinition',
+    'HTMLPurifier_DefinitionTestable',
+    ['doSetup']
+);
 
 // vim: et sw=4 sts=4

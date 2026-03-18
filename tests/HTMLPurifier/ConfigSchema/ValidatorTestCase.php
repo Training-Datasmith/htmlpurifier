@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Controller for validator test-cases.
  */
 class HTMLPurifier_ConfigSchema_ValidatorTestCase extends UnitTestCase
 {
-
-    protected $_path, $_parser, $_builder;
+    protected $_path;
+    protected $_parser;
+    protected $_builder;
     public $validator;
 
     public function __construct($path)

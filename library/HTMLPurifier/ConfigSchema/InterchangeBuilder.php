@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_ConfigSchema_InterchangeBuilder
 {
-
     /**
      * Used for processing DEFAULT, nothing else.
      * @type HTMLPurifier_VarParser

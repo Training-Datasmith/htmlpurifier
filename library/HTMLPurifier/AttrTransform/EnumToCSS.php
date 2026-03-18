@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Generic pre-transform that converts an attribute with a fixed number of
  * values (enumerated) to CSS.

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_IntegerTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $this->def = new HTMLPurifier_AttrDef_Integer();
@@ -39,7 +40,6 @@ class HTMLPurifier_AttrDef_IntegerTest extends HTMLPurifier_AttrDefHarness
 
         $this->def = new HTMLPurifier_AttrDef_Integer(false, false);
         $this->assertRange(false, false, true); // positive
-
 
         // fringe cases
 

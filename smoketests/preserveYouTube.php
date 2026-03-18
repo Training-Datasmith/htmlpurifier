@@ -52,7 +52,9 @@ $safeobject_purifier = new HTMLPurifier([
 <h2>Unpurified</h2>
 <p><a href="?break">Click here to see the unpurified version (breaks validation).</a></p>
 <div><?php
-if (isset($_GET['break'])) echo $string;
+if (isset($_GET['break'])) {
+    echo $string;
+}
 ?></div>
 
 <h2>Without YouTube exception</h2>

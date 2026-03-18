@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_LengthTest extends HTMLPurifier_Harness
 {
-
     public function testConstruct()
     {
         $l = new HTMLPurifier_Length('23', 'in');
@@ -25,11 +26,16 @@ class HTMLPurifier_LengthTest extends HTMLPurifier_Harness
 
     protected function assertValidate($string, $expect = true)
     {
-        if ($expect === true) $expect = $string;
+        if ($expect === true) {
+            $expect = $string;
+        }
         $l = HTMLPurifier_Length::make($string);
         $result = $l->isValid();
-        if ($result === false) $this->assertIdentical($expect, false);
-        else $this->assertIdentical($l->toString(), $expect);
+        if ($result === false) {
+            $this->assertIdentical($expect, false);
+        } else {
+            $this->assertIdentical($l->toString(), $expect);
+        }
     }
 
     public function testValidate()

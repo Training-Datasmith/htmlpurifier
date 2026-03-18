@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a MultiLength as defined by the HTML spec.
  *
@@ -8,7 +10,6 @@
  */
 class HTMLPurifier_AttrDef_HTML_MultiLength extends HTMLPurifier_AttrDef_HTML_Length
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

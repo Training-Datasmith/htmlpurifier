@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Pre-transform that changes deprecated hspace and vspace attributes to CSS
  */
@@ -15,7 +17,7 @@ class HTMLPurifier_AttrTransform_ImgSpace extends HTMLPurifier_AttrTransform
      */
     protected $css = [
         'hspace' => ['left', 'right'],
-        'vspace' => ['top', 'bottom']
+        'vspace' => ['top', 'bottom'],
     ];
 
     /**

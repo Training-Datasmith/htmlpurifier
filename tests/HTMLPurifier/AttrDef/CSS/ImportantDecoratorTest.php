@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_CSS_ImportantDecoratorTest extends HTMLPurifier_AttrDefHarness
 {
-
     /** Mock AttrDef decorator is wrapping */
     protected $mock;
 
@@ -15,8 +16,10 @@ class HTMLPurifier_AttrDef_CSS_ImportantDecoratorTest extends HTMLPurifier_AttrD
 
     protected function setMock($input, $output = null)
     {
-        if ($output === null) $output = $input;
-        $this->mock->expectOnce('validate', array($input, $this->config, $this->context));
+        if ($output === null) {
+            $output = $input;
+        }
+        $this->mock->expectOnce('validate', [$input, $this->config, $this->context]);
         $this->mock->returns('validate', $output);
     }
 

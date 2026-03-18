@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Image Module provides basic image embedding.
  * @note There is specialized code for removing empty images in
@@ -7,7 +9,6 @@
  */
 class HTMLPurifier_HTMLModule_Image extends HTMLPurifier_HTMLModule
 {
-
     /**
      * @type string
      */

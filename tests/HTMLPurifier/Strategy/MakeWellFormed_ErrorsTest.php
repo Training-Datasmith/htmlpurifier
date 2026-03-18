@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_MakeWellFormed_ErrorsTest extends HTMLPurifier_Strategy_ErrorsHarness
 {
-
     protected function getStrategy()
     {
         return new HTMLPurifier_Strategy_MakeWellFormed();
@@ -11,7 +12,7 @@ class HTMLPurifier_Strategy_MakeWellFormed_ErrorsTest extends HTMLPurifier_Strat
     public function testUnnecessaryEndTagRemoved()
     {
         $this->expectErrorCollection(E_WARNING, 'Strategy_MakeWellFormed: Unnecessary end tag removed');
-        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', array(), 1, 0));
+        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', [], 1, 0));
         $this->invoke('</b>');
     }
 
@@ -19,29 +20,29 @@ class HTMLPurifier_Strategy_MakeWellFormed_ErrorsTest extends HTMLPurifier_Strat
     {
         $this->config->set('Core.EscapeInvalidTags', true);
         $this->expectErrorCollection(E_WARNING, 'Strategy_MakeWellFormed: Unnecessary end tag to text');
-        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', array(), 1, 0));
+        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', [], 1, 0));
         $this->invoke('</b>');
     }
 
     public function testTagAutoclose()
     {
-        $this->expectErrorCollection(E_NOTICE, 'Strategy_MakeWellFormed: Tag auto closed', new HTMLPurifier_Token_Start('p', array(), 1, 0));
-        $this->expectContext('CurrentToken', new HTMLPurifier_Token_Start('div', array(), 1, 6));
+        $this->expectErrorCollection(E_NOTICE, 'Strategy_MakeWellFormed: Tag auto closed', new HTMLPurifier_Token_Start('p', [], 1, 0));
+        $this->expectContext('CurrentToken', new HTMLPurifier_Token_Start('div', [], 1, 6));
         $this->invoke('<p>Foo<div>Bar</div>');
     }
 
     public function testTagCarryOver()
     {
-        $b = new HTMLPurifier_Token_Start('b', array(), 1, 0);
+        $b = new HTMLPurifier_Token_Start('b', [], 1, 0);
         $this->expectErrorCollection(E_NOTICE, 'Strategy_MakeWellFormed: Tag carryover', $b);
-        $this->expectContext('CurrentToken', new HTMLPurifier_Token_Start('div', array(), 1, 6));
+        $this->expectContext('CurrentToken', new HTMLPurifier_Token_Start('div', [], 1, 6));
         $this->invoke('<b>Foo<div>Bar</div>');
     }
 
     public function testStrayEndTagRemoved()
     {
         $this->expectErrorCollection(E_WARNING, 'Strategy_MakeWellFormed: Stray end tag removed');
-        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', array(), 1, 3));
+        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', [], 1, 3));
         $this->invoke('<i></b></i>');
     }
 
@@ -49,20 +50,20 @@ class HTMLPurifier_Strategy_MakeWellFormed_ErrorsTest extends HTMLPurifier_Strat
     {
         $this->config->set('Core.EscapeInvalidTags', true);
         $this->expectErrorCollection(E_WARNING, 'Strategy_MakeWellFormed: Stray end tag to text');
-        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', array(), 1, 3));
+        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('b', [], 1, 3));
         $this->invoke('<i></b></i>');
     }
 
     public function testTagClosedByElementEnd()
     {
-        $this->expectErrorCollection(E_NOTICE, 'Strategy_MakeWellFormed: Tag closed by element end', new HTMLPurifier_Token_Start('b', array(), 1, 3));
-        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('i', array(), 1, 12));
+        $this->expectErrorCollection(E_NOTICE, 'Strategy_MakeWellFormed: Tag closed by element end', new HTMLPurifier_Token_Start('b', [], 1, 3));
+        $this->expectContext('CurrentToken', new HTMLPurifier_Token_End('i', [], 1, 12));
         $this->invoke('<i><b>Foobar</i>');
     }
 
     public function testTagClosedByDocumentEnd()
     {
-        $this->expectErrorCollection(E_NOTICE, 'Strategy_MakeWellFormed: Tag closed by document end', new HTMLPurifier_Token_Start('b', array(), 1, 0));
+        $this->expectErrorCollection(E_NOTICE, 'Strategy_MakeWellFormed: Tag closed by document end', new HTMLPurifier_Token_Start('b', [], 1, 0));
         $this->invoke('<b>Foobar');
     }
 

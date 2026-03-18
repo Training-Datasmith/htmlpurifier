@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates name/value pairs in param tags to be used in safe objects. This
  * will only allow name values it recognizes, and pre-fill certain attributes
@@ -17,7 +19,7 @@ class HTMLPurifier_AttrTransform_SafeParam extends HTMLPurifier_AttrTransform
     /**
      * @type string
      */
-    public $name = "SafeParam";
+    public $name = 'SafeParam';
 
     /**
      * @type HTMLPurifier_AttrDef_URI
@@ -66,14 +68,14 @@ class HTMLPurifier_AttrTransform_SafeParam extends HTMLPurifier_AttrTransform
                 break;
             case 'movie':
             case 'src':
-                $attr['name'] = "movie";
+                $attr['name'] = 'movie';
                 $attr['value'] = $this->uri->validate($attr['value'], $config, $context);
                 break;
             case 'flashvars':
                 // we're going to allow arbitrary inputs to the SWF, on
                 // the reasoning that it could only hack the SWF, not us.
                 break;
-            // add other cases to support other param name/value pairs
+                // add other cases to support other param name/value pairs
             default:
                 $attr['name'] = $attr['value'] = null;
         }

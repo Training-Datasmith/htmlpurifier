@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_BorderTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -11,30 +12,30 @@ class HTMLPurifier_AttrTransform_BorderTest extends HTMLPurifier_AttrTransformHa
 
     public function testEmptyInput()
     {
-        $this->assertResult( array() );
+        $this->assertResult([]);
     }
 
     public function testBasicTransform()
     {
         $this->assertResult(
-            array('border' => '1'),
-            array('style' => 'border:1px solid;')
+            ['border' => '1'],
+            ['style' => 'border:1px solid;']
         );
     }
 
     public function testLenientTreatmentOfInvalidInput()
     {
         $this->assertResult(
-            array('border' => '10%'),
-            array('style' => 'border:10%px solid;')
+            ['border' => '10%'],
+            ['style' => 'border:10%px solid;']
         );
     }
 
     public function testPrependNewCSS()
     {
         $this->assertResult(
-            array('border' => '23', 'style' => 'font-weight:bold;'),
-            array('style' => 'border:23px solid;font-weight:bold;')
+            ['border' => '23', 'style' => 'font-weight:bold;'],
+            ['style' => 'border:23px solid;font-weight:bold;']
         );
     }
 

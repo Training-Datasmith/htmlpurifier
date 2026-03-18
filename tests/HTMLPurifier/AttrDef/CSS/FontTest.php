@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_CSS_FontTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $config = HTMLPurifier_Config::createDefault();

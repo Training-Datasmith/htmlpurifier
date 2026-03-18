@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_NameTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -11,22 +12,22 @@ class HTMLPurifier_AttrTransform_NameTest extends HTMLPurifier_AttrTransformHarn
 
     public function testEmpty()
     {
-        $this->assertResult( array() );
+        $this->assertResult([]);
     }
 
     public function testTransformNameToID()
     {
         $this->assertResult(
-            array('name' => 'free'),
-            array('id' => 'free')
+            ['name' => 'free'],
+            ['id' => 'free']
         );
     }
 
     public function testExistingIDOverridesName()
     {
         $this->assertResult(
-            array('name' => 'tryit', 'id' => 'tobad'),
-            array('id' => 'tobad')
+            ['name' => 'tryit', 'id' => 'tobad'],
+            ['id' => 'tobad']
         );
     }
 

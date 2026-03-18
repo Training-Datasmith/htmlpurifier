@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a boolean attribute
  */
 class HTMLPurifier_AttrDef_HTML_Bool extends HTMLPurifier_AttrDef
 {
-
     /**
      * @type string
      */

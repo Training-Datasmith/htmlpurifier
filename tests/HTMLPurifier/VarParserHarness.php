@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_VarParserHarness extends UnitTestCase
 {
-
     protected $parser;
 
     public function setup()
@@ -24,7 +25,9 @@ class HTMLPurifier_VarParserHarness extends UnitTestCase
             $this->parser->parse($var, $type);
         } catch (HTMLPurifier_VarParserException $e) {
             $caught = true;
-            if ($msg !== null) $this->assertIdentical($e->getMessage(), $msg);
+            if ($msg !== null) {
+                $this->assertIdentical($e->getMessage(), $msg);
+            }
         }
         if (!$caught) {
             $this->fail('Did not catch expected error');

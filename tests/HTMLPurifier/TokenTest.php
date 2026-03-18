@@ -1,13 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_TokenTest extends HTMLPurifier_Harness
 {
-
-    protected function assertTokenConstruction($name, $attr,
-        $expect_name = null, $expect_attr = null
+    protected function assertTokenConstruction(
+        $name,
+        $attr,
+        $expect_name = null,
+        $expect_attr = null
     ) {
-        if ($expect_name === null) $expect_name = $name;
-        if ($expect_attr === null) $expect_attr = $attr;
+        if ($expect_name === null) {
+            $expect_name = $name;
+        }
+        if ($expect_attr === null) {
+            $expect_attr = $attr;
+        }
         $token = new HTMLPurifier_Token_Start($name, $attr);
 
         $this->assertIdentical($expect_name, $token->name);
@@ -17,15 +25,22 @@ class HTMLPurifier_TokenTest extends HTMLPurifier_Harness
     public function testConstruct()
     {
         // standard case
-        $this->assertTokenConstruction('a', array('href' => 'about:blank'));
+        $this->assertTokenConstruction('a', ['href' => 'about:blank']);
 
         // lowercase the tag's name
-        $this->assertTokenConstruction('A', array('href' => 'about:blank'),
-                                       'a');
+        $this->assertTokenConstruction(
+            'A',
+            ['href' => 'about:blank'],
+            'a'
+        );
 
         // lowercase attributes
-        $this->assertTokenConstruction('a', array('HREF' => 'about:blank'),
-                                       'a', array('href' => 'about:blank'));
+        $this->assertTokenConstruction(
+            'a',
+            ['HREF' => 'about:blank'],
+            'a',
+            ['href' => 'about:blank']
+        );
 
     }
 

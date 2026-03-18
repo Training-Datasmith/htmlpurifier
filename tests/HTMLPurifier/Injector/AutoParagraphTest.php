@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Injector_AutoParagraphTest extends HTMLPurifier_InjectorHarness
 {
-
     public function setup()
     {
         parent::setup();
@@ -20,9 +21,9 @@ class HTMLPurifier_Injector_AutoParagraphTest extends HTMLPurifier_InjectorHarne
     public function testSingleMultiLineParagraph()
     {
         $this->assertResult(
-'Par 1
+            'Par 1
 Par 1 still',
-'<p>Par 1
+            '<p>Par 1
 Par 1 still</p>'
         );
     }
@@ -30,24 +31,24 @@ Par 1 still</p>'
     public function testTwoParagraphs()
     {
         $this->assertResult(
-'Par1
+            'Par1
 
 Par2',
-"<p>Par1</p>
+            '<p>Par1</p>
 
-<p>Par2</p>"
+<p>Par2</p>'
         );
     }
 
     public function testTwoParagraphsWithLotsOfSpace()
     {
         $this->assertResult(
-'Par1
+            'Par1
 
 
 
 Par2',
-'<p>Par1</p>
+            '<p>Par1</p>
 
 <p>Par2</p>'
         );
@@ -56,10 +57,10 @@ Par2',
     public function testTwoParagraphsWithInlineElements()
     {
         $this->assertResult(
-'<b>Par1</b>
+            '<b>Par1</b>
 
 <i>Par2</i>',
-'<p><b>Par1</b></p>
+            '<p><b>Par1</b></p>
 
 <p><i>Par2</i></p>'
         );
@@ -68,10 +69,10 @@ Par2',
     public function testSingleParagraphThatLooksLikeTwo()
     {
         $this->assertResult(
-'<b>Par1
+            '<b>Par1
 
 Par2</b>',
-'<p><b>Par1
+            '<p><b>Par1
 
 Par2</b></p>'
         );
@@ -81,7 +82,7 @@ Par2</b></p>'
     {
         $this->assertResult(
             'Par1<p>Par2</p>',
-'<p>Par1</p>
+            '<p>Par1</p>
 
 <p>Par2</p>'
         );
@@ -98,7 +99,7 @@ Par2</b></p>'
     public function testPreservePreTags()
     {
         $this->assertResult(
-'<pre>Par1
+            '<pre>Par1
 
 Par1</pre>'
         );
@@ -107,10 +108,10 @@ Par1</pre>'
     public function testIgnoreTrailingWhitespace()
     {
         $this->assertResult(
-'Par1
+            'Par1
 
   ',
-'<p>Par1</p>
+            '<p>Par1</p>
 
 '
         );
@@ -119,12 +120,12 @@ Par1</pre>'
     public function testDoNotParagraphBlockElements()
     {
         $this->assertResult(
-'Par1
+            'Par1
 
 <div>Par2</div>
 
 Par3',
-'<p>Par1</p>
+            '<p>Par1</p>
 
 <div>Par2</div>
 
@@ -135,7 +136,7 @@ Par3',
     public function testParagraphTextAndInlineNodes()
     {
         $this->assertResult(
-'Par<b>1</b>',
+            'Par<b>1</b>',
             '<p>Par<b>1</b></p>'
         );
     }
@@ -143,10 +144,10 @@ Par3',
     public function testPreserveLeadingWhitespace()
     {
         $this->assertResult(
-'
+            '
 
 Par',
-'
+            '
 
 <p>Par</p>'
         );
@@ -155,12 +156,12 @@ Par',
     public function testPreserveSurroundingWhitespace()
     {
         $this->assertResult(
-'
+            '
 
 Par
 
 ',
-'
+            '
 
 <p>Par</p>
 
@@ -171,10 +172,10 @@ Par
     public function testParagraphInsideBlockNode()
     {
         $this->assertResult(
-'<div>Par1
+            '<div>Par1
 
 Par2</div>',
-'<div><p>Par1</p>
+            '<div><p>Par1</p>
 
 <p>Par2</p></div>'
         );
@@ -183,10 +184,10 @@ Par2</div>',
     public function testParagraphInlineNodeInsideBlockNode()
     {
         $this->assertResult(
-'<div><b>Par1</b>
+            '<div><b>Par1</b>
 
 Par2</div>',
-'<div><p><b>Par1</b></p>
+            '<div><p><b>Par1</b></p>
 
 <p>Par2</p></div>'
         );
@@ -200,10 +201,10 @@ Par2</div>',
     public function testParagraphTwoInlineNodesInsideBlockNode()
     {
         $this->assertResult(
-'<div><b>Par1</b>
+            '<div><b>Par1</b>
 
 <i>Par2</i></div>',
-'<div><p><b>Par1</b></p>
+            '<div><p><b>Par1</b></p>
 
 <p><i>Par2</i></p></div>'
         );
@@ -212,7 +213,7 @@ Par2</div>',
     public function testPreserveInlineNodesInPreTag()
     {
         $this->assertResult(
-'<pre><b>Par1</b>
+            '<pre><b>Par1</b>
 
 <i>Par2</i></pre>'
         );
@@ -221,10 +222,10 @@ Par2</div>',
     public function testSplitUpInternalsOfPTagInBlockNode()
     {
         $this->assertResult(
-'<div><p>Foo
+            '<div><p>Foo
 
 Bar</p></div>',
-'<div><p>Foo</p>
+            '<div><p>Foo</p>
 
 <p>Bar</p></div>'
         );
@@ -233,10 +234,10 @@ Bar</p></div>',
     public function testSplitUpInlineNodesInPTagInBlockNode()
     {
         $this->assertResult(
-'<div><p><b>Foo</b>
+            '<div><p><b>Foo</b>
 
 <i>Bar</i></p></div>',
-'<div><p><b>Foo</b></p>
+            '<div><p><b>Foo</b></p>
 
 <p><i>Bar</i></p></div>'
         );
@@ -244,16 +245,16 @@ Bar</p></div>',
 
     public function testNoParagraphSingleInlineNodeInBlockNode()
     {
-        $this->assertResult( '<div><b>Foo</b></div>' );
+        $this->assertResult('<div><b>Foo</b></div>');
     }
 
     public function testParagraphInBlockquote()
     {
         $this->assertResult(
-'<blockquote>Par1
+            '<blockquote>Par1
 
 Par2</blockquote>',
-'<blockquote><p>Par1</p>
+            '<blockquote><p>Par1</p>
 
 <p>Par2</p></blockquote>'
         );
@@ -262,7 +263,7 @@ Par2</blockquote>',
     public function testNoParagraphBetweenListItem()
     {
         $this->assertResult(
-'<ul><li>Foo</li>
+            '<ul><li>Foo</li>
 
 <li>Bar</li></ul>'
         );
@@ -271,12 +272,12 @@ Par2</blockquote>',
     public function testParagraphSingleElementWithSurroundingSpace()
     {
         $this->assertResult(
-'<div>
+            '<div>
 
 Bar
 
 </div>',
-        '<div>
+            '<div>
 
 <p>Bar</p>
 
@@ -287,12 +288,12 @@ Bar
     public function testIgnoreExtraSpaceWithLeadingInlineNode()
     {
         $this->assertResult(
-'<b>Par1</b>a
+            '<b>Par1</b>a
 
 
 
 Par2',
-'<p><b>Par1</b>a</p>
+            '<p><b>Par1</b>a</p>
 
 <p>Par2</p>'
         );
@@ -301,10 +302,10 @@ Par2',
     public function testAbsorbExtraEndingPTag()
     {
         $this->assertResult(
-'Par1
+            'Par1
 
 Par2</p>',
-'<p>Par1</p>
+            '<p>Par1</p>
 
 <p>Par2</p>'
         );
@@ -313,10 +314,10 @@ Par2</p>',
     public function testAbsorbExtraEndingDivTag()
     {
         $this->assertResult(
-'Par1
+            'Par1
 
 Par2</div>',
-'<p>Par1</p>
+            '<p>Par1</p>
 
 <p>Par2</p>'
         );
@@ -325,7 +326,7 @@ Par2</div>',
     public function testDoNotParagraphSingleSurroundingSpaceInBlockNode()
     {
         $this->assertResult(
-'<div>
+            '<div>
 Par1
 </div>'
         );
@@ -334,10 +335,10 @@ Par1
     public function testBlockNodeTextDelimiterInBlockNode()
     {
         $this->assertResult(
-'<div>Par1
+            '<div>Par1
 
 <div>Par2</div></div>',
-'<div><p>Par1</p>
+            '<div><p>Par1</p>
 
 <div>Par2</div></div>'
         );
@@ -346,7 +347,7 @@ Par1
     public function testBlockNodeTextDelimiterWithoutDoublespaceInBlockNode()
     {
         $this->assertResult(
-'<div>Par1
+            '<div>Par1
 <div>Par2</div></div>'
         );
     }
@@ -354,9 +355,9 @@ Par1
     public function testBlockNodeTextDelimiterWithoutDoublespace()
     {
         $this->assertResult(
-'Par1
+            'Par1
 <div>Par2</div>',
-'<p>Par1
+            '<p>Par1
 </p>
 
 <div>Par2</div>'
@@ -366,10 +367,10 @@ Par1
     public function testTwoParagraphsOfTextAndInlineNode()
     {
         $this->assertResult(
-'Par1
+            'Par1
 
 <b>Par2</b>',
-'<p>Par1</p>
+            '<p>Par1</p>
 
 <p><b>Par2</b></p>'
         );
@@ -378,39 +379,39 @@ Par1
     public function testLeadingInlineNodeParagraph()
     {
         $this->assertResult(
-'<img /> Foo',
-'<p><img /> Foo</p>'
+            '<img /> Foo',
+            '<p><img /> Foo</p>'
         );
     }
 
     public function testTrailingInlineNodeParagraph()
     {
         $this->assertResult(
-'<li>Foo <a>bar</a></li>'
+            '<li>Foo <a>bar</a></li>'
         );
     }
 
     public function testTwoInlineNodeParagraph()
     {
         $this->assertResult(
-'<li><b>baz</b><a>bar</a></li>'
+            '<li><b>baz</b><a>bar</a></li>'
         );
     }
 
     public function testNoParagraphTrailingBlockNodeInBlockNode()
     {
         $this->assertResult(
-'<div><div>asdf</div><b>asdf</b></div>'
+            '<div><div>asdf</div><b>asdf</b></div>'
         );
     }
 
     public function testParagraphTrailingBlockNodeWithDoublespaceInBlockNode()
     {
         $this->assertResult(
-'<div><div>asdf</div>
+            '<div><div>asdf</div>
 
 <b>asdf</b></div>',
-'<div><div>asdf</div>
+            '<div><div>asdf</div>
 
 <p><b>asdf</b></p></div>'
         );
@@ -419,8 +420,8 @@ Par1
     public function testParagraphTwoInlineNodesAndWhitespaceNode()
     {
         $this->assertResult(
-'<b>One</b> <i>Two</i>',
-'<p><b>One</b> <i>Two</i></p>'
+            '<b>One</b> <i>Two</i>',
+            '<p><b>One</b> <i>Two</i></p>'
         );
     }
 
@@ -428,7 +429,7 @@ Par1
     {
         $this->config->set('HTML.Parent', 'span');
         $this->assertResult(
-'Par
+            'Par
 
 Par2'
         );
@@ -444,10 +445,10 @@ Par2'
     public function testInlineAndBlockTagInDivNeedingParagraph()
     {
         $this->assertResult(
-'<div><code>bar</code> mmm
+            '<div><code>bar</code> mmm
 
 <pre>asdf</pre></div>',
-'<div><p><code>bar</code> mmm</p>
+            '<div><p><code>bar</code> mmm</p>
 
 <pre>asdf</pre></div>'
         );
@@ -456,10 +457,10 @@ Par2'
     public function testTextInlineNodeTextThenDoubleNewlineNeedsParagraph()
     {
         $this->assertResult(
-'<div>asdf <code>bar</code> mmm
+            '<div>asdf <code>bar</code> mmm
 
 <pre>asdf</pre></div>',
-'<div><p>asdf <code>bar</code> mmm</p>
+            '<div><p>asdf <code>bar</code> mmm</p>
 
 <pre>asdf</pre></div>'
         );
@@ -468,35 +469,35 @@ Par2'
     public function testUpcomingTokenHasNewline()
     {
         $this->assertResult(
-'<div>Test<b>foo</b>bar<b>bing</b>bang
+            '<div>Test<b>foo</b>bar<b>bing</b>bang
 
 boo</div>',
-'<div><p>Test<b>foo</b>bar<b>bing</b>bang</p>
+            '<div><p>Test<b>foo</b>bar<b>bing</b>bang</p>
 
 <p>boo</p></div>'
-);
+        );
     }
 
     public function testEmptyTokenAtEndOfDiv()
     {
         $this->assertResult(
-'<div><p>foo</p>
+            '<div><p>foo</p>
 </div>',
-'<div><p>foo</p>
+            '<div><p>foo</p>
 </div>'
-);
+        );
     }
 
     public function testEmptyDoubleLineTokenAtEndOfDiv()
     {
         $this->assertResult(
-'<div><p>foo</p>
+            '<div><p>foo</p>
 
 </div>',
-'<div><p>foo</p>
+            '<div><p>foo</p>
 
 </div>'
-);
+        );
     }
 
     public function testTextState11Root()
@@ -507,9 +508,10 @@ boo</div>',
     public function testTextState11Element()
     {
         $this->assertResult(
-"<div><div></div>
+            '<div><div></div>
 
-</div>");
+</div>'
+        );
     }
 
     public function testTextStateLikeElementState111NoWhitespace()
@@ -525,13 +527,13 @@ boo</div>',
     public function testElementState133()
     {
         $this->assertResult(
-"<div><b>B</b><pre>Ba</pre>
+            '<div><b>B</b><pre>Ba</pre>
 
-Bar</div>",
-"<div><b>B</b><pre>Ba</pre>
+Bar</div>',
+            '<div><b>B</b><pre>Ba</pre>
 
-<p>Bar</p></div>"
-);
+<p>Bar</p></div>'
+        );
     }
 
     public function testElementState22()
@@ -545,7 +547,7 @@ Bar</div>",
     {
         $this->assertResult(
             '<p>Foo</p><b>Bar</b>',
-'<p>Foo</p>
+            '<p>Foo</p>
 
 <p><b>Bar</b></p>'
         );

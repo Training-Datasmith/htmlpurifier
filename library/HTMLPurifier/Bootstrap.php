@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // constants are slow, so we use as few as possible
 if (!defined('HTMLPURIFIER_PREFIX')) {
     define('HTMLPURIFIER_PREFIX', realpath(__DIR__ . '/..'));
@@ -29,7 +31,6 @@ if (!defined('PHP_EOL')) {
  */
 class HTMLPurifier_Bootstrap
 {
-
     /**
      * Autoload function for HTML Purifier
      * @param string $class Class to load

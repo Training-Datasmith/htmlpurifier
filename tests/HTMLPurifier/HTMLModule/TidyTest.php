@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 Mock::generatePartial(
     'HTMLPurifier_HTMLModule_Tidy',
     'HTMLPurifier_HTMLModule_Tidy_TestForConstruct',
-    array('makeFixes', 'makeFixesForLevel', 'populate')
+    ['makeFixes', 'makeFixesForLevel', 'populate']
 );
 
 class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
 {
-
     public function test_getFixesForLevel()
     {
         $module = new HTMLPurifier_HTMLModule_Tidy();
@@ -17,19 +18,19 @@ class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
         $module->fixesForLevel['heavy'][]  = 'heavy-fix';
 
         $this->assertIdentical(
-            array(),
+            [],
             $module->getFixesForLevel('none')
         );
         $this->assertIdentical(
-            array('light-fix' => true),
+            ['light-fix' => true],
             $module->getFixesForLevel('light')
         );
         $this->assertIdentical(
-            array('light-fix' => true, 'medium-fix' => true),
+            ['light-fix' => true, 'medium-fix' => true],
             $module->getFixesForLevel('medium')
         );
         $this->assertIdentical(
-            array('light-fix' => true, 'medium-fix' => true, 'heavy-fix' => true),
+            ['light-fix' => true, 'medium-fix' => true, 'heavy-fix' => true],
             $module->getFixesForLevel('heavy')
         );
 
@@ -44,71 +45,71 @@ class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
 
         // initialize partial mock
         $module = new HTMLPurifier_HTMLModule_Tidy_TestForConstruct();
-        $module->fixesForLevel['light']  = array('light-fix-1', 'light-fix-2');
-        $module->fixesForLevel['medium'] = array('medium-fix-1', 'medium-fix-2');
-        $module->fixesForLevel['heavy']  = array('heavy-fix-1', 'heavy-fix-2');
+        $module->fixesForLevel['light']  = ['light-fix-1', 'light-fix-2'];
+        $module->fixesForLevel['medium'] = ['medium-fix-1', 'medium-fix-2'];
+        $module->fixesForLevel['heavy']  = ['heavy-fix-1', 'heavy-fix-2'];
 
         $j = 0;
-        $fixes = array(
+        $fixes = [
             'light-fix-1'  => $lf1 = $j++,
             'light-fix-2'  => $lf2 = $j++,
             'medium-fix-1' => $mf1 = $j++,
             'medium-fix-2' => $mf2 = $j++,
             'heavy-fix-1'  => $hf1 = $j++,
-            'heavy-fix-2'  => $hf2 = $j++
-        );
+            'heavy-fix-2'  => $hf2 = $j++,
+        ];
         $module->returns('makeFixes', $fixes);
 
-        $config = HTMLPurifier_Config::create(array(
-            'HTML.TidyLevel' => 'none'
-        ));
-        $module->expectAt($i++, 'populate', array(array()));
+        $config = HTMLPurifier_Config::create([
+            'HTML.TidyLevel' => 'none',
+        ]);
+        $module->expectAt($i++, 'populate', [[]]);
         $module->setup($config);
 
         // basic levels
 
-        $config = HTMLPurifier_Config::create(array(
-            'HTML.TidyLevel' => 'light'
-        ));
-        $module->expectAt($i++, 'populate', array(array(
+        $config = HTMLPurifier_Config::create([
+            'HTML.TidyLevel' => 'light',
+        ]);
+        $module->expectAt($i++, 'populate', [[
             'light-fix-1' => $lf1,
-            'light-fix-2' => $lf2
-        )));
+            'light-fix-2' => $lf2,
+        ]]);
         $module->setup($config);
 
-        $config = HTMLPurifier_Config::create(array(
-            'HTML.TidyLevel' => 'heavy'
-        ));
-        $module->expectAt($i++, 'populate', array(array(
+        $config = HTMLPurifier_Config::create([
+            'HTML.TidyLevel' => 'heavy',
+        ]);
+        $module->expectAt($i++, 'populate', [[
             'light-fix-1'  => $lf1,
             'light-fix-2'  => $lf2,
             'medium-fix-1' => $mf1,
             'medium-fix-2' => $mf2,
             'heavy-fix-1'  => $hf1,
-            'heavy-fix-2'  => $hf2
-        )));
+            'heavy-fix-2'  => $hf2,
+        ]]);
         $module->setup($config);
 
         // fine grained tuning
 
-        $config = HTMLPurifier_Config::create(array(
+        $config = HTMLPurifier_Config::create([
             'HTML.TidyLevel' => 'none',
-            'HTML.TidyAdd'   => array('light-fix-1', 'medium-fix-1')
-        ));
-        $module->expectAt($i++, 'populate', array(array(
+            'HTML.TidyAdd'   => ['light-fix-1', 'medium-fix-1'],
+        ]);
+        $module->expectAt($i++, 'populate', [[
             'light-fix-1' => $lf1,
-            'medium-fix-1' => $mf1
-        )));
+            'medium-fix-1' => $mf1,
+        ]]);
         $module->setup($config);
 
-        $config = HTMLPurifier_Config::create(array(
+        $config = HTMLPurifier_Config::create([
             'HTML.TidyLevel' => 'medium',
-            'HTML.TidyRemove'   => array('light-fix-1', 'medium-fix-1')
-        ));
-        $module->expectAt($i++, 'populate', array(array(
+            'HTML.TidyRemove'   => ['light-fix-1', 'medium-fix-1'],
+        ]);
+        $module->expectAt($i++, 'populate', [[
             'light-fix-2' => $lf2,
-            'medium-fix-2' => $mf2
-        )));
+            'medium-fix-2' => $mf2,
+        ]]);
         $module->setup($config);
 
     }
@@ -118,15 +119,15 @@ class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
         $module = new HTMLPurifier_HTMLModule_Tidy();
         $module->defaultLevel = 'heavy';
 
-        $module->makeFixesForLevel(array(
+        $module->makeFixesForLevel([
             'fix-1' => 0,
             'fix-2' => 1,
-            'fix-3' => 2
-        ));
+            'fix-3' => 2,
+        ]);
 
-        $this->assertIdentical($module->fixesForLevel['heavy'], array('fix-1', 'fix-2', 'fix-3'));
-        $this->assertIdentical($module->fixesForLevel['medium'], array());
-        $this->assertIdentical($module->fixesForLevel['light'], array());
+        $this->assertIdentical($module->fixesForLevel['heavy'], ['fix-1', 'fix-2', 'fix-3']);
+        $this->assertIdentical($module->fixesForLevel['medium'], []);
+        $this->assertIdentical($module->fixesForLevel['light'], []);
 
     }
     public function test_makeFixesForLevel_undefinedLevel()
@@ -136,9 +137,9 @@ class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
 
         $this->expectException(new Exception('Default level bananas does not exist'));
 
-        $module->makeFixesForLevel(array(
-            'fix-1' => 0
-        ));
+        $module->makeFixesForLevel([
+            'fix-1' => 0,
+        ]);
 
     }
 
@@ -150,12 +151,12 @@ class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
 
         $this->assertIdentical(
             $module->getFixType('a'),
-            array('tag_transform', array('element' => 'a'))
+            ['tag_transform', ['element' => 'a']]
         );
 
         $this->assertIdentical(
             $module->getFixType('a@href'),
-            $reuse = array('attr_transform_pre', array('element' => 'a', 'attr' => 'href'))
+            $reuse = ['attr_transform_pre', ['element' => 'a', 'attr' => 'href']]
         );
 
         $this->assertIdentical(
@@ -165,27 +166,27 @@ class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
 
         $this->assertIdentical(
             $module->getFixType('a@href#post'),
-            array('attr_transform_post', array('element' => 'a', 'attr' => 'href'))
+            ['attr_transform_post', ['element' => 'a', 'attr' => 'href']]
         );
 
         $this->assertIdentical(
             $module->getFixType('xml:foo@xml:bar'),
-            array('attr_transform_pre', array('element' => 'xml:foo', 'attr' => 'xml:bar'))
+            ['attr_transform_pre', ['element' => 'xml:foo', 'attr' => 'xml:bar']]
         );
 
         $this->assertIdentical(
             $module->getFixType('blockquote#child'),
-            array('child', array('element' => 'blockquote'))
+            ['child', ['element' => 'blockquote']]
         );
 
         $this->assertIdentical(
             $module->getFixType('@lang'),
-            array('attr_transform_pre', array('attr' => 'lang'))
+            ['attr_transform_pre', ['attr' => 'lang']]
         );
 
         $this->assertIdentical(
             $module->getFixType('@lang#post'),
-            array('attr_transform_post', array('attr' => 'lang'))
+            ['attr_transform_post', ['attr' => 'lang']]
         );
 
     }
@@ -195,15 +196,15 @@ class HTMLPurifier_HTMLModule_TidyTest extends HTMLPurifier_Harness
         $i = 0;
 
         $module = new HTMLPurifier_HTMLModule_Tidy();
-        $module->populate(array(
+        $module->populate([
             'element' => $element = $i++,
             'element@attr' => $attr = $i++,
             'element@attr#post' => $attr_post = $i++,
             'element#child' => $child = $i++,
             'element#content_model_type' => $content_model_type = $i++,
             '@attr' => $global_attr = $i++,
-            '@attr#post' => $global_attr_post = $i++
-        ));
+            '@attr#post' => $global_attr_post = $i++,
+        ]);
 
         $module2 = new HTMLPurifier_HTMLModule_Tidy();
         $e = $module2->addBlankElement('element');

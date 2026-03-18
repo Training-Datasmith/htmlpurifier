@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_ConfigSchemaTest extends HTMLPurifier_Harness
 {
-
     protected $schema;
 
     public function setup()
@@ -31,18 +32,20 @@ class HTMLPurifier_ConfigSchemaTest extends HTMLPurifier_Harness
         $this->schema->add('QuantumNumber.Difficulty', null, 'string', true);
 
         $this->schema->addAllowedValues( // okay, since default is null
-            'QuantumNumber.Difficulty', array('easy' => true, 'medium' => true, 'hard' => true)
+            'QuantumNumber.Difficulty',
+            ['easy' => true, 'medium' => true, 'hard' => true]
         );
 
         $this->assertIdentical($this->schema->defaults['QuantumNumber.Difficulty'], null);
         $this->assertIdentical($this->schema->info['QuantumNumber.Difficulty']->type, HTMLPurifier_VarParser::C_STRING);
         $this->assertIdentical($this->schema->info['QuantumNumber.Difficulty']->allow_null, true);
-        $this->assertIdentical($this->schema->info['QuantumNumber.Difficulty']->allowed,
-            array(
+        $this->assertIdentical(
+            $this->schema->info['QuantumNumber.Difficulty']->allowed,
+            [
                 'easy' => true,
                 'medium' => true,
-                'hard' => true
-            )
+                'hard' => true,
+            ]
         );
 
     }
@@ -51,39 +54,44 @@ class HTMLPurifier_ConfigSchemaTest extends HTMLPurifier_Harness
     {
         $this->schema->add('Abbrev.HTH', 'Happy to Help', 'string', false);
         $this->schema->addAllowedValues(
-            'Abbrev.HTH', array(
+            'Abbrev.HTH',
+            [
                 'Happy to Help' => true,
                 'Hope that Helps' => true,
                 'HAIL THE HAND!' => true,
-            )
+            ]
         );
         $this->schema->addValueAliases(
-            'Abbrev.HTH', array(
+            'Abbrev.HTH',
+            [
                 'happy' => 'Happy to Help',
-                'hope' => 'Hope that Helps'
-            )
+                'hope' => 'Hope that Helps',
+            ]
         );
         $this->schema->addValueAliases( // delayed addition
-            'Abbrev.HTH', array(
-                'hail' => 'HAIL THE HAND!'
-            )
+            'Abbrev.HTH',
+            [
+                'hail' => 'HAIL THE HAND!',
+            ]
         );
 
         $this->assertIdentical($this->schema->defaults['Abbrev.HTH'], 'Happy to Help');
         $this->assertIdentical($this->schema->info['Abbrev.HTH']->type, HTMLPurifier_VarParser::C_STRING);
-        $this->assertIdentical($this->schema->info['Abbrev.HTH']->allowed,
-            array(
+        $this->assertIdentical(
+            $this->schema->info['Abbrev.HTH']->allowed,
+            [
                 'Happy to Help' => true,
                 'Hope that Helps' => true,
-                'HAIL THE HAND!' => true
-            )
+                'HAIL THE HAND!' => true,
+            ]
         );
-        $this->assertIdentical($this->schema->info['Abbrev.HTH']->aliases,
-        array(
+        $this->assertIdentical(
+            $this->schema->info['Abbrev.HTH']->aliases,
+            [
                 'happy' => 'Happy to Help',
                 'hope' => 'Hope that Helps',
-                'hail' => 'HAIL THE HAND!'
-            )
+                'hail' => 'HAIL THE HAND!',
+            ]
         );
 
     }

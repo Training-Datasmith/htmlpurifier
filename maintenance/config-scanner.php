@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
 chdir(__DIR__);
 require_once 'common.php';
 require_once '../library/HTMLPurifier.auto.php';
@@ -21,8 +23,12 @@ $raw_files = $FS->globr('.', '*.php');
 $files = [];
 foreach ($raw_files as $file) {
     $file = substr($file, 2); // rm leading './'
-    if (strncmp('standalone/', $file, 11) === 0) continue; // rm generated files
-    if (substr_count($file, '.') > 1) continue; // rm meta files
+    if (strncmp('standalone/', $file, 11) === 0) {
+        continue;
+    } // rm generated files
+    if (substr_count($file, '.') > 1) {
+        continue;
+    } // rm meta files
     $files[] = $file;
 }
 
@@ -31,7 +37,9 @@ foreach ($raw_files as $file) {
  */
 function consumeWhitespace(array $tokens, &$i)
 {
-    do {$i++;} while (is_array($tokens[$i]) && $tokens[$i][0] === T_WHITESPACE);
+    do {
+        $i++;
+    } while (is_array($tokens[$i]) && $tokens[$i][0] === T_WHITESPACE);
 }
 
 /**
@@ -46,7 +54,9 @@ function testToken($token, $value_or_token, $value = null)
     if (!is_null($value)) {
         return is_array($token) && $token[0] === $value_or_token && $token[1] === $value;
     }
-    if (is_int($value_or_token)) return is_array($token) && $token[0] === $value_or_token;
+    if (is_int($value_or_token)) {
+        return is_array($token) && $token[0] === $value_or_token;
+    }
     return $token === $value_or_token;
 }
 
@@ -60,37 +70,53 @@ foreach ($files as $file) {
     for ($i = 0, $c = count($tokens); $i < $c; $i++) {
         $ok = false;
         // Match $config
-        if (testToken($tokens[$i], T_VARIABLE, '$config')) $ok = true;
+        if (testToken($tokens[$i], T_VARIABLE, '$config')) {
+            $ok = true;
+        }
         // Match $this->config
         while (!$ok && testToken($tokens[$i], T_VARIABLE, '$this')) {
             consumeWhitespace($tokens, $i);
-            if (!testToken($tokens[$i], T_OBJECT_OPERATOR)) break;
+            if (!testToken($tokens[$i], T_OBJECT_OPERATOR)) {
+                break;
+            }
             consumeWhitespace($tokens, $i);
-            if (testToken($tokens[$i], T_STRING, 'config')) $ok = true;
+            if (testToken($tokens[$i], T_STRING, 'config')) {
+                $ok = true;
+            }
             break;
         }
-        if (!$ok) continue;
+        if (!$ok) {
+            continue;
+        }
 
         $ok = false;
-        for($i++; $i < $c; $i++) {
+        for ($i++; $i < $c; $i++) {
             if ($tokens[$i] === ',' || $tokens[$i] === ')' || $tokens[$i] === ';') {
                 break;
             }
-            if (is_string($tokens[$i])) continue;
+            if (is_string($tokens[$i])) {
+                continue;
+            }
             if ($tokens[$i][0] === T_OBJECT_OPERATOR) {
                 $ok = true;
                 break;
             }
         }
-        if (!$ok) continue;
+        if (!$ok) {
+            continue;
+        }
 
         $line = $tokens[$i][2];
 
         consumeWhitespace($tokens, $i);
-        if (!testToken($tokens[$i], T_STRING, 'get')) continue;
+        if (!testToken($tokens[$i], T_STRING, 'get')) {
+            continue;
+        }
 
         consumeWhitespace($tokens, $i);
-        if (!testToken($tokens[$i], '(')) continue;
+        if (!testToken($tokens[$i], '(')) {
+            continue;
+        }
 
         $full_counter++;
 
@@ -103,14 +129,20 @@ foreach ($files as $file) {
             // do anything.
 
             consumeWhitespace($tokens, $i);
-            if (!testToken($tokens[$i], T_CONSTANT_ENCAPSED_STRING)) continue;
+            if (!testToken($tokens[$i], T_CONSTANT_ENCAPSED_STRING)) {
+                continue;
+            }
             $id = substr($tokens[$i][1], 1, -1);
 
             $counter++;
             $matched = true;
 
-            if (!isset($tracker[$id])) $tracker[$id] = [];
-            if (!isset($tracker[$id][$file])) $tracker[$id][$file] = [];
+            if (!isset($tracker[$id])) {
+                $tracker[$id] = [];
+            }
+            if (!isset($tracker[$id][$file])) {
+                $tracker[$id][$file] = [];
+            }
             $tracker[$id][$file][] = $line;
 
         } while (0);
@@ -121,7 +153,7 @@ foreach ($files as $file) {
 
 echo "\n$counter/$full_counter instances of \$config or \$this->config found in source code.\n";
 
-echo "Generating XML... ";
+echo 'Generating XML... ';
 
 $xw = new XMLWriter();
 $xw->openURI('../configdoc/usage.xml');

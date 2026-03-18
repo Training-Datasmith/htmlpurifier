@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates arbitrary text according to the HTML spec.
  */
 class HTMLPurifier_AttrDef_Text extends HTMLPurifier_AttrDef
 {
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config

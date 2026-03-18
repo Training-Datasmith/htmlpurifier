@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class responsible for generating HTMLPurifier_Language objects, managing
  * caching and fallbacks.
@@ -9,7 +11,6 @@
  */
 class HTMLPurifier_LanguageFactory
 {
-
     /**
      * Cache of language code information used to load HTMLPurifier_Language objects.
      * Structure is: $factory->cache[$language_code][$key] = $value

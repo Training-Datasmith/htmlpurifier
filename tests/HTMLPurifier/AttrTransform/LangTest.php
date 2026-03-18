@@ -1,9 +1,9 @@
 <?php
 
-class HTMLPurifier_AttrTransform_LangTest
-    extends HTMLPurifier_AttrTransformHarness
-{
+declare(strict_types=1);
 
+class HTMLPurifier_AttrTransform_LangTest extends HTMLPurifier_AttrTransformHarness
+{
     public function setUp()
     {
         parent::setUp();
@@ -12,38 +12,38 @@ class HTMLPurifier_AttrTransform_LangTest
 
     public function testEmptyInput()
     {
-        $this->assertResult(array());
+        $this->assertResult([]);
     }
 
     public function testCopyLangToXMLLang()
     {
         $this->assertResult(
-            array('lang' => 'en'),
-            array('lang' => 'en', 'xml:lang' => 'en')
+            ['lang' => 'en'],
+            ['lang' => 'en', 'xml:lang' => 'en']
         );
     }
 
     public function testPreserveAttributes()
     {
         $this->assertResult(
-            array('src' => 'vert.png', 'lang' => 'fr'),
-            array('src' => 'vert.png', 'lang' => 'fr', 'xml:lang' => 'fr')
+            ['src' => 'vert.png', 'lang' => 'fr'],
+            ['src' => 'vert.png', 'lang' => 'fr', 'xml:lang' => 'fr']
         );
     }
 
     public function testCopyXMLLangToLang()
     {
         $this->assertResult(
-            array('xml:lang' => 'en'),
-            array('xml:lang' => 'en', 'lang' => 'en')
+            ['xml:lang' => 'en'],
+            ['xml:lang' => 'en', 'lang' => 'en']
         );
     }
 
     public function testXMLLangOverridesLang()
     {
         $this->assertResult(
-            array('lang' => 'fr', 'xml:lang' => 'de'),
-            array('lang' => 'de', 'xml:lang' => 'de')
+            ['lang' => 'fr', 'xml:lang' => 'de'],
+            ['lang' => 'de', 'xml:lang' => 'de']
         );
     }
 

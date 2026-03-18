@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a font family list according to CSS spec
  */
 class HTMLPurifier_AttrDef_CSS_FontFamily extends HTMLPurifier_AttrDef
 {
-
     protected $mask;
 
     public function __construct()
@@ -20,7 +21,7 @@ class HTMLPurifier_AttrDef_CSS_FontFamily extends HTMLPurifier_AttrDef
         $b = array_map('chr', range(0x80, 0xFF));
         // All valid characters for the mask
         $c = array_merge($l, $u, $d, $b);
-        // Concatenate all valid characters into a string 
+        // Concatenate all valid characters into a string
         // Use '_- ' as an initial value
         $this->mask = array_reduce($c, function ($carry, $value) {
             return $carry . $value;
@@ -57,7 +58,7 @@ class HTMLPurifier_AttrDef_CSS_FontFamily extends HTMLPurifier_AttrDef
             'sans-serif' => true,
             'monospace' => true,
             'fantasy' => true,
-            'cursive' => true
+            'cursive' => true,
         ];
         $allowed_fonts = $config->get('CSS.AllowedFonts');
 

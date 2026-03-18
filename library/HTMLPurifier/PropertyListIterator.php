@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Property list iterator. Do not instantiate this class directly.
  */
 class HTMLPurifier_PropertyListIterator extends FilterIterator
 {
-
     /**
      * @type int
      */

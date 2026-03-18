@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_ImgRequiredTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -13,8 +14,8 @@ class HTMLPurifier_AttrTransform_ImgRequiredTest extends HTMLPurifier_AttrTransf
     {
         $this->config->set('Core.RemoveInvalidImg', false);
         $this->assertResult(
-            array(),
-            array('src' => '', 'alt' => 'Invalid image')
+            [],
+            ['src' => '', 'alt' => 'Invalid image']
         );
     }
 
@@ -25,16 +26,16 @@ class HTMLPurifier_AttrTransform_ImgRequiredTest extends HTMLPurifier_AttrTransf
         $this->config->set('Attr.DefaultImageAlt', 'not pawned');
         $this->config->set('Core.RemoveInvalidImg', false);
         $this->assertResult(
-            array(),
-            array('src' => 'blank.png', 'alt' => 'Pawned!')
+            [],
+            ['src' => 'blank.png', 'alt' => 'Pawned!']
         );
     }
 
     public function testGenerateAlt()
     {
         $this->assertResult(
-            array('src' => '/path/to/foobar.png'),
-            array('src' => '/path/to/foobar.png', 'alt' => 'foobar.png')
+            ['src' => '/path/to/foobar.png'],
+            ['src' => '/path/to/foobar.png', 'alt' => 'foobar.png']
         );
     }
 
@@ -42,8 +43,8 @@ class HTMLPurifier_AttrTransform_ImgRequiredTest extends HTMLPurifier_AttrTransf
     {
         $this->config->set('Core.RemoveInvalidImg', false);
         $this->assertResult(
-            array('alt' => 'intrigue'),
-            array('alt' => 'intrigue', 'src' => '')
+            ['alt' => 'intrigue'],
+            ['alt' => 'intrigue', 'src' => '']
         );
     }
 
@@ -51,8 +52,8 @@ class HTMLPurifier_AttrTransform_ImgRequiredTest extends HTMLPurifier_AttrTransf
     {
         $this->config->set('Attr.DefaultImageAlt', 'default');
         $this->assertResult(
-            array('src' => ''),
-            array('src' => '', 'alt' => 'default')
+            ['src' => ''],
+            ['src' => '', 'alt' => 'default']
         );
     }
 

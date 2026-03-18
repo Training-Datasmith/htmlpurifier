@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URIFilter_MungeTest extends HTMLPurifier_URIFilterHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -16,7 +17,9 @@ class HTMLPurifier_URIFilter_MungeTest extends HTMLPurifier_URIFilterHarness
 
     protected function setSecureMunge($key = 'secret')
     {
-        if (!function_exists('hash_hmac')) return false;
+        if (!function_exists('hash_hmac')) {
+            return false;
+        }
         $this->setMunge('/redirect.php?url=%s&checksum=%t');
         $this->config->set('URI.MungeSecretKey', $key);
         return true;
@@ -94,13 +97,17 @@ class HTMLPurifier_URIFilter_MungeTest extends HTMLPurifier_URIFilterHarness
 
     public function testSecureMungePreserve()
     {
-        if (!$this->setSecureMunge()) return;
+        if (!$this->setSecureMunge()) {
+            return;
+        }
         $this->assertFiltering('/local');
     }
 
     public function testSecureMungePreserveEmbedded()
     {
-        if (!$this->setSecureMunge()) return;
+        if (!$this->setSecureMunge()) {
+            return;
+        }
         $embedded = true;
         $this->context->register('EmbeddedURI', $embedded);
         $this->assertFiltering('http://google.com');
@@ -108,26 +115,34 @@ class HTMLPurifier_URIFilter_MungeTest extends HTMLPurifier_URIFilterHarness
 
     public function testSecureMungeStandard()
     {
-        if (!$this->setSecureMunge()) return;
+        if (!$this->setSecureMunge()) {
+            return;
+        }
         $this->assertFiltering('http://google.com', '/redirect.php?url=http%3A%2F%2Fgoogle.com&checksum=46267a796aca0ea5839f24c4c97ad2648373a4eca31b1c0d1fa7c7ff26798f79');
     }
 
     public function testSecureMungeIgnoreUnknownSchemes()
     {
         // This should be integration tested as well to be false
-        if (!$this->setSecureMunge()) return;
+        if (!$this->setSecureMunge()) {
+            return;
+        }
         $this->assertFiltering('javascript:', true);
     }
 
     public function testSecureMungeIgnoreUnbrowsableSchemes()
     {
-        if (!$this->setSecureMunge()) return;
+        if (!$this->setSecureMunge()) {
+            return;
+        }
         $this->assertFiltering('news:', true);
     }
 
     public function testSecureMungeToDirectory()
     {
-        if (!$this->setSecureMunge()) return;
+        if (!$this->setSecureMunge()) {
+            return;
+        }
         $this->setMunge('/links/%s/%t');
         $this->assertFiltering('http://google.com', '/links/http%3A%2F%2Fgoogle.com/46267a796aca0ea5839f24c4c97ad2648373a4eca31b1c0d1fa7c7ff26798f79');
     }

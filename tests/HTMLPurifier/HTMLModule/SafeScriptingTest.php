@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_SafeScriptingTest extends HTMLPurifier_HTMLModuleHarness
 {
-
     public function setUp()
     {
         parent::setUp();
-        $this->config->set('HTML.SafeScripting', array('http://localhost/foo.js'));
+        $this->config->set('HTML.SafeScripting', ['http://localhost/foo.js']);
     }
 
     public function testMinimal()

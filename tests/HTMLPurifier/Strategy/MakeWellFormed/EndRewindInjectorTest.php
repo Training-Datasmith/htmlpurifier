@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_MakeWellFormed_EndRewindInjectorTest extends HTMLPurifier_StrategyHarness
 {
     public function setUp()
     {
         parent::setUp();
         $this->obj = new HTMLPurifier_Strategy_MakeWellFormed();
-        $this->config->set('AutoFormat.Custom', array(
-            new HTMLPurifier_Strategy_MakeWellFormed_EndRewindInjector()
-        ));
+        $this->config->set('AutoFormat.Custom', [
+            new HTMLPurifier_Strategy_MakeWellFormed_EndRewindInjector(),
+        ]);
     }
     public function testBasic()
     {
@@ -16,22 +18,22 @@ class HTMLPurifier_Strategy_MakeWellFormed_EndRewindInjectorTest extends HTMLPur
     }
     public function testFunction()
     {
-        $this->assertResult('<span>asdf</span>','');
+        $this->assertResult('<span>asdf</span>', '');
     }
     public function testFailedFunction()
     {
-        $this->assertResult('<span>asd<b>asdf</b>asdf</span>','<span><b></b></span>');
+        $this->assertResult('<span>asd<b>asdf</b>asdf</span>', '<span><b></b></span>');
     }
     public function testPadded()
     {
-        $this->assertResult('<b></b><span>asdf</span><b></b>','<b></b><b></b>');
+        $this->assertResult('<b></b><span>asdf</span><b></b>', '<b></b><b></b>');
     }
     public function testDoubled()
     {
-        $this->config->set('AutoFormat.Custom', array(
+        $this->config->set('AutoFormat.Custom', [
             new HTMLPurifier_Strategy_MakeWellFormed_EndRewindInjector(),
             new HTMLPurifier_Strategy_MakeWellFormed_EndRewindInjector(),
-        ));
+        ]);
         $this->assertResult('<b></b><span>asdf</span>', '<b></b>');
     }
 }

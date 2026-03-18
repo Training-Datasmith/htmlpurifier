@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Records errors for particular segments of an HTML document such as tokens,
  * attributes or CSS properties. They can contain error structs (which apply
@@ -8,14 +10,13 @@
  */
 class HTMLPurifier_ErrorStruct
 {
-
     /**
      * Possible values for $children first-key. Note that top-level structures
      * are automatically token-level.
      */
-    const TOKEN     = 0;
-    const ATTR      = 1;
-    const CSSPROP   = 2;
+    public const TOKEN     = 0;
+    public const ATTR      = 1;
+    public const CSSPROP   = 2;
 
     /**
      * Type of this struct.

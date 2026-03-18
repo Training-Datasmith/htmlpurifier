@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Removes all unrecognized tags from the list of tokens.
  *
@@ -10,7 +12,6 @@
 
 class HTMLPurifier_Strategy_RemoveForeignElements extends HTMLPurifier_Strategy
 {
-
     /**
      * @param HTMLPurifier_Token[] $tokens
      * @param HTMLPurifier_Config $config
@@ -55,7 +56,7 @@ class HTMLPurifier_Strategy_RemoveForeignElements extends HTMLPurifier_Strategy
 
         $e = false;
         if ($config->get('Core.CollectErrors')) {
-            $e =& $context->get('ErrorCollector');
+            $e = & $context->get('ErrorCollector');
         }
 
         foreach ($tokens as $token) {

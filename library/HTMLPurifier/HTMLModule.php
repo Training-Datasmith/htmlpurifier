@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Represents an XHTML 1.1 module, with information on elements, tags
  * and attributes.
@@ -17,7 +19,6 @@
 
 class HTMLPurifier_HTMLModule
 {
-
     // -- Overloadable ----------------------------------------------------
 
     /**

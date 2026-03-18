@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Presentation Module, defines simple presentation-related
  * markup. Text Extension Module.
@@ -12,7 +14,6 @@
  */
 class HTMLPurifier_HTMLModule_Presentation extends HTMLPurifier_HTMLModule
 {
-
     /**
      * @type string
      */

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @todo Assimilate CSSTidy into our library
  */
 class HTMLPurifier_Filter_ExtractStyleBlocksTest extends HTMLPurifier_Harness
 {
-
     // usual use case:
     public function test_tokenizeHTML_extractStyleBlocks()
     {
@@ -13,18 +14,21 @@ class HTMLPurifier_Filter_ExtractStyleBlocksTest extends HTMLPurifier_Harness
         $purifier = new HTMLPurifier($this->config);
         $result = $purifier->purify('<style type="text/css">.foo {text-align:center;bogus:remove-me;} body.class[foo="attr"] {text-align:right;}</style>Test<style>* {font-size:12pt;}</style>');
         $this->assertIdentical($result, 'Test');
-        $this->assertIdentical($purifier->context->get('StyleBlocks'),
-            array(
+        $this->assertIdentical(
+            $purifier->context->get('StyleBlocks'),
+            [
                 ".foo {\ntext-align:center\n}",
-                "* {\nfont-size:12pt\n}"
-            )
+                "* {\nfont-size:12pt\n}",
+            ]
         );
     }
 
-    public function assertExtractStyleBlocks($html, $expect = true, $styles = array())
+    public function assertExtractStyleBlocks($html, $expect = true, $styles = [])
     {
         $filter = new HTMLPurifier_Filter_ExtractStyleBlocks(); // disable cleaning
-        if ($expect === true) $expect = $html;
+        if ($expect === true) {
+            $expect = $html;
+        }
         $this->config->set('Filter.ExtractStyleBlocks.TidyImpl', false);
         $result = $filter->preFilter($html, $this->config, $this->context);
         $this->assertIdentical($result, $expect);
@@ -38,40 +42,42 @@ class HTMLPurifier_Filter_ExtractStyleBlocksTest extends HTMLPurifier_Harness
 
     public function test_extractStyleBlocks_allStyle()
     {
-        $this->assertExtractStyleBlocks('<style>foo</style>', '', array('foo'));
+        $this->assertExtractStyleBlocks('<style>foo</style>', '', ['foo']);
     }
 
     public function test_extractStyleBlocks_multipleBlocks()
     {
         $this->assertExtractStyleBlocks(
-          "<style>1</style><style>2</style>NOP<style>4</style>",
-          "NOP",
-          array('1', '2', '4')
+            '<style>1</style><style>2</style>NOP<style>4</style>',
+            'NOP',
+            ['1', '2', '4']
         );
     }
 
     public function test_extractStyleBlocks_blockWithAttributes()
     {
         $this->assertExtractStyleBlocks(
-          '<style type="text/css">css</style>',
-          '',
-          array('css')
+            '<style type="text/css">css</style>',
+            '',
+            ['css']
         );
     }
 
     public function test_extractStyleBlocks_styleWithPadding()
     {
         $this->assertExtractStyleBlocks(
-          "Alas<styled>Awesome</styled>\n<style>foo</style> Trendy!",
-          "Alas<styled>Awesome</styled>\n Trendy!",
-          array('foo')
+            "Alas<styled>Awesome</styled>\n<style>foo</style> Trendy!",
+            "Alas<styled>Awesome</styled>\n Trendy!",
+            ['foo']
         );
     }
 
     public function assertCleanCSS($input, $expect = true)
     {
         $filter = new HTMLPurifier_Filter_ExtractStyleBlocks();
-        if ($expect === true) $expect = $input;
+        if ($expect === true) {
+            $expect = $input;
+        }
         $this->normalize($input);
         $this->normalize($expect);
         $result = $filter->cleanCSS($input, $this->config, $this->context);
@@ -117,7 +123,7 @@ class HTMLPurifier_Filter_ExtractStyleBlocksTest extends HTMLPurifier_Harness
 
     public function test_cleanCSS_bogus()
     {
-        $this->assertCleanCSS("div {bogus:tree}", "div {\n}");
+        $this->assertCleanCSS('div {bogus:tree}', "div {\n}");
     }
 
     /* [CONTENT]
@@ -189,86 +195,85 @@ class HTMLPurifier_Filter_ExtractStyleBlocksTest extends HTMLPurifier_Harness
     {
         $this->config->set('Filter.ExtractStyleBlocks.Scope', 'p');
         $this->assertCleanCSS(
-"div {
+            'div {
 text-align:right
 }
 
 p div {
 text-align:left
-}",
-
-"p div {
+}',
+            'p div {
 text-align:right
 }
 
 p p div {
 text-align:left
-}"
+}'
         );
     }
 
     public function test_removeComments()
     {
         $this->assertCleanCSS(
-"<!--
+            '<!--
 div {
 text-align:right
 }
--->",
-"div {
+-->',
+            'div {
 text-align:right
-}"
+}'
         );
     }
 
     public function test_keepImportantComments()
     {
         $this->assertCleanCSS(
-            "/*! Important */
+            '/*! Important */
 div {
 text-align:right /*! Important2 */
-}",
-            "div {
+}',
+            'div {
 text-align:right
-}"
+}'
         );
     }
 
     public function test_atSelector()
     {
         $this->assertCleanCSS(
-"{
+            '{
     b { text-align: center }
-}",
-""
-            );
+}',
+            ''
+        );
     }
 
     public function test_selectorValidation()
     {
         $this->assertCleanCSS(
-"&, & {
+            '&, & {
 text-align: center
-}",
-""
+}',
+            ''
         );
         $this->assertCleanCSS(
-"&, b {
+            '&, b {
 text-align:center
-}",
-"b {
+}',
+            'b {
 text-align:center
-}"
+}'
         );
         $this->assertCleanCSS(
-"& a #foo:hover.bar   +b > i {
+            '& a #foo:hover.bar   +b > i {
 text-align:center
-}",
-"a #foo:hover.bar + b \\3E  i {
+}',
+            'a #foo:hover.bar + b \\3E  i {
 text-align:center
-}"
+}'
         );
-        $this->assertCleanCSS("doesnt-exist { text-align:center }", "");
+        $this->assertCleanCSS('doesnt-exist { text-align:center }', '');
     }
 
     public function test_cleanCSS_caseSensitive()
@@ -278,8 +283,8 @@ text-align:center
 
     public function test_extractStyleBlocks_backtracking()
     {
-        $goo = str_repeat("a", 1000000); // 1M to trigger, sometimes it's less!
-        $this->assertExtractStyleBlocks("<style></style>" . $goo, $goo, array(''));
+        $goo = str_repeat('a', 1000000); // 1M to trigger, sometimes it's less!
+        $this->assertExtractStyleBlocks('<style></style>' . $goo, $goo, ['']);
     }
 
 }

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCache
 {
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config
@@ -288,9 +289,9 @@ class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCac
             } elseif (filegroup($dir) === posix_getgid()) {
                 $chmod = $chmod | 0070;
             } else {
-              // PHP's probably running as nobody, it is
-              // not obvious how to fix this (777 is probably
-              // bad if you are multi-user), let the user figure it out
+                // PHP's probably running as nobody, it is
+                // not obvious how to fix this (777 is probably
+                // bad if you are multi-user), let the user figure it out
                 $chmod = null;
             }
             trigger_error(

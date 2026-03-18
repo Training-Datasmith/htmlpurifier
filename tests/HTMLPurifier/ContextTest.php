@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 // mocks
 class HTMLPurifier_ContextTest extends HTMLPurifier_Harness
 {
-
     protected $context;
 
     public function setUp()
@@ -21,14 +22,14 @@ class HTMLPurifier_ContextTest extends HTMLPurifier_Harness
         $this->context->register('IDAccumulator', $accumulator);
         $this->assertTrue($this->context->exists('IDAccumulator'));
 
-        $accumulator_2 =& $this->context->get('IDAccumulator');
+        $accumulator_2 = & $this->context->get('IDAccumulator');
         $this->assertReference($accumulator, $accumulator_2);
 
         $this->context->destroy('IDAccumulator');
         $this->assertFalse($this->context->exists('IDAccumulator'));
 
         $this->expectException(new Exception('Attempted to retrieve non-existent variable IDAccumulator'));
-        $accumulator_3 =& $this->context->get('IDAccumulator');
+        $accumulator_3 = & $this->context->get('IDAccumulator');
         $this->assertNull($accumulator_3);
 
         $this->expectException(new Exception('Attempted to destroy non-existent variable IDAccumulator'));
@@ -65,10 +66,10 @@ class HTMLPurifier_ContextTest extends HTMLPurifier_Harness
 
         // you MUST set up the references when constructing the array,
         // otherwise the registered version will be a copy
-        $array = array(
+        $array = [
             'var1' => &$var1,
-            'var2' => &$var2
-        );
+            'var2' => &$var2,
+        ];
 
         $context_load->loadArray($array);
         $this->assertIdentical($context_manual, $context_load);
@@ -80,9 +81,10 @@ class HTMLPurifier_ContextTest extends HTMLPurifier_Harness
 
     }
 
-    public function testNull() {
+    public function testNull()
+    {
         $context = new HTMLPurifier_Context();
-        $var = NULL;
+        $var = null;
         $context->register('var', $var);
         $this->assertNull($context->get('var'));
         $context->destroy('var');

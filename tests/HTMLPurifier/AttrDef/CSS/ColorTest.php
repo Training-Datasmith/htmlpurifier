@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_CSS_ColorTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $this->def = new HTMLPurifier_AttrDef_CSS_Color();

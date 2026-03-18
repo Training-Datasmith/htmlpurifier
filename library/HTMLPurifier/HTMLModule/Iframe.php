@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Iframe Module provides inline frames.
  *
@@ -9,7 +11,6 @@
  */
 class HTMLPurifier_HTMLModule_Iframe extends HTMLPurifier_HTMLModule
 {
-
     /**
      * @type string
      */

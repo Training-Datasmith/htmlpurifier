@@ -11,15 +11,15 @@ function phorum_htmlpurifier_show_form()
 
     $config = phorum_htmlpurifier_get_config();
 
-    $frm = new PhorumInputForm ("", "post", "Save");
-    $frm->hidden("module", "modsettings");
-    $frm->hidden("mod", "htmlpurifier"); // this is the directory name that the Settings file lives in
+    $frm = new PhorumInputForm('', 'post', 'Save');
+    $frm->hidden('module', 'modsettings');
+    $frm->hidden('mod', 'htmlpurifier'); // this is the directory name that the Settings file lives in
 
-    if (!empty($error)){
+    if (!empty($error)) {
         echo "$error<br />";
     }
 
-    $frm->addbreak("Edit settings for the HTML Purifier module");
+    $frm->addbreak('Edit settings for the HTML Purifier module');
 
     $frm->addMessage('<p>The box below sets <code>$PHORUM[\'mod_htmlpurifier\'][\'wysiwyg\']</code>.
     When checked, contents sent for edit are now purified and the
@@ -44,13 +44,16 @@ function phorum_htmlpurifier_show_form()
     $htmlpurifier_form->setTextareaDimensions(23, 7); // widen a little, since we have space
 
     $frm->addMessage($htmlpurifier_form->render(
-        $config, $PHORUM['mod_htmlpurifier']['directives'], false));
+        $config,
+        $PHORUM['mod_htmlpurifier']['directives'],
+        false
+    ));
 
     $frm->addMessage("<strong>Warning: Changing HTML Purifier's configuration will invalidate
       the cache. Expect to see a flurry of database activity after you change
       any of these settings.</strong>");
 
-    $frm->addrow('Reset to defaults:', $frm->checkbox("reset", "1", "", false));
+    $frm->addrow('Reset to defaults:', $frm->checkbox('reset', '1', '', false));
 
     // hack to include extra styling
     echo '<style type="text/css">' . $htmlpurifier_form->getCSS() . '
@@ -70,7 +73,7 @@ function phorum_htmlpurifier_show_config_info()
     phorum_htmlpurifier_commit_settings();
 
     // politely tell user how to edit settings manually
-?>
+    ?>
         <div class="input-form-td-break">How to edit settings for HTML Purifier module</div>
         <p>
           A <tt>config.php</tt> file exists in your <tt>mods/htmlpurifier/</tt>

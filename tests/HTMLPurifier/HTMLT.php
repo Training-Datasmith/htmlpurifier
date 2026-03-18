@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLT extends HTMLPurifier_Harness
 {
     protected $path;
@@ -15,7 +17,9 @@ class HTMLPurifier_HTMLT extends HTMLPurifier_Harness
         $parser = new HTMLPurifier_StringHashParser();
         $hash = $parser->parseFile($this->path); // assume parser normalizes to "\n"
         if (isset($hash['SKIPIF'])) {
-            if (eval($hash['SKIPIF'])) return;
+            if (eval($hash['SKIPIF'])) {
+                return;
+            }
         }
         $this->config->set('Output.Newline', "\n");
         if (isset($hash['INI'])) {
@@ -31,7 +35,9 @@ class HTMLPurifier_HTMLT extends HTMLPurifier_Harness
             $this->expectError($hash['ERROR']);
         }
         $this->assertPurification(rtrim($hash['HTML']), rtrim($expect));
-        if (isset($hash['INI'])) unlink($ini_file);
+        if (isset($hash['INI'])) {
+            unlink($ini_file);
+        }
     }
 }
 

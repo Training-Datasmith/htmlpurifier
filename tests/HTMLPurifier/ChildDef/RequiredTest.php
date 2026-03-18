@@ -1,27 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_ChildDef_RequiredTest extends HTMLPurifier_ChildDefHarness
 {
-
     public function testPrepareString()
     {
         $def = new HTMLPurifier_ChildDef_Required('foobar | bang |gizmo');
-        $this->assertIdentical($def->elements,
-          array(
+        $this->assertIdentical(
+            $def->elements,
+            [
             'foobar' => true
            ,'bang'   => true
-           ,'gizmo'  => true
-          ));
+           ,'gizmo'  => true,
+          ]
+        );
     }
 
     public function testPrepareArray()
     {
-        $def = new HTMLPurifier_ChildDef_Required(array('href', 'src'));
-        $this->assertIdentical($def->elements,
-          array(
+        $def = new HTMLPurifier_ChildDef_Required(['href', 'src']);
+        $this->assertIdentical(
+            $def->elements,
+            [
             'href' => true
-           ,'src'  => true
-          ));
+           ,'src'  => true,
+          ]
+        );
     }
 
     public function setUp()
@@ -38,9 +43,10 @@ class HTMLPurifier_ChildDef_RequiredTest extends HTMLPurifier_ChildDefHarness
     public function testRemoveIllegalTagsAndElements()
     {
         $this->assertResult(
-          '<dt>Term</dt>Text in an illegal location'.
+            '<dt>Term</dt>Text in an illegal location'.
              '<dd>Definition</dd><b>Illegal tag</b>',
-          '<dt>Term</dt><dd>Definition</dd>');
+            '<dt>Term</dt><dd>Definition</dd>'
+        );
         $this->assertResult('How do you do!', false);
     }
 
@@ -53,8 +59,8 @@ class HTMLPurifier_ChildDef_RequiredTest extends HTMLPurifier_ChildDefHarness
     public function testPreserveWhitespaceAfterRemoval()
     {
         $this->assertResult(
-          '<dd>Definition</dd>       <b></b>       ',
-          '<dd>Definition</dd>              '
+            '<dd>Definition</dd>       <b></b>       ',
+            '<dd>Definition</dd>              '
         );
     }
 

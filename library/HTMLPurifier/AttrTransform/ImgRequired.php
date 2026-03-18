@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // must be called POST validation
 
 /**
@@ -10,7 +12,6 @@
  */
 class HTMLPurifier_AttrTransform_ImgRequired extends HTMLPurifier_AttrTransform
 {
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config

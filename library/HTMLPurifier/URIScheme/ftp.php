@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates ftp (File Transfer Protocol) URIs as defined by generic RFC 1738.
  */

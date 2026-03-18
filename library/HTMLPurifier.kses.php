@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Emulation layer for code that used kses(), substituting in HTML Purifier.

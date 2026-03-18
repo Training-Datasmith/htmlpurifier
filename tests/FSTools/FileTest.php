@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require_once 'FSTools/FileSystemHarness.php';
 
 /**
@@ -7,7 +9,6 @@ require_once 'FSTools/FileSystemHarness.php';
  */
 class FSTools_FileTest extends FSTools_FileSystemHarness
 {
-
     public function test()
     {
         $name = 'test.txt';

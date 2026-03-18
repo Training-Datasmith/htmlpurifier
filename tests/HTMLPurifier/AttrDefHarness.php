@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDefHarness extends HTMLPurifier_Harness
 {
-
     protected $def;
-    protected $context, $config;
+    protected $context;
+    protected $config;
 
     public function setUp()
     {

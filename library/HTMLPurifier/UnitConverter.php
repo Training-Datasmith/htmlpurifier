@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class for converting between different unit-lengths as specified by
  * CSS.
  */
 class HTMLPurifier_UnitConverter
 {
-
-    const ENGLISH = 1;
-    const METRIC = 2;
-    const DIGITAL = 3;
+    public const ENGLISH = 1;
+    public const METRIC = 2;
+    public const DIGITAL = 3;
 
     /**
      * Units information array. Units are grouped into measuring systems

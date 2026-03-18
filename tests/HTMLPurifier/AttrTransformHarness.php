@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransformHarness extends HTMLPurifier_ComplexHarness
 {
-
     public function setUp()
     {
         parent::setUp();

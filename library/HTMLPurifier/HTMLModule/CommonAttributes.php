@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_CommonAttributes extends HTMLPurifier_HTMLModule
 {
     /**
@@ -24,8 +26,8 @@ class HTMLPurifier_HTMLModule_CommonAttributes extends HTMLPurifier_HTMLModule
             0 => ['Lang'], // proprietary, for xml:lang/lang
         ],
         'Common' => [
-            0 => ['Core', 'I18N']
-        ]
+            0 => ['Core', 'I18N'],
+        ],
     ];
 }
 

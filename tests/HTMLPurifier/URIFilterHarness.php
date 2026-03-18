@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_URIFilterHarness extends HTMLPurifier_URIHarness
 {
-
     /**
      * @type HTMLPurifier_URIFilter
      */

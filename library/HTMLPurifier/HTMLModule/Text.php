@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Text Module, defines basic text containers. Core Module.
  * @note In the normative XML Schema specification, this module
@@ -23,7 +25,7 @@ class HTMLPurifier_HTMLModule_Text extends HTMLPurifier_HTMLModule
      * @type array
      */
     public $content_sets = [
-        'Flow' => 'Heading | Block | Inline'
+        'Flow' => 'Heading | Block | Inline',
     ];
 
     /**
@@ -77,7 +79,7 @@ class HTMLPurifier_HTMLModule_Text extends HTMLPurifier_HTMLModule
         // Block Structural -----------------------------------------------
         $p = $this->addElement('p', 'Block', 'Inline', 'Common');
         $p->autoclose = array_flip(
-            ["address", "blockquote", "center", "dir", "div", "dl", "fieldset", "ol", "p", "ul"]
+            ['address', 'blockquote', 'center', 'dir', 'div', 'dl', 'fieldset', 'ol', 'p', 'ul']
         );
 
         $this->addElement('div', 'Block', 'Flow', 'Common');

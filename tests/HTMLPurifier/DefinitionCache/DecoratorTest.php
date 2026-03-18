@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionCache_DecoratorTest extends HTMLPurifier_DefinitionCacheHarness
 {
-
     public function test()
     {
         generate_mock_once('HTMLPurifier_DefinitionCache');
@@ -17,22 +18,22 @@ class HTMLPurifier_DefinitionCache_DecoratorTest extends HTMLPurifier_Definition
         $def = $this->generateDefinition();
         $config = $this->generateConfigMock();
 
-        $mock->expectOnce('add', array($def, $config));
+        $mock->expectOnce('add', [$def, $config]);
         $cache->add($def, $config);
 
-        $mock->expectOnce('set', array($def, $config));
+        $mock->expectOnce('set', [$def, $config]);
         $cache->set($def, $config);
 
-        $mock->expectOnce('replace', array($def, $config));
+        $mock->expectOnce('replace', [$def, $config]);
         $cache->replace($def, $config);
 
-        $mock->expectOnce('get', array($config));
+        $mock->expectOnce('get', [$config]);
         $cache->get($config);
 
-        $mock->expectOnce('flush', array($config));
+        $mock->expectOnce('flush', [$config]);
         $cache->flush($config);
 
-        $mock->expectOnce('cleanup', array($config));
+        $mock->expectOnce('cleanup', [$config]);
         $cache->cleanup($config);
 
     }

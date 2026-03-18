@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 generate_mock_once('HTMLPurifier_DefinitionCache');
 
 class HTMLPurifier_DefinitionCache_Decorator_CleanupTest extends HTMLPurifier_DefinitionCache_DecoratorHarness
 {
-
     public function setup()
     {
         $this->cache = new HTMLPurifier_DefinitionCache_Decorator_Cleanup();
@@ -13,31 +14,31 @@ class HTMLPurifier_DefinitionCache_Decorator_CleanupTest extends HTMLPurifier_De
 
     public function setupMockForSuccess($op)
     {
-        $this->mock->expectOnce($op, array($this->def, $this->config));
-        $this->mock->returns($op, true, array($this->def, $this->config));
+        $this->mock->expectOnce($op, [$this->def, $this->config]);
+        $this->mock->returns($op, true, [$this->def, $this->config]);
         $this->mock->expectNever('cleanup');
     }
 
     public function setupMockForFailure($op)
     {
-        $this->mock->expectOnce($op, array($this->def, $this->config));
-        $this->mock->returns($op, false, array($this->def, $this->config));
-        $this->mock->expectOnce('cleanup', array($this->config));
+        $this->mock->expectOnce($op, [$this->def, $this->config]);
+        $this->mock->returns($op, false, [$this->def, $this->config]);
+        $this->mock->expectOnce('cleanup', [$this->config]);
     }
 
     public function test_get()
     {
-        $this->mock->expectOnce('get', array($this->config));
-        $this->mock->returns('get', true, array($this->config));
+        $this->mock->expectOnce('get', [$this->config]);
+        $this->mock->returns('get', true, [$this->config]);
         $this->mock->expectNever('cleanup');
         $this->assertEqual($this->cache->get($this->config), $this->def);
     }
 
     public function test_get_failure()
     {
-        $this->mock->expectOnce('get', array($this->config));
-        $this->mock->returns('get', false, array($this->config));
-        $this->mock->expectOnce('cleanup', array($this->config));
+        $this->mock->expectOnce('get', [$this->config]);
+        $this->mock->returns('get', false, [$this->config]);
+        $this->mock->expectOnce('cleanup', [$this->config]);
         $this->assertEqual($this->cache->get($this->config), false);
     }
 

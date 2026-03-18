@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates an integer representation of pixels according to the HTML spec.
  */
 class HTMLPurifier_AttrDef_HTML_Pixels extends HTMLPurifier_AttrDef
 {
-
     /**
      * @type int
      */

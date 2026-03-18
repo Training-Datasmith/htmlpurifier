@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Lexer_DirectLex_ErrorsTest extends HTMLPurifier_ErrorsHarness
 {
-
     public function invoke($input)
     {
         $lexer = new HTMLPurifier_Lexer_DirectLex();

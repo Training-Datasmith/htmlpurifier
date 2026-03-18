@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Parser that uses PHP 5's DOM extension (part of the core).
  *
@@ -26,7 +28,6 @@
 
 class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
 {
-
     /**
      * @type HTMLPurifier_TokenFactory
      */
@@ -169,7 +170,6 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
         return null;
     }
 
-
     /**
      * @param DOMNode $node DOMNode to be tokenized.
      * @param HTMLPurifier_Token[] $tokens   Array-list of already tokenized tokens.
@@ -188,7 +188,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
             $data = $this->getData($node);
             // Handle variable data property
             if ($data !== null) {
-              $tokens[] = $this->factory->createText($data);
+                $tokens[] = $this->factory->createText($data);
             }
             return false;
         }
@@ -345,9 +345,13 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
         $ret .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         // No protection if $html contains a stray </div>!
         $ret .= '</head><body>';
-        if ($use_div) $ret .= '<div>';
+        if ($use_div) {
+            $ret .= '<div>';
+        }
         $ret .= $html;
-        if ($use_div) $ret .= '</div>';
+        if ($use_div) {
+            $ret .= '</div>';
+        }
         return $ret . '</body></html>';
     }
 

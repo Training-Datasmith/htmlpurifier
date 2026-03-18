@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCache
 {
-
     /**
      * Cache object we are decorating
      * @type HTMLPurifier_DefinitionCache
@@ -28,7 +29,7 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         $decorator = $this->copy();
         // reference is necessary for mocks in PHP 4
-        $decorator->cache =& $cache;
+        $decorator->cache = & $cache;
         $decorator->type = $cache->type;
         return $decorator;
     }

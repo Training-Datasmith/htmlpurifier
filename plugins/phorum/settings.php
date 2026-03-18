@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // based off of BBCode's settings file
 
 /**
@@ -9,19 +11,21 @@
  * by creating a 'config.php' file.
  */
 
-if(!defined("PHORUM_ADMIN")) exit;
+if (!defined('PHORUM_ADMIN')) {
+    exit;
+}
 
 // error reporting is good!
 error_reporting(E_ALL ^ E_NOTICE);
 
 // load library and other paraphernalia
 require_once './include/admin/PhorumInputForm.php';
-require_once (__DIR__ . '/htmlpurifier/HTMLPurifier.auto.php');
-require_once (__DIR__ . '/init-config.php');
-require_once (__DIR__ . '/settings/migrate-sigs-form.php');
-require_once (__DIR__ . '/settings/migrate-sigs.php');
-require_once (__DIR__ . '/settings/form.php');
-require_once (__DIR__ . '/settings/save.php');
+require_once(__DIR__ . '/htmlpurifier/HTMLPurifier.auto.php');
+require_once(__DIR__ . '/init-config.php');
+require_once(__DIR__ . '/settings/migrate-sigs-form.php');
+require_once(__DIR__ . '/settings/migrate-sigs.php');
+require_once(__DIR__ . '/settings/form.php');
+require_once(__DIR__ . '/settings/save.php');
 
 // define friendly configuration directives. you can expand this array
 // to get more web-definable directives
@@ -52,7 +56,7 @@ if (isset($_POST['reset'])) {
 if ($offset = phorum_htmlpurifier_migrate_sigs_check()) {
     // migrate signatures
     phorum_htmlpurifier_migrate_sigs($offset);
-} elseif(!empty($_POST)){
+} elseif (!empty($_POST)) {
     // save settings
     phorum_htmlpurifier_save_settings();
 }

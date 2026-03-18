@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_HTML_FrameTargetTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function setup()
     {
         parent::setup();

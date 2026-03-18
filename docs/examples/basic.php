@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // This file demonstrates basic usage of HTMLPurifier.
 
 // replace this with the path to the HTML Purifier library

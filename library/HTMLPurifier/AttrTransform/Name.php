@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Pre-transform that changes deprecated name attribute to ID if necessary
  */
 class HTMLPurifier_AttrTransform_Name extends HTMLPurifier_AttrTransform
 {
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config

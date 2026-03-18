@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 // OUT OF DATE, NEEDS UPDATING!
 // USE XMLWRITER!
 
 class HTMLPurifier_Printer
 {
-
     /**
      * For HTML generation convenience funcs.
      * @type HTMLPurifier_Generator

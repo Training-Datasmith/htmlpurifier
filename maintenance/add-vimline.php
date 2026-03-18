@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
 chdir(__DIR__);
 require_once 'common.php';
 assertCli();
@@ -102,9 +104,15 @@ foreach ($files as $file) {
         postfix_is('TODO', $file) ||
         postfix_is('WYSIWYG', $file) ||
         postfix_is('Changelog', $file)
-    ) $ext = '.txt';
-    if (postfix_is('Doxyfile', $file)) $ext = 'Doxyfile';
-    if (postfix_is('.php.in', $file)) $ext = '.php';
+    ) {
+        $ext = '.txt';
+    }
+    if (postfix_is('Doxyfile', $file)) {
+        $ext = 'Doxyfile';
+    }
+    if (postfix_is('.php.in', $file)) {
+        $ext = '.php';
+    }
     $no_nl = false;
     switch ($ext) {
         case '.php':
@@ -159,12 +167,19 @@ foreach ($files as $file) {
 
     $contents = rtrim($contents);
 
-    if (strpos($contents, "\r\n") !== false) $nl = "\r\n";
-    elseif (strpos($contents, "\n") !== false) $nl = "\n";
-    elseif (strpos($contents, "\r") !== false) $nl = "\r";
-    else $nl = PHP_EOL;
+    if (strpos($contents, "\r\n") !== false) {
+        $nl = "\r\n";
+    } elseif (strpos($contents, "\n") !== false) {
+        $nl = "\n";
+    } elseif (strpos($contents, "\r") !== false) {
+        $nl = "\r";
+    } else {
+        $nl = PHP_EOL;
+    }
 
-    if (!$no_nl) $contents .= $nl;
+    if (!$no_nl) {
+        $contents .= $nl;
+    }
     $contents .= $nl . str_replace('%s', $vimline, $line) . $nl;
 
     file_put_contents($file, $contents);

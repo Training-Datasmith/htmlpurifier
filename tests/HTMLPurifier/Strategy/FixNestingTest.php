@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Strategy_FixNestingTest extends HTMLPurifier_StrategyHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -61,31 +62,31 @@ class HTMLPurifier_Strategy_FixNestingTest extends HTMLPurifier_StrategyHarness
     public function testChameleonRemoveBlockInNodeInInline()
     {
         $this->assertResult(
-          '<span><ins><div>Not allowed!</div></ins></span>',
-          '<span><ins>Not allowed!</ins></span>'
+            '<span><ins><div>Not allowed!</div></ins></span>',
+            '<span><ins>Not allowed!</ins></span>'
         );
     }
 
     public function testChameleonRemoveBlockInBlockNodeWithInlineContent()
     {
         $this->assertResult(
-          '<h1><ins><div>Not allowed!</div></ins></h1>',
-          '<h1><ins>Not allowed!</ins></h1>'
+            '<h1><ins><div>Not allowed!</div></ins></h1>',
+            '<h1><ins>Not allowed!</ins></h1>'
         );
     }
 
     public function testNestedChameleonRemoveBlockInNodeWithInlineContent()
     {
         $this->assertResult(
-          '<h1><ins><del><div>Not allowed!</div></del></ins></h1>',
-          '<h1><ins><del>Not allowed!</del></ins></h1>'
+            '<h1><ins><del><div>Not allowed!</div></del></ins></h1>',
+            '<h1><ins><del>Not allowed!</del></ins></h1>'
         );
     }
 
     public function testNestedChameleonPreserveBlockInBlock()
     {
         $this->assertResult(
-          '<div><ins><del><div>Allowed!</div></del></ins></div>'
+            '<div><ins><del><div>Allowed!</div></del></ins></div>'
         );
     }
 
@@ -93,8 +94,8 @@ class HTMLPurifier_Strategy_FixNestingTest extends HTMLPurifier_StrategyHarness
     {
         // test exclusions
         $this->assertResult(
-          '<a><span><a>Not allowed</a></span></a>',
-          '<a><span></span></a>'
+            '<a><span><a>Not allowed</a></span></a>',
+            '<a><span></span></a>'
         );
     }
 
@@ -108,10 +109,10 @@ class HTMLPurifier_Strategy_FixNestingTest extends HTMLPurifier_StrategyHarness
     {
         $this->config->set('HTML.Parent', 'span');
         $this->assertResult('<div>Reject</div>', 'Reject');
-   }
+    }
 
-   public function testInvalidParentError()
-   {
+    public function testInvalidParentError()
+    {
         // test fallback to div
         $this->config->set('HTML.Parent', 'obviously-impossible');
         $this->config->set('Cache.DefinitionImpl', null);

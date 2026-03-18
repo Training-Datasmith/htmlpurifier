@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_ChildDef_OptionalTest extends HTMLPurifier_ChildDefHarness
 {
-
     public function setUp()
     {
         parent::setUp();

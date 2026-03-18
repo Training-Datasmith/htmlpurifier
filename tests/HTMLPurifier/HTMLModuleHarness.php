@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModuleHarness extends HTMLPurifier_StrategyHarness
 {
     public function setup()

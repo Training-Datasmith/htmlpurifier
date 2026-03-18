@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Transforms FONT tags to the proper form (SPAN with CSS styling)
  *
@@ -39,7 +41,7 @@ class HTMLPurifier_TagTransform_Font extends HTMLPurifier_TagTransform
         '+1' => 'larger',
         '+2' => '150%',
         '+3' => '200%',
-        '+4' => '300%'
+        '+4' => '300%',
     ];
 
     /**

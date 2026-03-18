@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Microsoft's proprietary filter: CSS property
  * @note Currently supports the alpha filter. In the future, this will

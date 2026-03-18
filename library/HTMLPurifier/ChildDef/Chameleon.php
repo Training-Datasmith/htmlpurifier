@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Definition that uses different definitions depending on context.
  *
@@ -11,7 +13,6 @@
  */
 class HTMLPurifier_ChildDef_Chameleon extends HTMLPurifier_ChildDef
 {
-
     /**
      * Instance of the definition object to use when inline. Usually stricter.
      * @type HTMLPurifier_ChildDef_Optional

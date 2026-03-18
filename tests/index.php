@@ -44,7 +44,7 @@ $php = 'php'; // for safety
 ini_set('memory_limit', '64M');
 
 require 'common.php';
-$AC = array(); // parameters
+$AC = []; // parameters
 $AC['flush'] = false;
 $AC['standalone'] = false;
 $AC['file'] = '';
@@ -59,18 +59,18 @@ $AC['type'] = '';
 $AC['disable-phpt'] = false;
 $AC['only-phpt'] = false; // alias for --type=phpt
 
-$aliases = array(
+$aliases = [
     'f' => 'file',
     'h' => 'help',
     'v' => 'verbose',
-);
+];
 
 // It's important that this does not call the autoloader. Not a problem
 // with a function, but could be if we put this in a class.
 htmlpurifier_parse_args($AC, $aliases);
 
 if ($AC['help']) {
-?>HTML Purifier test suite
+    ?>HTML Purifier test suite
 Allowed options:
     --flush
     --standalone
@@ -83,7 +83,7 @@ Allowed options:
     --disable-phpt
     --verbose (-v)
 <?php
-    exit;
+        exit;
 }
 
 // Disable PHPT tests if they're not enabled
@@ -121,10 +121,14 @@ if ($GLOBALS['HTMLPurifierTest']['PEAR']) {
 // Shell-script code is executed
 
 if ($AC['xml']) {
-    if (!SimpleReporter::inCli()) header('Content-Type: text/xml;charset=UTF-8');
+    if (!SimpleReporter::inCli()) {
+        header('Content-Type: text/xml;charset=UTF-8');
+    }
     $reporter = new XmlReporter();
 } elseif (SimpleReporter::inCli() || $AC['txt']) {
-    if (!SimpleReporter::inCli()) header('Content-Type: text/plain;charset=UTF-8');
+    if (!SimpleReporter::inCli()) {
+        header('Content-Type: text/plain;charset=UTF-8');
+    }
     $reporter = new HTMLPurifier_SimpleTest_TextReporter($AC);
 } else {
     $reporter = new HTMLPurifier_SimpleTest_Reporter('UTF-8', $AC);
@@ -155,7 +159,9 @@ foreach ($test_dirs as $dir) {
     $raw_files = $FS->globr($dir, '*Test.php');
     foreach ($raw_files as $file) {
         $file = str_replace('\\', '/', $file);
-        if (isset($test_dirs_exclude[$file])) continue;
+        if (isset($test_dirs_exclude[$file])) {
+            continue;
+        }
         $test_files[] = $file;
     }
 }
@@ -205,7 +211,9 @@ if ($AC['file']) {
 } else {
 
     $standalone = '';
-    if ($AC['standalone']) $standalone = ' (standalone)';
+    if ($AC['standalone']) {
+        $standalone = ' (standalone)';
+    }
     $test = new TestSuite('All HTML Purifier tests on PHP ' . PHP_VERSION . $standalone);
     foreach ($test_files as $test_file) {
         htmlpurifier_add_test($test, $test_file);
@@ -213,7 +221,9 @@ if ($AC['file']) {
 
 }
 
-if ($AC['dry']) $reporter->makeDry();
+if ($AC['dry']) {
+    $reporter->makeDry();
+}
 
 $result = $test->run($reporter);
 

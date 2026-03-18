@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_DefinitionCacheHarness
 {
-
     public function test()
     {
         // XXX SimpleTest does some really crazy stuff in the background
@@ -14,7 +15,7 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
         $cache = new HTMLPurifier_DefinitionCache_Serializer('Test');
 
         $config = $this->generateConfigMock('serial');
-        $config->returns('get', 2, array('Test.DefinitionRev'));
+        $config->returns('get', 2, ['Test.DefinitionRev']);
         $config->version = '1.0.0';
 
         $config_md5   = '1.0.0,serial,2';
@@ -23,7 +24,9 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
             $rel_file = HTMLPURIFIER_PREFIX . '/HTMLPurifier/DefinitionCache/Serializer/Test/' .
             $config_md5 . '.ser'
         );
-        if($file && file_exists($file)) unlink($file); // prevent previous failures from causing problems
+        if ($file && file_exists($file)) {
+            unlink($file);
+        } // prevent previous failures from causing problems
 
         $this->assertIdentical($config_md5, $cache->generateKey($config));
 
@@ -93,9 +96,9 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
         $config2 = $this->generateConfigMock('test2');
         $config3 = $this->generateConfigMock('test3');
 
-        $def1 = $this->generateDefinition(array('info_candles' => 1));
-        $def2 = $this->generateDefinition(array('info_candles' => 2));
-        $def3 = $this->generateDefinition(array('info_candles' => 3));
+        $def1 = $this->generateDefinition(['info_candles' => 1]);
+        $def2 = $this->generateDefinition(['info_candles' => 2]);
+        $def3 = $this->generateDefinition(['info_candles' => 3]);
 
         $cache->add($def1, $config1);
         $cache->add($def2, $config2);
@@ -123,13 +126,13 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
 
         $config1 = $this->generateConfigMock();
         $config1->version = '0.9.0';
-        $config1->returns('get', 574, array('Test.DefinitionRev'));
-        $def1 = $this->generateDefinition(array('info' => 1));
+        $config1->returns('get', 574, ['Test.DefinitionRev']);
+        $def1 = $this->generateDefinition(['info' => 1]);
 
         $config2 = $this->generateConfigMock();
         $config2->version = '1.0.0beta';
-        $config2->returns('get', 1, array('Test.DefinitionRev'));
-        $def2 = $this->generateDefinition(array('info' => 3));
+        $config2->returns('get', 1, ['Test.DefinitionRev']);
+        $def2 = $this->generateDefinition(['info' => 3]);
 
         $cache->set($def1, $config1);
         $cache->cleanup($config1);
@@ -147,13 +150,13 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
 
         $config1 = $this->generateConfigMock('serial1');
         $config1->version = '1.0.0';
-        $config1->returns('get', 1, array('Test.DefinitionRev'));
-        $def1 = $this->generateDefinition(array('info' => 1));
+        $config1->returns('get', 1, ['Test.DefinitionRev']);
+        $def1 = $this->generateDefinition(['info' => 1]);
 
         $config2 = $this->generateConfigMock('serial2');
         $config2->version = '1.0.0';
-        $config2->returns('get', 34, array('Test.DefinitionRev'));
-        $def2 = $this->generateDefinition(array('info' => 3));
+        $config2->returns('get', 34, ['Test.DefinitionRev']);
+        $def2 = $this->generateDefinition(['info' => 3]);
 
         $cache->set($def1, $config1);
         $cache->cleanup($config1);
@@ -190,16 +193,16 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
         $cache = new HTMLPurifier_DefinitionCache_Serializer('Test');
         $config = $this->generateConfigMock('serial');
         $config->version = '1.0.0';
-        $config->returns('get', 1, array('Test.DefinitionRev'));
+        $config->returns('get', 1, ['Test.DefinitionRev']);
         $dir = dirname(__FILE__) . '/SerializerTest';
-        $config->returns('get', $dir, array('Cache.SerializerPath'));
+        $config->returns('get', $dir, ['Cache.SerializerPath']);
 
         $def_original = $this->generateDefinition();
         $cache->add($def_original, $config);
         $this->assertFileExist($dir . '/Test/1.0.0,serial,1.ser');
 
         unlink($dir . '/Test/1.0.0,serial,1.ser');
-        rmdir( $dir . '/Test');
+        rmdir($dir . '/Test');
 
     }
 
@@ -208,10 +211,10 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
         $cache = new HTMLPurifier_DefinitionCache_Serializer('Test');
         $config = $this->generateConfigMock('serial');
         $config->version = '1.0.0';
-        $config->returns('get', 1, array('Test.DefinitionRev'));
+        $config->returns('get', 1, ['Test.DefinitionRev']);
         $dir = dirname(__FILE__) . '/SerializerTest';
-        $config->returns('get', $dir, array('Cache.SerializerPath'));
-        $config->returns('get', 0700, array('Cache.SerializerPermissions'));
+        $config->returns('get', $dir, ['Cache.SerializerPath']);
+        $config->returns('get', 0700, ['Cache.SerializerPermissions']);
 
         $def_original = $this->generateDefinition();
         $cache->add($def_original, $config);
@@ -221,7 +224,7 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
         $this->assertEqual(0700, 0777 & fileperms($dir . '/Test'));
 
         unlink($dir . '/Test/1.0.0,serial,1.ser');
-        rmdir( $dir . '/Test');
+        rmdir($dir . '/Test');
 
     }
 
@@ -231,10 +234,10 @@ class HTMLPurifier_DefinitionCache_SerializerTest extends HTMLPurifier_Definitio
 
         $config = $this->generateConfigMock('serial');
         $config->version = '1.0.0';
-        $config->returns('get', 1, array('Test.DefinitionRev'));
+        $config->returns('get', 1, ['Test.DefinitionRev']);
         $dir = dirname(__FILE__) . '/SerializerTest';
-        $config->returns('get', $dir, array('Cache.SerializerPath'));
-        $config->returns('get', 0400, array('Cache.SerializerPermissions'));
+        $config->returns('get', $dir, ['Cache.SerializerPath']);
+        $config->returns('get', 0400, ['Cache.SerializerPermissions']);
 
         $cache->cleanup($config);
     }

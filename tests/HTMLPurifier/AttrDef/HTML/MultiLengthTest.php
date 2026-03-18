@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_HTML_MultiLengthTest extends HTMLPurifier_AttrDef_HTML_LengthTest
 {
-
     public function setup()
     {
         $this->def = new HTMLPurifier_AttrDef_HTML_MultiLength();

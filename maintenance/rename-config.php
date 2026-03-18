@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
 chdir(__DIR__);
 require_once 'common.php';
 require_once '../library/HTMLPurifier.auto.php';
@@ -60,7 +62,9 @@ $contents = str_replace($old, $new, $contents);
 if ($interchange->directives[$old]->aliases) {
     $pos_alias = strpos($contents, 'ALIASES:');
     $pos_ins = strpos($contents, $nl, $pos_alias);
-    if ($pos_ins === false) $pos_ins = strlen($contents);
+    if ($pos_ins === false) {
+        $pos_ins = strlen($contents);
+    }
     $contents =
         substr($contents, 0, $pos_ins) . ", $old" . substr($contents, $pos_ins);
     file_put_contents($file, $contents);

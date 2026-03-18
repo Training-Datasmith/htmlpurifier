@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*! @mainpage
  *
  * HTML Purifier is an HTML filter that will take an arbitrary snippet of
@@ -53,7 +55,6 @@
  */
 class HTMLPurifier
 {
-
     /**
      * Version of HTML Purifier.
      * @type string
@@ -63,7 +64,7 @@ class HTMLPurifier
     /**
      * Constant with version of HTML Purifier.
      */
-    const VERSION = '4.19.0';
+    public const VERSION = '4.19.0';
 
     /**
      * Global configuration object.
@@ -189,7 +190,7 @@ class HTMLPurifier
                 continue;
             }
             $class = "HTMLPurifier_Filter_$filter";
-            $filters[] = new $class;
+            $filters[] = new $class();
         }
         foreach ($custom_filters as $filter) {
             // maybe "HTMLPurifier_Filter_$filter", but be consistent with AutoFormat
@@ -224,7 +225,7 @@ class HTMLPurifier
         }
 
         $html = HTMLPurifier_Encoder::convertFromUTF8($html, $config, $context);
-        $this->context =& $context;
+        $this->context = & $context;
         return $html;
     }
 
@@ -241,7 +242,7 @@ class HTMLPurifier
     {
         $context_array = [];
         $array = [];
-        foreach($array_of_html as $key=>$value){
+        foreach ($array_of_html as $key => $value) {
             if (is_array($value)) {
                 $array[$key] = $this->purifyArray($value, $config);
             } else {

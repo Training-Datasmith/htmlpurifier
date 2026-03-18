@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 // needs to be separated into files
 class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
 {
-
     /**
      * Asserts that a transformation happens
      *
@@ -30,11 +31,16 @@ class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
      * @param $config_array     Configuration array for HTMLPurifier_Config
      * @param $context_array    Context array for HTMLPurifier_Context
      */
-    protected function assertTransformation($transformer,
-                                         $name,        $attributes,
-                                  $expect_name, $expect_attributes,
-                                  $expect_added_attributes = array(),
-                                  $config_array = array(), $context_array = array()) {
+    protected function assertTransformation(
+        $transformer,
+        $name,
+        $attributes,
+        $expect_name,
+        $expect_attributes,
+        $expect_added_attributes = [],
+        $config_array = [],
+        $context_array = []
+    ) {
 
         $config = HTMLPurifier_Config::createDefault();
         $config->loadArray($config_array);
@@ -44,45 +50,53 @@ class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
 
         // start tag transform
         $this->assertIdentical(
-                new HTMLPurifier_Token_Start($expect_name, $expect_added_attributes),
-                $transformer->transform(
-                    new HTMLPurifier_Token_Start($name), $config, $context)
-            );
+            new HTMLPurifier_Token_Start($expect_name, $expect_added_attributes),
+            $transformer->transform(
+                new HTMLPurifier_Token_Start($name),
+                $config,
+                $context
+            )
+        );
 
         // start tag transform with attributes
         $this->assertIdentical(
-                new HTMLPurifier_Token_Start($expect_name, $expect_attributes),
-                $transformer->transform(
-                    new HTMLPurifier_Token_Start($name, $attributes),
-                    $config, $context
-                )
-            );
+            new HTMLPurifier_Token_Start($expect_name, $expect_attributes),
+            $transformer->transform(
+                new HTMLPurifier_Token_Start($name, $attributes),
+                $config,
+                $context
+            )
+        );
 
         // end tag transform
         $this->assertIdentical(
-                new HTMLPurifier_Token_End($expect_name),
-                $transformer->transform(
-                    new HTMLPurifier_Token_End($name), $config, $context
-                )
-            );
+            new HTMLPurifier_Token_End($expect_name),
+            $transformer->transform(
+                new HTMLPurifier_Token_End($name),
+                $config,
+                $context
+            )
+        );
 
         // empty tag transform
         $this->assertIdentical(
-                new HTMLPurifier_Token_Empty($expect_name, $expect_added_attributes),
-                $transformer->transform(
-                    new HTMLPurifier_Token_Empty($name), $config, $context
-                )
-            );
+            new HTMLPurifier_Token_Empty($expect_name, $expect_added_attributes),
+            $transformer->transform(
+                new HTMLPurifier_Token_Empty($name),
+                $config,
+                $context
+            )
+        );
 
         // empty tag transform with attributes
         $this->assertIdentical(
-                new HTMLPurifier_Token_Empty($expect_name, $expect_attributes),
-                $transformer->transform(
-                    new HTMLPurifier_Token_Empty($name, $attributes),
-                    $config, $context
-                )
-            );
-
+            new HTMLPurifier_Token_Empty($expect_name, $expect_attributes),
+            $transformer->transform(
+                new HTMLPurifier_Token_Empty($name, $attributes),
+                $config,
+                $context
+            )
+        );
 
     }
 
@@ -92,8 +106,10 @@ class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
 
         $this->assertTransformation(
             $transformer,
-            'menu', array('class' => 'boom'),
-            'ul', array('class' => 'boom')
+            'menu',
+            ['class' => 'boom'],
+            'ul',
+            ['class' => 'boom']
         );
 
     }
@@ -104,17 +120,21 @@ class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
 
         $this->assertTransformation(
             $transformer,
-            'center', array('class' => 'boom', 'style'=>'font-weight:bold;'),
-            'div', array('class' => 'boom', 'style'=>'text-align:center;font-weight:bold;'),
-            array('style'=>'text-align:center;')
+            'center',
+            ['class' => 'boom', 'style' => 'font-weight:bold;'],
+            'div',
+            ['class' => 'boom', 'style' => 'text-align:center;font-weight:bold;'],
+            ['style' => 'text-align:center;']
         );
 
         // test special case, uppercase attribute key
         $this->assertTransformation(
             $transformer,
-            'center', array('STYLE'=>'font-weight:bold;'),
-            'div', array('style'=>'text-align:center;font-weight:bold;'),
-            array('style'=>'text-align:center;')
+            'center',
+            ['STYLE' => 'font-weight:bold;'],
+            'div',
+            ['style' => 'text-align:center;font-weight:bold;'],
+            ['style' => 'text-align:center;']
         );
 
     }
@@ -123,8 +143,10 @@ class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
     {
         $this->assertTransformation(
             $transformer,
-            'font', array('size' => $size),
-            'span', array('style' => 'font-size:' . $style . ';')
+            'font',
+            ['size' => $size],
+            'span',
+            ['style' => 'font-size:' . $style . ';']
         );
     }
 
@@ -135,15 +157,19 @@ class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
         // test a font-face transformation
         $this->assertTransformation(
             $transformer,
-            'font', array('face' => 'Arial'),
-            'span', array('style' => 'font-family:Arial;')
+            'font',
+            ['face' => 'Arial'],
+            'span',
+            ['style' => 'font-family:Arial;']
         );
 
         // test a color transformation
         $this->assertTransformation(
             $transformer,
-            'font', array('color' => 'red'),
-            'span', array('style' => 'color:red;')
+            'font',
+            ['color' => 'red'],
+            'span',
+            ['style' => 'color:red;']
         );
 
         // test the size transforms
@@ -164,15 +190,20 @@ class HTMLPurifier_TagTransformTest extends HTMLPurifier_Harness
         $this->assertSizeToStyle($transformer, '+4', '300%');
         $this->assertSizeToStyle($transformer, '+5', '300%');
         $this->assertTransformation(
-            $transformer, 'font', array('size' => ''),
-            'span', array()
+            $transformer,
+            'font',
+            ['size' => ''],
+            'span',
+            []
         );
 
         // test multiple transforms, the alphabetical ordering is important
         $this->assertTransformation(
             $transformer,
-            'font', array('color' => 'red', 'face' => 'Arial', 'size' => '6'),
-            'span', array('style' => 'color:red;font-family:Arial;font-size:xx-large;')
+            'font',
+            ['color' => 'red', 'face' => 'Arial', 'size' => '6'],
+            'span',
+            ['style' => 'color:red;font-family:Arial;font-size:xx-large;']
         );
     }
 }

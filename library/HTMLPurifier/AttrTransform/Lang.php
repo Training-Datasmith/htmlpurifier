@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Post-transform that copies lang's value to xml:lang (and vice-versa)
  * @note Theoretically speaking, this could be a pre-transform, but putting
@@ -7,7 +9,6 @@
  */
 class HTMLPurifier_AttrTransform_Lang extends HTMLPurifier_AttrTransform
 {
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config

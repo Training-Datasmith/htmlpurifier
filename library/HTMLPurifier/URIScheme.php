@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validator for the components of a URI for a specific scheme
  */
 abstract class HTMLPurifier_URIScheme
 {
-
     /**
      * Scheme's default port (integer). If an explicit port number is
      * specified that coincides with the default port, it will be

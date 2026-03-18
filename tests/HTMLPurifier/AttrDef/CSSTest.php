@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_CSSTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function setup()
     {
         parent::setup();
@@ -111,16 +112,20 @@ class HTMLPurifier_AttrDef_CSSTest extends HTMLPurifier_AttrDefHarness
         $this->assertDef('border: rgb(0, 0, 0)', 'border:rgb(0,0,0);');
 
         // duplicates
-        $this->assertDef('text-align:right;text-align:left;',
-                                          'text-align:left;');
+        $this->assertDef(
+            'text-align:right;text-align:left;',
+            'text-align:left;'
+        );
 
         // a few composites
         $this->assertDef('font-variant:small-caps;font-weight:900;');
         $this->assertDef('float:right;text-align:right;');
 
         // selective removal
-        $this->assertDef('text-transform:capitalize;destroy:it;',
-                         'text-transform:capitalize;');
+        $this->assertDef(
+            'text-transform:capitalize;destroy:it;',
+            'text-transform:capitalize;'
+        );
 
         // universal values work for everything
         $this->assertDef('text-align:inherit;');
@@ -133,8 +138,10 @@ class HTMLPurifier_AttrDef_CSSTest extends HTMLPurifier_AttrDefHarness
         $this->assertDef('background-image:url(\'javascript:alert\(\)\');', false);
 
         // airy input
-        $this->assertDef(' font-weight : bold; color : #ff0000',
-                         'font-weight:bold;color:#ff0000;');
+        $this->assertDef(
+            ' font-weight : bold; color : #ff0000',
+            'font-weight:bold;color:#ff0000;'
+        );
 
         // case-insensitivity
         $this->assertDef('FLOAT:LEFT;', 'float:left;');

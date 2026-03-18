@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Edit Module, defines editing-related elements. Text Extension
  * Module.
  */
 class HTMLPurifier_HTMLModule_Edit extends HTMLPurifier_HTMLModule
 {
-
     /**
      * @type string
      */

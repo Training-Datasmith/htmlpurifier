@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Registry for retrieving specific URI scheme validator objects.
  */
 class HTMLPurifier_URISchemeRegistry
 {
-
     /**
      * Retrieve sole instance of the registry.
      * @param HTMLPurifier_URISchemeRegistry $prototype Optional prototype to overload sole instance with,

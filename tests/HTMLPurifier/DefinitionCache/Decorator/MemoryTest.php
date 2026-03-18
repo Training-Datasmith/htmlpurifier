@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 generate_mock_once('HTMLPurifier_DefinitionCache');
 
 class HTMLPurifier_DefinitionCache_Decorator_MemoryTest extends HTMLPurifier_DefinitionCache_DecoratorHarness
 {
-
     public function setup()
     {
         $this->cache = new HTMLPurifier_DefinitionCache_Decorator_Memory();
@@ -13,22 +14,22 @@ class HTMLPurifier_DefinitionCache_Decorator_MemoryTest extends HTMLPurifier_Def
 
     public function setupMockForSuccess($op)
     {
-        $this->mock->expectOnce($op, array($this->def, $this->config));
-        $this->mock->returns($op, true, array($this->def, $this->config));
+        $this->mock->expectOnce($op, [$this->def, $this->config]);
+        $this->mock->returns($op, true, [$this->def, $this->config]);
         $this->mock->expectNever('get');
     }
 
     public function setupMockForFailure($op)
     {
-        $this->mock->expectOnce($op, array($this->def, $this->config));
-        $this->mock->returns($op, false, array($this->def, $this->config));
-        $this->mock->expectOnce('get', array($this->config));
+        $this->mock->expectOnce($op, [$this->def, $this->config]);
+        $this->mock->returns($op, false, [$this->def, $this->config]);
+        $this->mock->expectOnce('get', [$this->config]);
     }
 
     public function test_get()
     {
-        $this->mock->expectOnce('get', array($this->config)); // only ONE call!
-        $this->mock->returns('get', $this->def, array($this->config));
+        $this->mock->expectOnce('get', [$this->config]); // only ONE call!
+        $this->mock->returns('get', $this->def, [$this->config]);
         $this->assertEqual($this->cache->get($this->config), $this->def);
         $this->assertEqual($this->cache->get($this->config), $this->def);
     }

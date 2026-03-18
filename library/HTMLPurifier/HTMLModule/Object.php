@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Object Module, defines elements for generic object inclusion
  * @warning Users will commonly use <embed> to cater to legacy browsers: this
@@ -39,7 +41,7 @@ class HTMLPurifier_HTMLModule_Object extends HTMLPurifier_HTMLModule
                 'standby' => 'Text',
                 'tabindex' => 'Number',
                 'type' => 'ContentType',
-                'width' => 'Length'
+                'width' => 'Length',
             ]
         );
 
@@ -53,7 +55,7 @@ class HTMLPurifier_HTMLModule_Object extends HTMLPurifier_HTMLModule
                 'name*' => 'Text',
                 'type' => 'Text',
                 'value' => 'Text',
-                'valuetype' => 'Enum#data,ref,object'
+                'valuetype' => 'Enum#data,ref,object',
             ]
         );
     }

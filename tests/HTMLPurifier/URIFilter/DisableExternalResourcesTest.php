@@ -1,9 +1,10 @@
 <?php
 
-class HTMLPurifier_URIFilter_DisableExternalResourcesTest extends
-      HTMLPurifier_URIFilter_DisableExternalTest
-{
+declare(strict_types=1);
 
+class HTMLPurifier_URIFilter_DisableExternalResourcesTest extends
+    HTMLPurifier_URIFilter_DisableExternalTest
+{
     public function setUp()
     {
         parent::setUp();

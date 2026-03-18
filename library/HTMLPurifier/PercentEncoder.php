@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class that handles operations involving percent-encoding in URIs.
  *
@@ -10,7 +12,6 @@
  */
 class HTMLPurifier_PercentEncoder
 {
-
     /**
      * Reserved characters to preserve when using encode().
      * @type array
@@ -36,7 +37,7 @@ class HTMLPurifier_PercentEncoder
         $this->preserve[45] = true; // Dash         -
         $this->preserve[46] = true; // Period       .
         $this->preserve[95] = true; // Underscore   _
-        $this->preserve[126]= true; // Tilde        ~
+        $this->preserve[126] = true; // Tilde        ~
 
         // extra letters not to escape
         if ($preserve !== false) {

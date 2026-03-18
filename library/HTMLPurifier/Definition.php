@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Super-class for definition datatype objects, implements serialization
  * functions for the class.
  */
 abstract class HTMLPurifier_Definition
 {
-
     /**
      * Has setup() been called yet?
      * @type bool

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Represents a measurable length, with a string numeric magnitude
  * and a unit. This object is immutable.
  */
 class HTMLPurifier_Length
 {
-
     /**
      * String numeric magnitude.
      * @type string
@@ -33,7 +34,7 @@ class HTMLPurifier_Length
         'em' => true, 'ex' => true, 'px' => true, 'in' => true,
         'cm' => true, 'mm' => true, 'pt' => true, 'pc' => true,
         'ch' => true, 'rem' => true, 'vw' => true, 'vh' => true,
-        'vmin' => true, 'vmax' => true
+        'vmin' => true, 'vmax' => true,
     ];
 
     /**

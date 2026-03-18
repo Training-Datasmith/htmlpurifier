@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Test harness that sets up a filesystem sandbox for file-emulation
  * functions to safely unit test in.
@@ -8,8 +10,8 @@
  */
 class FSTools_FileSystemHarness extends UnitTestCase
 {
-
-    protected $dir, $oldDir;
+    protected $dir;
+    protected $oldDir;
 
     public function __construct()
     {

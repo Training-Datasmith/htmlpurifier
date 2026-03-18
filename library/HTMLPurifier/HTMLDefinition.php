@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Definition of the purified HTML that describes allowed children,
  * attributes, and many other things.
@@ -25,7 +27,6 @@
  */
 class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
 {
-
     // FULLY-PUBLIC VARIABLES ---------------------------------------------
 
     /**
@@ -96,8 +97,6 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
      * @type HTMLPurifier_Doctype
      */
     public $doctype;
-
-
 
     // RAW CUSTOMIZATION STUFF --------------------------------------------
 
@@ -278,7 +277,7 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
         }
 
         // support template text
-        $support = "(for information on implementing this, see the support forums) ";
+        $support = '(for information on implementing this, see the support forums) ';
 
         // setup allowed elements -----------------------------------------
 
@@ -376,6 +375,7 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
                             break;
                         }
                         // otherwise fall through
+                        // no break
                     case 1:
                         $attribute = htmlspecialchars($bits[0]);
                         trigger_error(
@@ -410,7 +410,7 @@ class HTMLPurifier_HTMLDefinition extends HTMLPurifier_Definition
                     // $tag.$attr are not user supplied, so no worries!
                     trigger_error(
                         "Error with $tag.$attr: tag.attr syntax not supported for " .
-                        "HTML.ForbiddenAttributes; use tag@attr instead",
+                        'HTML.ForbiddenAttributes; use tag@attr instead',
                         E_USER_WARNING
                     );
                 }

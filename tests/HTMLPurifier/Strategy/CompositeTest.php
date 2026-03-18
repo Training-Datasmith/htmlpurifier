@@ -1,12 +1,12 @@
 <?php
 
-class HTMLPurifier_Strategy_Composite_Test
-    extends HTMLPurifier_Strategy_Composite
-{
+declare(strict_types=1);
 
+class HTMLPurifier_Strategy_Composite_Test extends HTMLPurifier_Strategy_Composite
+{
     public function __construct(&$strategies)
     {
-        $this->strategies =& $strategies;
+        $this->strategies = & $strategies;
     }
 
 }
@@ -14,7 +14,6 @@ class HTMLPurifier_Strategy_Composite_Test
 // doesn't use Strategy harness
 class HTMLPurifier_Strategy_CompositeTest extends HTMLPurifier_Harness
 {
-
     public function test()
     {
         generate_mock_once('HTMLPurifier_Strategy');
@@ -29,7 +28,7 @@ class HTMLPurifier_Strategy_CompositeTest extends HTMLPurifier_Harness
 
         // setup the object
 
-        $strategies = array(&$mock_1, &$mock_2, &$mock_3);
+        $strategies = [&$mock_1, &$mock_2, &$mock_3];
         $composite = new HTMLPurifier_Strategy_Composite_Test($strategies);
 
         // setup expectations
@@ -42,9 +41,9 @@ class HTMLPurifier_Strategy_CompositeTest extends HTMLPurifier_Harness
         $config  = new HTMLPurifier_ConfigMock();
         $context = new HTMLPurifier_ContextMock();
 
-        $params_1 = array($input_1, $config, $context);
-        $params_2 = array($input_2, $config, $context);
-        $params_3 = array($input_3, $config, $context);
+        $params_1 = [$input_1, $config, $context];
+        $params_2 = [$input_2, $config, $context];
+        $params_3 = [$input_3, $config, $context];
 
         $mock_1->expectOnce('execute', $params_1);
         $mock_1->returns('execute', $input_2, $params_1);

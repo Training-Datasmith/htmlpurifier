@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrTransform_ImgSpaceTest extends HTMLPurifier_AttrTransformHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -11,30 +12,30 @@ class HTMLPurifier_AttrTransform_ImgSpaceTest extends HTMLPurifier_AttrTransform
 
     public function testEmptyInput()
     {
-        $this->assertResult( array() );
+        $this->assertResult([]);
     }
 
     public function testVerticalBasicUsage()
     {
         $this->assertResult(
-            array('vspace' => '1'),
-            array('style' => 'margin-top:1px;margin-bottom:1px;')
+            ['vspace' => '1'],
+            ['style' => 'margin-top:1px;margin-bottom:1px;']
         );
     }
 
     public function testLenientHandlingOfInvalidInput()
     {
         $this->assertResult(
-            array('vspace' => '10%'),
-            array('style' => 'margin-top:10%px;margin-bottom:10%px;')
+            ['vspace' => '10%'],
+            ['style' => 'margin-top:10%px;margin-bottom:10%px;']
         );
     }
 
     public function testPrependNewCSS()
     {
         $this->assertResult(
-            array('vspace' => '23', 'style' => 'font-weight:bold;'),
-            array('style' => 'margin-top:23px;margin-bottom:23px;font-weight:bold;')
+            ['vspace' => '23', 'style' => 'font-weight:bold;'],
+            ['style' => 'margin-top:23px;margin-bottom:23px;font-weight:bold;']
         );
     }
 
@@ -42,8 +43,8 @@ class HTMLPurifier_AttrTransform_ImgSpaceTest extends HTMLPurifier_AttrTransform
     {
         $this->obj = new HTMLPurifier_AttrTransform_ImgSpace('hspace');
         $this->assertResult(
-            array('hspace' => '1'),
-            array('style' => 'margin-left:1px;margin-right:1px;')
+            ['hspace' => '1'],
+            ['style' => 'margin-left:1px;margin-right:1px;']
         );
     }
 
@@ -52,8 +53,8 @@ class HTMLPurifier_AttrTransform_ImgSpaceTest extends HTMLPurifier_AttrTransform
         $this->expectError('ispace is not valid space attribute');
         $this->obj = new HTMLPurifier_AttrTransform_ImgSpace('ispace');
         $this->assertResult(
-            array('ispace' => '1'),
-            array()
+            ['ispace' => '1'],
+            []
         );
     }
 

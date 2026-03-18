@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Represents a language and defines localizable string formatting and
  * other functions, as well as the localized messages for HTML Purifier.
  */
 class HTMLPurifier_Language
 {
-
     /**
      * ISO 639 language code of language. Prefers shortest possible version.
      * @type string

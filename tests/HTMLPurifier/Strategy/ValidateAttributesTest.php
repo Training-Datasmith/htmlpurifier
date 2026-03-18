@@ -1,9 +1,10 @@
 <?php
 
-class HTMLPurifier_Strategy_ValidateAttributesTest extends
-      HTMLPurifier_StrategyHarness
-{
+declare(strict_types=1);
 
+class HTMLPurifier_Strategy_ValidateAttributesTest extends
+    HTMLPurifier_StrategyHarness
+{
     public function setUp()
     {
         parent::setUp();
@@ -118,7 +119,7 @@ class HTMLPurifier_Strategy_ValidateAttributesTest extends
     public function testTableAttributes()
     {
         $this->assertResult(
-'<table frame="above" rules="rows" summary="A test table" border="2" cellpadding="5%" cellspacing="3" width="100%">
+            '<table frame="above" rules="rows" summary="A test table" border="2" cellpadding="5%" cellspacing="3" width="100%">
     <col align="right" width="4*" />
     <col charoff="5" align="char" width="*" />
     <tr valign="top">

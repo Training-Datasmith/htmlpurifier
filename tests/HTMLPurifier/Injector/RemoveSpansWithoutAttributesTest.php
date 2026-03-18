@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_Injector_RemoveSpansWithoutAttributesTest extends HTMLPurifier_InjectorHarness
 {
     public function setup()
@@ -40,7 +42,6 @@ class HTMLPurifier_Injector_RemoveSpansWithoutAttributesTest extends HTMLPurifie
             '<p><span class="bar">foo</span></p>'
         );
     }
-
 
     public function testSpanWithChildren()
     {
@@ -93,9 +94,9 @@ class HTMLPurifier_Injector_RemoveSpansWithoutAttributesTest extends HTMLPurifie
     public function testNestedAlternateSpans()
     {
         $this->assertResult(
-'<span>a <span class="x">b <span>c <span class="y">d <span>e <span class="z">f
+            '<span>a <span class="x">b <span>c <span class="y">d <span>e <span class="z">f
 </span></span></span></span></span></span>',
-'a <span class="x">b c <span class="y">d e <span class="z">f
+            'a <span class="x">b c <span class="y">d e <span class="z">f
 </span></span></span>'
         );
     }

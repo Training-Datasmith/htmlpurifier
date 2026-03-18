@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Concrete comment node class.
  */
@@ -30,7 +32,8 @@ class HTMLPurifier_Node_Comment extends HTMLPurifier_Node
         $this->col = $col;
     }
 
-    public function toTokenPair() {
+    public function toTokenPair()
+    {
         return [new HTMLPurifier_Token_Comment($this->data, $this->line, $this->col), null];
     }
 }

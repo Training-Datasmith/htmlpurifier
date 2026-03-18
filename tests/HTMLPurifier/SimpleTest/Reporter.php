@@ -2,7 +2,6 @@
 
 class HTMLPurifier_SimpleTest_Reporter extends HTMLReporter
 {
-
     protected $ac;
 
     public function __construct($encoding, $ac)
@@ -14,17 +13,23 @@ class HTMLPurifier_SimpleTest_Reporter extends HTMLReporter
     public function paintHeader($test_name)
     {
         parent::paintHeader($test_name);
-?>
+        ?>
 <form action="" method="get" id="select">
     <select name="f">
-        <option value="" style="font-weight:bold;"<?php if(!$this->ac['file']) {echo ' selected';} ?>>All Tests</option>
-        <?php foreach($GLOBALS['HTMLPurifierTest']['Files'] as $file) { ?>
+        <option value="" style="font-weight:bold;"<?php if (!$this->ac['file']) {
+            echo ' selected';
+        } ?>>All Tests</option>
+        <?php foreach ($GLOBALS['HTMLPurifierTest']['Files'] as $file) { ?>
             <option value="<?php echo $file ?>"<?php
-                if ($this->ac['file'] == $file) echo ' selected';
+                if ($this->ac['file'] == $file) {
+                    echo ' selected';
+                }
             ?>><?php echo $file ?></option>
         <?php } ?>
     </select>
-    <input type="checkbox" name="standalone" value="1" title="Standalone version?" <?php if($this->ac['standalone']) {echo 'checked="checked" ';} ?>/>
+    <input type="checkbox" name="standalone" value="1" title="Standalone version?" <?php if ($this->ac['standalone']) {
+        echo 'checked="checked" ';
+    } ?>/>
     <input type="submit" value="Go">
 </form>
 <?php
@@ -54,8 +59,11 @@ class HTMLPurifier_SimpleTest_Reporter extends HTMLReporter
         // hacky; depends on a specific implementation of paintPass, etc.
         $list = parent::getTestList();
         $testcase = $list[1];
-        if (class_exists($testcase, false)) $file = str_replace('_', '/', $testcase) . '.php';
-        else $file = $testcase;
+        if (class_exists($testcase, false)) {
+            $file = str_replace('_', '/', $testcase) . '.php';
+        } else {
+            $file = $testcase;
+        }
         $list[1] = '<a href="index.php?file=' . $file . '">' . $testcase . '</a>';
         return $list;
     }

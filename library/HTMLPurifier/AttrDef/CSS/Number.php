@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a number as defined by the CSS spec.
  */
 class HTMLPurifier_AttrDef_CSS_Number extends HTMLPurifier_AttrDef
 {
-
     /**
      * Indicates whether or not only positive values are allowed.
      * @type bool
@@ -46,6 +47,7 @@ class HTMLPurifier_AttrDef_CSS_Number extends HTMLPurifier_AttrDef
                     return false;
                 }
                 $sign = '-';
+                // no break
             case '+':
                 $number = substr($number, 1);
         }

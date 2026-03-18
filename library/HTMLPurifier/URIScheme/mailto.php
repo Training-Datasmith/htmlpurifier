@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // VERY RELAXED! Shouldn't cause problems, not even Firefox checks if the
 // email is valid, but be careful!
 

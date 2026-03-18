@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Module defines proprietary tags and attributes in HTML.
  * @warning If this module is enabled, standards-compliance is off!

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates a Percentage as defined by the CSS spec.
  */
 class HTMLPurifier_AttrDef_CSS_Percentage extends HTMLPurifier_AttrDef
 {
-
     /**
      * Instance to defer number validation to.
      * @type HTMLPurifier_AttrDef_CSS_Number

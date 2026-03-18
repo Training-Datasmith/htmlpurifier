@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Performs validations on HTMLPurifier_ConfigSchema_Interchange
  *
@@ -10,7 +12,6 @@
  */
 class HTMLPurifier_ConfigSchema_Validator
 {
-
     /**
      * @type HTMLPurifier_ConfigSchema_Interchange
      */
@@ -167,7 +168,7 @@ class HTMLPurifier_ConfigSchema_Validator
                 $this->error("alias target $real from alias '$alias'", 'must be a string');
             }
             if ($alias === $real) {
-                $this->error("alias '$alias'", "must not be an alias to itself");
+                $this->error("alias '$alias'", 'must not be an alias to itself');
             }
         }
         if (!is_null($d->allowed)) {

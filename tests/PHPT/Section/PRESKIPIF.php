@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class PHPT_Section_PRESKIPIF implements PHPT_Section_RunnableBefore
 {
     private $_data = null;
@@ -19,7 +21,7 @@ class PHPT_Section_PRESKIPIF implements PHPT_Section_RunnableBefore
         // @todo refactor to PHPT_CodeRunner
         file_put_contents($filename, $this->_data);
         $runner = $this->_runner_factory->factory($case);
-        $runner->ini = "";
+        $runner->ini = '';
         $response = $runner->run($filename)->output;
         unlink($filename);
 

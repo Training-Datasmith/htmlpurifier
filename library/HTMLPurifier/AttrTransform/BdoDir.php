@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // this MUST be placed in post, as it assumes that any value in dir is valid
 
 /**
@@ -7,7 +9,6 @@
  */
 class HTMLPurifier_AttrTransform_BdoDir extends HTMLPurifier_AttrTransform
 {
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config

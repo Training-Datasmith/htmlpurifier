@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 // borrowed for the sakes of this test
 class HTMLPurifier_AttrDef_CSS_MultipleTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $this->def = new HTMLPurifier_AttrDef_CSS_Multiple(
@@ -20,7 +21,6 @@ class HTMLPurifier_AttrDef_CSS_MultipleTest extends HTMLPurifier_AttrDefHarness
         $this->assertDef('a s d f', false);
         $this->assertDef('1 2 3 4 5', '1 2 3 4');
         $this->assertDef('1 2 invalid 3', '1 2 3');
-
 
     }
 

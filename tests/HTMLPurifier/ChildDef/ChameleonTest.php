@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_ChildDef_ChameleonTest extends HTMLPurifier_ChildDefHarness
 {
-
     protected $isInline;
 
     public function setUp()
@@ -27,7 +28,8 @@ class HTMLPurifier_ChildDef_ChameleonTest extends HTMLPurifier_ChildDefHarness
     {
         $this->isInline = true;
         $this->assertResult(
-            '<div>Not allowed.</div>', ''
+            '<div>Not allowed.</div>',
+            ''
         );
     }
 

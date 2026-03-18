@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * A "safe" script module. No inline JS is allowed, and pointed to JS
  * files must match whitelist.
@@ -29,7 +31,7 @@ class HTMLPurifier_HTMLModule_SafeScripting extends HTMLPurifier_HTMLModule
                 // While technically not required by the spec, we're forcing
                 // it to this value.
                 'type' => 'Enum#text/javascript',
-                'src*' => new HTMLPurifier_AttrDef_Enum(array_keys($allowed), /*case sensitive*/ true)
+                'src*' => new HTMLPurifier_AttrDef_Enum(array_keys($allowed), /*case sensitive*/ true),
             ]
         );
         $script->attr_transform_pre[] =

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates an IPv6 address.
  * @author Feyd @ forums.devnetwork.net (public domain)
@@ -8,7 +10,6 @@
  */
 class HTMLPurifier_AttrDef_URI_IPv6 extends HTMLPurifier_AttrDef_URI_IPv4
 {
-
     /**
      * @param string $aIP
      * @param HTMLPurifier_Config $config
@@ -64,8 +65,7 @@ class HTMLPurifier_AttrDef_URI_IPv6 extends HTMLPurifier_AttrDef_URI_IPv4
             array_splice($first, 8 - count($second), 8, $second);
             $aIP = $first;
             unset($first, $second);
-        }
-        else {
+        } else {
             $aIP = explode(':', $aIP[0]);
         }
         $c = count($aIP);

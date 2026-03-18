@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates news (Usenet) as defined by generic RFC 1738
  */

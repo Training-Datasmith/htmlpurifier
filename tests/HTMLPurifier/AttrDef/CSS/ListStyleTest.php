@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_CSS_ListStyleTest extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $config = HTMLPurifier_Config::createDefault();
@@ -26,7 +27,6 @@ class HTMLPurifier_AttrDef_CSS_ListStyleTest extends HTMLPurifier_AttrDefHarness
         // cases, so we're going off the W3C CSS validator
         $this->assertDef('disc none', 'disc');
         $this->assertDef('none disc', 'none');
-
 
     }
 

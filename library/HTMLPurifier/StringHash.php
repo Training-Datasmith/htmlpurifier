@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This is in almost every respect equivalent to an array except
  * that it keeps track of which keys were accessed.

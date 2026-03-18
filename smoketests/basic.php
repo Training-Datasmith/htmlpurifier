@@ -6,11 +6,13 @@ require_once 'common.php';
 
 $allowed = [
     'allElements' => true,
-    'legacy' => true
+    'legacy' => true,
 ];
 
 $page = isset($_GET['p']) ? $_GET['p'] : false;
-if (!isset($allowed[$page])) $page = false;
+if (!isset($allowed[$page])) {
+    $page = false;
+}
 
 $strict = isset($_GET['d']) && (bool) $_GET['d'];
 
@@ -41,7 +43,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
 <?php
 
 if ($page) {
-?>
+    ?>
 <div style="float:right;"><div><?php echo $strict ? 'Strict' : 'Loose'; ?>:
 <a href="?d=<?php echo (int) !$strict; ?>&amp;p=<?php echo $page ?>">Swap</a></div>
 <a href="http://validator.w3.org/check?uri=referer"><img
@@ -49,7 +51,7 @@ if ($page) {
         alt="Valid XHTML 1.0 Transitional" height="31" width="88" style="border:0;" /></a>
 </div>
 <?php
-    $config = HTMLPurifier_Config::createDefault();
+        $config = HTMLPurifier_Config::createDefault();
     $config->set('Attr.EnableID', true);
     $config->set('HTML.Strict', $strict);
     $purifier = new HTMLPurifier($config);

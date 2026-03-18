@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * XHTML 1.1 Bi-directional Text Module, defines elements that
  * declare directionality of content. Text Extension Module.
  */
 class HTMLPurifier_HTMLModule_Bdo extends HTMLPurifier_HTMLModule
 {
-
     /**
      * @type string
      */
@@ -16,7 +17,7 @@ class HTMLPurifier_HTMLModule_Bdo extends HTMLPurifier_HTMLModule
      * @type array
      */
     public $attr_collections = [
-        'I18N' => ['dir' => false]
+        'I18N' => ['dir' => false],
     ];
 
     /**

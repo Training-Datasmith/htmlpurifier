@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 // IPv4 test case is spliced from Feyd's IPv6 implementation
 // we ought to disallow non-routable addresses
 
 class HTMLPurifier_AttrDef_URI_IPv4Test extends HTMLPurifier_AttrDefHarness
 {
-
     public function test()
     {
         $this->def = new HTMLPurifier_AttrDef_URI_IPv4();

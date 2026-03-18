@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Fluent interface for validating the contents of member variables.
  * This should be immutable. See HTMLPurifier_ConfigSchema_Validator for
@@ -33,7 +35,7 @@ class HTMLPurifier_ConfigSchema_ValidatorAtom
         $this->context = $context;
         $this->obj = $obj;
         $this->member = $member;
-        $this->contents =& $obj->$member;
+        $this->contents = & $obj->$member;
     }
 
     /**

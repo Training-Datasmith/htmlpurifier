@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Post-transform that performs validation to the name attribute; if
  * it is present with an equivalent id attribute, it is passed through;
@@ -7,7 +9,6 @@
  */
 class HTMLPurifier_AttrTransform_NameSync extends HTMLPurifier_AttrTransform
 {
-
     /**
      * @type HTMLPurifier_AttrDef_HTML_ID
      */

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
 {
-
     /**
      * Entity lookup table to help for a few tests.
      */
@@ -46,8 +47,9 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromToken_startWithAttr()
     {
         $this->assertGenerateFromToken(
-            new HTMLPurifier_Token_Start('a',
-                array('href' => 'dyn?a=foo&b=bar')
+            new HTMLPurifier_Token_Start(
+                'a',
+                ['href' => 'dyn?a=foo&b=bar']
             ),
             '<a href="dyn?a=foo&amp;b=bar">'
         );
@@ -64,8 +66,9 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromToken_emptyWithAttr()
     {
         $this->assertGenerateFromToken(
-            new HTMLPurifier_Token_Empty('br',
-                array('style' => 'font-family:"Courier New";')
+            new HTMLPurifier_Token_Empty(
+                'br',
+                ['style' => 'font-family:"Courier New";']
             ),
             '<br style="font-family:&quot;Courier New&quot;;" />'
         );
@@ -90,7 +93,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromToken_error()
     {
         $this->expectError('Cannot generate HTML from non-HTMLPurifier_Token object');
-        $this->assertGenerateFromToken( null, '' );
+        $this->assertGenerateFromToken(null, '');
     }
 
     public function test_generateFromToken_unicode()
@@ -105,7 +108,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromToken_backtick()
     {
         $this->assertGenerateFromToken(
-            new HTMLPurifier_Token_Start('img', array('alt' => '`foo')),
+            new HTMLPurifier_Token_Start('img', ['alt' => '`foo']),
             '<img alt="`foo ">'
         );
     }
@@ -114,7 +117,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     {
         $this->config->set('Output.FixInnerHTML', false);
         $this->assertGenerateFromToken(
-            new HTMLPurifier_Token_Start('img', array('alt' => '`')),
+            new HTMLPurifier_Token_Start('img', ['alt' => '`']),
             '<img alt="`">'
         );
     }
@@ -122,7 +125,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromToken_backtickNoChange()
     {
         $this->assertGenerateFromToken(
-            new HTMLPurifier_Token_Start('img', array('alt' => '`foo` bar')),
+            new HTMLPurifier_Token_Start('img', ['alt' => '`foo` bar']),
             '<img alt="`foo` bar">'
         );
     }
@@ -136,13 +139,13 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
 
     public function test_generateAttributes_blank()
     {
-        $this->assertGenerateAttributes(array(), '');
+        $this->assertGenerateAttributes([], '');
     }
 
     public function test_generateAttributes_basic()
     {
         $this->assertGenerateAttributes(
-            array('href' => 'dyn?a=foo&b=bar'),
+            ['href' => 'dyn?a=foo&b=bar'],
             'href="dyn?a=foo&amp;b=bar"'
         );
     }
@@ -150,7 +153,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateAttributes_doubleQuote()
     {
         $this->assertGenerateAttributes(
-            array('style' => 'font-family:"Courier New";'),
+            ['style' => 'font-family:"Courier New";'],
             'style="font-family:&quot;Courier New&quot;;"'
         );
     }
@@ -158,7 +161,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateAttributes_singleQuote()
     {
         $this->assertGenerateAttributes(
-            array('style' => 'font-family:\'Courier New\';'),
+            ['style' => 'font-family:\'Courier New\';'],
             'style="font-family:\'Courier New\';"'
         );
     }
@@ -166,7 +169,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateAttributes_multiple()
     {
         $this->assertGenerateAttributes(
-            array('src' => 'picture.jpg', 'alt' => 'Short & interesting'),
+            ['src' => 'picture.jpg', 'alt' => 'Short & interesting'],
             'src="picture.jpg" alt="Short &amp; interesting"'
         );
     }
@@ -175,28 +178,29 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     {
         $theta_char = $this->_entity_lookup->table['theta'];
         $this->assertGenerateAttributes(
-            array('title' => 'Theta is ' . $theta_char),
+            ['title' => 'Theta is ' . $theta_char],
             'title="Theta is ' . $theta_char . '"'
         );
     }
-
 
     public function test_generateAttributes_minimized()
     {
         $this->config->set('HTML.Doctype', 'HTML 4.01 Transitional');
         $this->assertGenerateAttributes(
-            array('compact' => 'compact'), 'compact', 'menu'
+            ['compact' => 'compact'],
+            'compact',
+            'menu'
         );
     }
 
     public function test_generateFromTokens()
     {
         $this->assertGeneration(
-            array(
+            [
                 new HTMLPurifier_Token_Start('b'),
                 new HTMLPurifier_Token_Text('Foobar!'),
-                new HTMLPurifier_Token_End('b')
-            ),
+                new HTMLPurifier_Token_End('b'),
+            ],
             '<b>Foobar!</b>'
         );
 
@@ -212,11 +216,11 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromTokens_Scripting()
     {
         $this->assertGeneration(
-            array(
+            [
                 new HTMLPurifier_Token_Start('script'),
                 new HTMLPurifier_Token_Text('alert(3 < 5);'),
-                new HTMLPurifier_Token_End('script')
-            ),
+                new HTMLPurifier_Token_End('script'),
+            ],
             "<script><!--//--><![CDATA[//><!--\nalert(3 < 5);\n//--><!]]></script>"
         );
     }
@@ -224,24 +228,24 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromTokens_Scripting_missingCloseTag()
     {
         $this->assertGeneration(
-            array(
+            [
                 new HTMLPurifier_Token_Start('script'),
                 new HTMLPurifier_Token_Text('alert(3 < 5);'),
-            ),
-            "<script>alert(3 &lt; 5);"
+            ],
+            '<script>alert(3 &lt; 5);'
         );
     }
 
     public function test_generateFromTokens_Scripting_doubleBlock()
     {
         $this->assertGeneration(
-            array(
+            [
                 new HTMLPurifier_Token_Start('script'),
                 new HTMLPurifier_Token_Text('alert(3 < 5);'),
                 new HTMLPurifier_Token_Text('foo();'),
-                new HTMLPurifier_Token_End('script')
-            ),
-            "<script>alert(3 &lt; 5);foo();</script>"
+                new HTMLPurifier_Token_End('script'),
+            ],
+            '<script>alert(3 &lt; 5);foo();</script>'
         );
     }
 
@@ -249,12 +253,12 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     {
         $this->config->set('Output.CommentScriptContents', false);
         $this->assertGeneration(
-            array(
+            [
                 new HTMLPurifier_Token_Start('script'),
                 new HTMLPurifier_Token_Text('alert(3 < 5);'),
-                new HTMLPurifier_Token_End('script')
-            ),
-            "<script>alert(3 &lt; 5);</script>"
+                new HTMLPurifier_Token_End('script'),
+            ],
+            '<script>alert(3 &lt; 5);</script>'
         );
     }
 
@@ -264,7 +268,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
 
         // omit trailing slash
         $this->assertGeneration(
-            array( new HTMLPurifier_Token_Empty('br') ),
+            [ new HTMLPurifier_Token_Empty('br') ],
             '<br>'
         );
 
@@ -274,7 +278,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
 
         // namespaced attributes must be dropped
         $this->assertGeneration(
-            array( new HTMLPurifier_Token_Start('p', array('xml:lang'=>'fr')) ),
+            [ new HTMLPurifier_Token_Start('p', ['xml:lang' => 'fr']) ],
             '<p>'
         );
 
@@ -283,7 +287,9 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
     public function test_generateFromTokens_TidyFormat()
     {
         // abort test if tidy isn't loaded
-        if (!extension_loaded('tidy')) return;
+        if (!extension_loaded('tidy')) {
+            return;
+        }
 
         // just don't test; Tidy is exploding on me.
         return;
@@ -293,11 +299,11 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
 
         // nice wrapping please
         $this->assertGeneration(
-            array(
+            [
                 new HTMLPurifier_Token_Start('div'),
                 new HTMLPurifier_Token_Text('Text'),
-                new HTMLPurifier_Token_End('div')
-            ),
+                new HTMLPurifier_Token_End('div'),
+            ],
             "<div>\n  Text\n</div>\n"
         );
 
@@ -308,7 +314,7 @@ class HTMLPurifier_GeneratorTest extends HTMLPurifier_Harness
         $this->config->set('Output.SortAttr', true);
 
         $this->assertGeneration(
-            array( new HTMLPurifier_Token_Start('p', array('b'=>'c', 'a'=>'d')) ),
+            [ new HTMLPurifier_Token_Start('p', ['b' => 'c', 'a' => 'd']) ],
             '<p a="d" b="c">'
         );
 

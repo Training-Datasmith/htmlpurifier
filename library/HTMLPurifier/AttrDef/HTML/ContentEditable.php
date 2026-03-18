@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_AttrDef_HTML_ContentEditable extends HTMLPurifier_AttrDef
 {
     public function validate($string, $config, $context)

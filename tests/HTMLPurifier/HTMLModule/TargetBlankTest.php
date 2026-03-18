@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 class HTMLPurifier_HTMLModule_TargetBlankTest extends HTMLPurifier_HTMLModuleHarness
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -17,7 +18,8 @@ class HTMLPurifier_HTMLModule_TargetBlankTest extends HTMLPurifier_HTMLModuleHar
         );
     }
 
-    public function testTargetBlankNoDupe() {
+    public function testTargetBlankNoDupe()
+    {
         $this->assertResult(
             '<a href="http://google.com" target="_blank">a</a>',
             '<a href="http://google.com" target="_blank" rel="noreferrer noopener">a</a>'

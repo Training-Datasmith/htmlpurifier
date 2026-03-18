@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Validates http (HyperText Transfer Protocol) as defined by RFC 2616
  */

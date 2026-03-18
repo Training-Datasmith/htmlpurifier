@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Implements data: URI for base64 encoded images supported by GD.
  */
@@ -79,7 +81,7 @@ class HTMLPurifier_URIScheme_data extends HTMLPurifier_URIScheme
         } else {
             $raw_data = $data;
         }
-        if ( strlen($raw_data) < 12 ) {
+        if (strlen($raw_data) < 12) {
             // error; exif_imagetype throws exception with small files,
             // and this likely indicates a corrupt URI/failed parse anyway
             return false;
@@ -87,9 +89,9 @@ class HTMLPurifier_URIScheme_data extends HTMLPurifier_URIScheme
         // XXX probably want to refactor this into a general mechanism
         // for filtering arbitrary content types
         if (function_exists('sys_get_temp_dir')) {
-            $file = tempnam(sys_get_temp_dir(), "");
+            $file = tempnam(sys_get_temp_dir(), '');
         } else {
-            $file = tempnam("/tmp", "");
+            $file = tempnam('/tmp', '');
         }
         file_put_contents($file, $raw_data);
         if (function_exists('exif_imagetype')) {
@@ -105,7 +107,7 @@ class HTMLPurifier_URIScheme_data extends HTMLPurifier_URIScheme
             }
             $image_code = $info[2];
         } else {
-            throw new Exception("could not find exif_imagetype or getimagesize functions");
+            throw new Exception('could not find exif_imagetype or getimagesize functions');
         }
         $real_content_type = image_type_to_mime_type($image_code);
         if ($real_content_type != $content_type) {
