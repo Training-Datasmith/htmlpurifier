@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
 
-require_once dirname(__FILE__) . '/common.php';
-require_once dirname(__FILE__) . '/../library/HTMLPurifier.auto.php';
+require_once __DIR__ . '/common.php';
+require_once __DIR__ . '/../library/HTMLPurifier.auto.php';
 assertCli();
 
 /**
@@ -19,14 +19,14 @@ assertCli();
  * this, and they will get included.
  */
 
-$target = dirname(__FILE__) . '/../library/HTMLPurifier/ConfigSchema/schema.ser';
+$target = __DIR__ . '/../library/HTMLPurifier/ConfigSchema/schema.ser';
 
 $builder = new HTMLPurifier_ConfigSchema_InterchangeBuilder();
 $interchange = new HTMLPurifier_ConfigSchema_Interchange();
 
 $builder->buildDir($interchange);
 
-$loader = dirname(__FILE__) . '/../config-schema.php';
+$loader = __DIR__ . '/../config-schema.php';
 if (file_exists($loader)) include $loader;
 foreach ($_SERVER['argv'] as $i => $dir) {
     if ($i === 0) continue;

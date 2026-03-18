@@ -76,7 +76,7 @@ class HTMLPurifier
      * for backwards compatibility.
      * @type HTMLPurifier_Filter[]
      */
-    private $filters = array();
+    private $filters = [];
 
     /**
      * Single instance of HTML Purifier.
@@ -180,7 +180,7 @@ class HTMLPurifier
         $filter_flags = $config->getBatch('Filter');
         $custom_filters = $filter_flags['Custom'];
         unset($filter_flags['Custom']);
-        $filters = array();
+        $filters = [];
         foreach ($filter_flags as $filter => $flag) {
             if (!$flag) {
                 continue;
@@ -239,8 +239,8 @@ class HTMLPurifier
      */
     public function purifyArray($array_of_html, $config = null)
     {
-        $context_array = array();
-        $array = array();
+        $context_array = [];
+        $array = [];
         foreach($array_of_html as $key=>$value){
             if (is_array($value)) {
                 $array[$key] = $this->purifyArray($value, $config);

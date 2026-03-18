@@ -34,7 +34,7 @@ abstract class HTMLPurifier_AttrTransform
      * @param array &$attr Attribute array to process (passed by reference)
      * @param string $css CSS to prepend
      */
-    public function prependCSS(&$attr, $css)
+    public function prependCSS(array &$attr, $css)
     {
         $attr['style'] = isset($attr['style']) ? $attr['style'] : '';
         $attr['style'] = $css . $attr['style'];
@@ -46,7 +46,7 @@ abstract class HTMLPurifier_AttrTransform
      * @param mixed $key Key of attribute to confiscate
      * @return mixed
      */
-    public function confiscateAttr(&$attr, $key)
+    public function confiscateAttr(array &$attr, $key)
     {
         if (!isset($attr[$key])) {
             return null;

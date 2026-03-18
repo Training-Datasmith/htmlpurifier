@@ -12,14 +12,14 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
      * Index zero is a special case "no fixes" level.
      * @type array
      */
-    public $levels = array(0 => 'none', 'light', 'medium', 'heavy');
+    public $levels = [0 => 'none', 'light', 'medium', 'heavy'];
 
     /**
      * Default level to place all fixes in.
      * Disabled by default.
      * @type string
      */
-    public $defaultLevel = null;
+    public $defaultLevel;
 
     /**
      * Lists of fixes used by getFixesForLevel().
@@ -27,11 +27,11 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
      *      HTMLModule_Tidy->fixesForLevel[$level] = array('fix-1', 'fix-2');
      * @type array
      */
-    public $fixesForLevel = array(
-        'light' => array(),
-        'medium' => array(),
-        'heavy' => array()
-    );
+    public $fixesForLevel = [
+        'light' => [],
+        'medium' => [],
+        'heavy' => []
+    ];
 
     /**
      * Lazy load constructs the module by determining the necessary
@@ -75,9 +75,9 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
     public function getFixesForLevel($level)
     {
         if ($level == $this->levels[0]) {
-            return array();
+            return [];
         }
-        $activated_levels = array();
+        $activated_levels = [];
         for ($i = 1, $c = count($this->levels); $i < $c; $i++) {
             $activated_levels[] = $this->levels[$i];
             if ($this->levels[$i] == $level) {
@@ -89,9 +89,9 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
                 'Tidy level ' . htmlspecialchars($level) . ' not recognized',
                 E_USER_WARNING
             );
-            return array();
+            return [];
         }
-        $ret = array();
+        $ret = [];
         foreach ($activated_levels as $level) {
             foreach ($this->fixesForLevel[$level] as $fix) {
                 $ret[$fix] = true;
@@ -115,7 +115,6 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
             throw new Exception(
                 'Default level ' . $this->defaultLevel . ' does not exist'
             );
-            return;
         }
         $this->fixesForLevel[$this->defaultLevel] = array_keys($fixes);
     }
@@ -186,7 +185,7 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
         }
 
         // figure out the parameters
-        $params = array();
+        $params = [];
         if ($name !== '') {
             $params['element'] = $name;
         }
@@ -200,15 +199,15 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
                 $property = 'pre';
             }
             $type = 'attr_transform_' . $property;
-            return array($type, $params);
+            return [$type, $params];
         }
 
         // special case: tag transform
         if (is_null($property)) {
-            return array('tag_transform', $params);
+            return ['tag_transform', $params];
         }
 
-        return array($property, $params);
+        return [$property, $params];
 
     }
 
@@ -219,7 +218,7 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
      */
     public function makeFixes()
     {
-        return array();
+        return [];
     }
 }
 

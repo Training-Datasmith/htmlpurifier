@@ -31,6 +31,7 @@ class HTMLPurifier_AttrDef_Lang extends HTMLPurifier_AttrDef
         $length = strlen($subtags[0]);
         switch ($length) {
             case 0:
+            default:
                 return false;
             case 1:
                 if (!($subtags[0] == 'x' || $subtags[0] == 'i')) {
@@ -41,12 +42,11 @@ class HTMLPurifier_AttrDef_Lang extends HTMLPurifier_AttrDef
             case 3:
                 if (!ctype_alpha($subtags[0])) {
                     return false;
-                } elseif (!ctype_lower($subtags[0])) {
+                }
+                if (!ctype_lower($subtags[0])) {
                     $subtags[0] = strtolower($subtags[0]);
                 }
                 break;
-            default:
-                return false;
         }
 
         $new_string = $subtags[0];

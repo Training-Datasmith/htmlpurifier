@@ -12,7 +12,7 @@ abstract class HTMLPurifier_URIScheme
      * elided.
      * @type int
      */
-    public $default_port = null;
+    public $default_port;
 
     /**
      * Whether or not URIs of this scheme are locatable by a browser

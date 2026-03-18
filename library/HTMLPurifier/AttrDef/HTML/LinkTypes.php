@@ -20,10 +20,10 @@ class HTMLPurifier_AttrDef_HTML_LinkTypes extends HTMLPurifier_AttrDef
      */
     public function __construct($name)
     {
-        $configLookup = array(
+        $configLookup = [
             'rel' => 'AllowedRel',
             'rev' => 'AllowedRev'
-        );
+        ];
         if (!isset($configLookup[$name])) {
             throw new Exception('Unrecognized attribute name for link relationship.');
         }
@@ -47,7 +47,7 @@ class HTMLPurifier_AttrDef_HTML_LinkTypes extends HTMLPurifier_AttrDef
         $parts = explode(' ', $string);
 
         // lookup to prevent duplicates
-        $ret_lookup = array();
+        $ret_lookup = [];
         foreach ($parts as $part) {
             $part = strtolower(trim($part));
             if (!isset($allowed[$part])) {
@@ -59,8 +59,7 @@ class HTMLPurifier_AttrDef_HTML_LinkTypes extends HTMLPurifier_AttrDef
         if (empty($ret_lookup)) {
             return false;
         }
-        $string = implode(' ', array_keys($ret_lookup));
-        return $string;
+        return implode(' ', array_keys($ret_lookup));
     }
 }
 

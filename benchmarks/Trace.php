@@ -8,7 +8,7 @@ if (file_exists('Trace.xt')) {
     exit;
 }
 
-xdebug_start_trace(dirname(__FILE__) . '/Trace');
+xdebug_start_trace(__DIR__ . '/Trace');
 require_once '../library/HTMLPurifier.auto.php';
 
 $purifier = new HTMLPurifier();

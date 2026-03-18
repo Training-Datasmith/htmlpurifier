@@ -44,7 +44,7 @@ class HTMLPurifier_ChildDef_Table extends HTMLPurifier_ChildDef
     /**
      * @type array
      */
-    public $elements = array(
+    public $elements = [
         'tr' => true,
         'tbody' => true,
         'thead' => true,
@@ -52,11 +52,7 @@ class HTMLPurifier_ChildDef_Table extends HTMLPurifier_ChildDef
         'caption' => true,
         'colgroup' => true,
         'col' => true
-    );
-
-    public function __construct()
-    {
-    }
+    ];
 
     /**
      * @param array $children
@@ -76,14 +72,14 @@ class HTMLPurifier_ChildDef_Table extends HTMLPurifier_ChildDef
         $tfoot = false;
 
         // whitespace
-        $initial_ws = array();
-        $after_caption_ws = array();
-        $after_thead_ws = array();
-        $after_tfoot_ws = array();
+        $initial_ws = [];
+        $after_caption_ws = [];
+        $after_thead_ws = [];
+        $after_tfoot_ws = [];
 
         // as many of these as you want
-        $cols = array();
-        $content = array();
+        $cols = [];
+        $content = [];
 
         $tbody_mode = false; // if true, then we need to wrap any stray
                              // <tr>s with a <tbody>.
@@ -173,9 +169,7 @@ class HTMLPurifier_ChildDef_Table extends HTMLPurifier_ChildDef
             $ret[] = $caption;
             $ret = array_merge($ret, $after_caption_ws);
         }
-        if ($cols !== false) {
-            $ret = array_merge($ret, $cols);
-        }
+        $ret = array_merge($ret, $cols);
         if ($thead !== false) {
             $ret[] = $thead;
             $ret = array_merge($ret, $after_thead_ws);

@@ -19,10 +19,6 @@ class HTMLPurifier_ChildDef_Empty extends HTMLPurifier_ChildDef
      */
     public $type = 'empty';
 
-    public function __construct()
-    {
-    }
-
     /**
      * @param HTMLPurifier_Node[] $children
      * @param HTMLPurifier_Config $config
@@ -31,7 +27,7 @@ class HTMLPurifier_ChildDef_Empty extends HTMLPurifier_ChildDef
      */
     public function validateChildren($children, $config, $context)
     {
-        return array();
+        return [];
     }
 }
 

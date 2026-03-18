@@ -1,6 +1,6 @@
 <?php
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 
 //require_once '../library/HTMLPurifier.path.php';
 shell_exec('php ../maintenance/generate-schema-cache.php');

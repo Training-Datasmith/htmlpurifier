@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 require_once 'common.php';
 assertCli();
 
@@ -10,23 +10,41 @@ assertCli();
  * Removes trailing whitespace from files.
  */
 
-chdir(dirname(__FILE__) . '/..');
+chdir(__DIR__ . '/..');
 $FS = new FSTools();
 
 $files = $FS->globr('.', '{,.}*', GLOB_BRACE);
 foreach ($files as $file) {
-    if (
-        !is_file($file) ||
-        prefix_is('./.git', $file) ||
-        prefix_is('./docs/doxygen', $file) ||
-        postfix_is('.ser', $file) ||
-        postfix_is('.tgz', $file) ||
-        postfix_is('.patch', $file) ||
-        postfix_is('.dtd', $file) ||
-        postfix_is('.ent', $file) ||
-        $file == './library/HTMLPurifier/Lexer/PH5P.php' ||
-        $file == './maintenance/PH5P.php'
-    ) continue;
+    if (!is_file($file)) {
+        continue;
+    }
+    if (prefix_is('./.git', $file)) {
+        continue;
+    }
+    if (prefix_is('./docs/doxygen', $file)) {
+        continue;
+    }
+    if (postfix_is('.ser', $file)) {
+        continue;
+    }
+    if (postfix_is('.tgz', $file)) {
+        continue;
+    }
+    if (postfix_is('.patch', $file)) {
+        continue;
+    }
+    if (postfix_is('.dtd', $file)) {
+        continue;
+    }
+    if (postfix_is('.ent', $file)) {
+        continue;
+    }
+    if ($file == './library/HTMLPurifier/Lexer/PH5P.php') {
+        continue;
+    }
+    if ($file == './maintenance/PH5P.php') {
+        continue;
+    }
     $contents = file_get_contents($file);
     $result = preg_replace('/^(.*?)[ \t]+(\r?)$/m', '\1\2', $contents, -1, $count);
     if (!$count) continue;

@@ -43,10 +43,10 @@ $string = '<object width="425" height="350"><param name="movie" value="http://ww
 
 $regular_purifier = new HTMLPurifier();
 
-$safeobject_purifier = new HTMLPurifier(array(
+$safeobject_purifier = new HTMLPurifier([
     'HTML.SafeObject' => true,
     'Output.FlashCompat' => true,
-));
+]);
 
 ?>
 <h2>Unpurified</h2>

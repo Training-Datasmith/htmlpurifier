@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 require_once 'common.php';
 assertCli();
 
@@ -10,43 +10,88 @@ assertCli();
  * Adds vimline to files
  */
 
-chdir(dirname(__FILE__) . '/..');
+chdir(__DIR__ . '/..');
 $FS = new FSTools();
 
 $vimline = 'vim: et sw=4 sts=4';
 
 $files = $FS->globr('.', '*');
 foreach ($files as $file) {
-    if (
-        !is_file($file) ||
-        prefix_is('./docs/doxygen', $file) ||
-        prefix_is('./library/standalone', $file) ||
-        prefix_is('./docs/specimens', $file) ||
-        postfix_is('.ser', $file) ||
-        postfix_is('.tgz', $file) ||
-        postfix_is('.patch', $file) ||
-        postfix_is('.dtd', $file) ||
-        postfix_is('.ent', $file) ||
-        postfix_is('.png', $file) ||
-        postfix_is('.ico', $file) ||
-        // wontfix
-        postfix_is('.vtest', $file) ||
-        postfix_is('.svg', $file) ||
-        postfix_is('.phpt', $file) ||
-        postfix_is('VERSION', $file) ||
-        postfix_is('configdoc/usage.xml', $file) ||
-        postfix_is('library/HTMLPurifier.includes.php', $file) ||
-        postfix_is('library/HTMLPurifier.safe-includes.php', $file) ||
-        postfix_is('smoketests/xssAttacks.xml', $file) ||
-        // phpt files
-        postfix_is('.diff', $file) ||
-        postfix_is('.exp', $file) ||
-        postfix_is('.log', $file) ||
-        postfix_is('.out', $file) ||
-
-        $file == './library/HTMLPurifier/Lexer/PH5P.php' ||
-        $file == './maintenance/PH5P.php'
-    ) continue;
+    if (!is_file($file)) {
+        continue;
+    }
+    if (prefix_is('./docs/doxygen', $file)) {
+        continue;
+    }
+    if (prefix_is('./library/standalone', $file)) {
+        continue;
+    }
+    if (prefix_is('./docs/specimens', $file)) {
+        continue;
+    }
+    if (postfix_is('.ser', $file)) {
+        continue;
+    }
+    if (postfix_is('.tgz', $file)) {
+        continue;
+    }
+    if (postfix_is('.patch', $file)) {
+        continue;
+    }
+    if (postfix_is('.dtd', $file)) {
+        continue;
+    }
+    if (postfix_is('.ent', $file)) {
+        continue;
+    }
+    if (postfix_is('.png', $file)) {
+        continue;
+    }
+    if (postfix_is('.ico', $file)) {
+        continue;
+    }
+    if (postfix_is('.vtest', $file)) {
+        continue;
+    }
+    if (postfix_is('.svg', $file)) {
+        continue;
+    }
+    if (postfix_is('.phpt', $file)) {
+        continue;
+    }
+    if (postfix_is('VERSION', $file)) {
+        continue;
+    }
+    if (postfix_is('configdoc/usage.xml', $file)) {
+        continue;
+    }
+    if (postfix_is('library/HTMLPurifier.includes.php', $file)) {
+        continue;
+    }
+    if (postfix_is('library/HTMLPurifier.safe-includes.php', $file)) {
+        continue;
+    }
+    if (postfix_is('smoketests/xssAttacks.xml', $file)) {
+        continue;
+    }
+    if (postfix_is('.diff', $file)) {
+        continue;
+    }
+    if (postfix_is('.exp', $file)) {
+        continue;
+    }
+    if (postfix_is('.log', $file)) {
+        continue;
+    }
+    if (postfix_is('.out', $file)) {
+        continue;
+    }
+    if ($file == './library/HTMLPurifier/Lexer/PH5P.php') {
+        continue;
+    }
+    if ($file == './maintenance/PH5P.php') {
+        continue;
+    }
     $ext = strrchr($file, '.');
     if (
         postfix_is('README', $file) ||

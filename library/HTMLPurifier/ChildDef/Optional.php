@@ -29,16 +29,16 @@ class HTMLPurifier_ChildDef_Optional extends HTMLPurifier_ChildDef_Required
     {
         $result = parent::validateChildren($children, $config, $context);
         // we assume that $children is not modified
-        if ($result === false) {
-            if (empty($children)) {
-                return true;
-            } elseif ($this->whitespace) {
-                return $children;
-            } else {
-                return array();
-            }
+        if ($result !== false) {
+            return $result;
         }
-        return $result;
+        if (empty($children)) {
+            return true;
+        }
+        if ($this->whitespace) {
+            return $children;
+        }
+        return [];
     }
 }
 

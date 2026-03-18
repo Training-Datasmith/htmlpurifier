@@ -23,7 +23,7 @@ function phorum_htmlpurifier_save_settings()
 function phorum_htmlpurifier_commit_settings()
 {
     global $PHORUM;
-    return phorum_db_update_settings(array("mod_htmlpurifier"=>$PHORUM["mod_htmlpurifier"]));
+    return phorum_db_update_settings(["mod_htmlpurifier"=>$PHORUM["mod_htmlpurifier"]]);
 }
 
 // vim: et sw=4 sts=4

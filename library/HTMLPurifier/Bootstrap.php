@@ -2,7 +2,7 @@
 
 // constants are slow, so we use as few as possible
 if (!defined('HTMLPURIFIER_PREFIX')) {
-    define('HTMLPURIFIER_PREFIX', realpath(dirname(__FILE__) . '/..'));
+    define('HTMLPURIFIER_PREFIX', realpath(__DIR__ . '/..'));
 }
 
 // accommodations for versions earlier than 5.0.2
@@ -78,7 +78,7 @@ class HTMLPurifier_Bootstrap
      */
     public static function registerAutoload()
     {
-        $autoload = array('HTMLPurifier_Bootstrap', 'autoload');
+        $autoload = ['HTMLPurifier_Bootstrap', 'autoload'];
         if (spl_autoload_functions() === false) {
             spl_autoload_register($autoload);
         } else {

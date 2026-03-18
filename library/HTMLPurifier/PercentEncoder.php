@@ -15,7 +15,7 @@ class HTMLPurifier_PercentEncoder
      * Reserved characters to preserve when using encode().
      * @type array
      */
-    protected $preserve = array();
+    protected $preserve = [];
 
     /**
      * String of characters that should be preserved while using encode().

@@ -21,9 +21,9 @@ class HTMLPurifier_Queue {
     private $input;
     private $output;
 
-    public function __construct($input = array()) {
+    public function __construct($input = []) {
         $this->input = $input;
-        $this->output = array();
+        $this->output = [];
     }
 
     /**
@@ -32,7 +32,7 @@ class HTMLPurifier_Queue {
     public function shift() {
         if (empty($this->output)) {
             $this->output = array_reverse($this->input);
-            $this->input = array();
+            $this->input = [];
         }
         if (empty($this->output)) {
             return NULL;

@@ -37,7 +37,7 @@ class HTMLPurifier_ErrorStruct
      * Errors registered for this structure.
      * @type array
      */
-    public $errors = array();
+    public $errors = [];
 
     /**
      * Child ErrorStructs that are from this structure. For example, a TOKEN
@@ -45,7 +45,7 @@ class HTMLPurifier_ErrorStruct
      * array in structure: [TYPE]['identifier']
      * @type array
      */
-    public $children = array();
+    public $children = [];
 
     /**
      * @param string $type
@@ -67,7 +67,7 @@ class HTMLPurifier_ErrorStruct
      */
     public function addError($severity, $message)
     {
-        $this->errors[] = array($severity, $message);
+        $this->errors[] = [$severity, $message];
     }
 }
 

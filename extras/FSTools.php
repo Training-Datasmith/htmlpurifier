@@ -74,7 +74,10 @@ class FSTools
         $dir = $this->dir($source);
         while ( false !== ($entry = $dir->read()) ) {
             // Skip pointers
-            if ($entry == '.' || $entry == '..') {
+            if ($entry == '.') {
+                continue;
+            }
+            if ($entry == '..') {
                 continue;
             }
             if (!$this->copyable($entry)) {
@@ -121,7 +124,10 @@ class FSTools
         $dir = $this->dir($dirname);
         while (false !== $entry = $dir->read()) {
             // Skip pointers
-            if ($entry == '.' || $entry == '..') {
+            if ($entry == '.') {
+                continue;
+            }
+            if ($entry == '..') {
                 continue;
             }
             // Recurse
@@ -139,9 +145,9 @@ class FSTools
     public function globr($dir, $pattern, $flags = 0)
     {
         $files = $this->glob("$dir/$pattern", $flags);
-        if ($files === false) $files = array();
+        if ($files === false) $files = [];
         $sub_dirs = $this->glob("$dir/*", GLOB_ONLYDIR);
-        if ($sub_dirs === false) $sub_dirs = array();
+        if ($sub_dirs === false) $sub_dirs = [];
         foreach ($sub_dirs as $sub_dir) {
             $sub_files = $this->globr($sub_dir, $pattern, $flags);
             $files = array_merge($files, $sub_files);

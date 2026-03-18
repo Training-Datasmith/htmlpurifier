@@ -68,12 +68,7 @@ class HTMLPurifier_AttrDef_URI_Host extends HTMLPurifier_AttrDef
         // URI containing "_" such as "_dmarc.example.com".
         // Underscores are not allowed in the default. If you want to
         // allow it, set Core.AllowHostnameUnderscore to true.
-        $underscore = $config->get('Core.AllowHostnameUnderscore') ? '_' : '';
-
-        // Based off of RFC 1738, but amended so that
-        // as per RFC 3696, the top label need only not be all numeric.
-        // The productions describing this are:
-        $a   = '[a-z]';     // alpha
+        $underscore = $config->get('Core.AllowHostnameUnderscore') ? '_' : '';     // alpha
         $an  = "[a-z0-9$underscore]";  // alphanum
         $and = "[a-z0-9-$underscore]"; // alphanum | "-"
         // domainlabel = alphanum | alphanum *( alphanum | "-" ) alphanum
@@ -101,11 +96,11 @@ class HTMLPurifier_AttrDef_URI_Host extends HTMLPurifier_AttrDef
         // punycoding them. (This is the most portable thing to do,
         // since otherwise we have to assume browsers support
         } elseif ($config->get('Core.EnableIDNA') && class_exists('Net_IDNA2')) {
-            $idna = new Net_IDNA2(array('encoding' => 'utf8', 'overlong' => false, 'strict' => true));
+            $idna = new Net_IDNA2(['encoding' => 'utf8', 'overlong' => false, 'strict' => true]);
             // we need to encode each period separately
             $parts = explode('.', $string);
             try {
-                $new_parts = array();
+                $new_parts = [];
                 foreach ($parts as $part) {
                     $encodable = false;
                     for ($i = 0, $c = strlen($part); $i < $c; $i++) {

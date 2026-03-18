@@ -14,7 +14,7 @@ class HTMLPurifier_Context
      * Private array that stores the references.
      * @type array
      */
-    private $_storage = array();
+    private $_storage = [];
 
     /**
      * Registers a variable into the context.
@@ -73,7 +73,7 @@ class HTMLPurifier_Context
      * Loads a series of variables from an associative array
      * @param array $context_array Assoc array of variables to load
      */
-    public function loadArray($context_array)
+    public function loadArray(array $context_array)
     {
         foreach ($context_array as $key => $discard) {
             $this->register($key, $context_array[$key]);

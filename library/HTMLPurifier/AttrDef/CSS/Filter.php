@@ -42,8 +42,8 @@ class HTMLPurifier_AttrDef_CSS_Filter extends HTMLPurifier_AttrDef
         $parameters_length = strcspn($value, ')', $cursor);
         $parameters = substr($value, $cursor, $parameters_length);
         $params = explode(',', $parameters);
-        $ret_params = array();
-        $lookup = array();
+        $ret_params = [];
+        $lookup = [];
         foreach ($params as $param) {
             list($key, $value) = explode('=', $param);
             $key = trim($key);
@@ -69,8 +69,7 @@ class HTMLPurifier_AttrDef_CSS_Filter extends HTMLPurifier_AttrDef
             $lookup[$key] = true;
         }
         $ret_parameters = implode(',', $ret_params);
-        $ret_function = "$function($ret_parameters)";
-        return $ret_function;
+        return "$function($ret_parameters)";
     }
 }
 

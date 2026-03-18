@@ -109,7 +109,6 @@ class HTMLPurifier_URI
     {
         // ABNF definitions from RFC 3986
         $chars_sub_delims = $config->get('URI.AllowedSymbols');
-        $chars_gen_delims = ':/?#[]@';
         $chars_pchar = $chars_sub_delims . ':@';
 
         // validate host

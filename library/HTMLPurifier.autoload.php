@@ -14,7 +14,7 @@ if (function_exists('spl_autoload_register') && function_exists('spl_autoload_un
         spl_autoload_register('__autoload');
     }
 } elseif (!function_exists('__autoload')) {
-    require dirname(__FILE__) . '/HTMLPurifier.autoload-legacy.php';
+    require __DIR__ . '/HTMLPurifier.autoload-legacy.php';
 }
 
 // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.zend_ze1_compatibility_modeRemoved

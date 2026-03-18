@@ -28,7 +28,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
      * @param array $matches, in form of array(opening tag, contents, closing tag)
      * @return string
      */
-    protected function scriptCallback($matches)
+    protected function scriptCallback(array $matches)
     {
         return $matches[1] . htmlspecialchars($matches[2], ENT_COMPAT, 'UTF-8') . $matches[3];
     }
@@ -47,7 +47,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
         if ($config->get('HTML.Trusted')) {
             $html = preg_replace_callback(
                 '#(<script[^>]*>)(\s*[^<].+?)(</script>)#si',
-                array($this, 'scriptCallback'),
+                [$this, 'scriptCallback'],
                 $html
             );
         }
@@ -56,7 +56,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
 
         $cursor = 0; // our location in the text
         $inside_tag = false; // whether or not we're parsing the inside of a tag
-        $array = array(); // result array
+        $array = []; // result array
 
         // This is also treated to mean maintain *column* numbers too
         $maintain_line_numbers = $config->get('Core.MaintainLineNumbers');
@@ -124,7 +124,6 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 $inside_tag = true;
                 $cursor++;
             }
-
             if (!$inside_tag && $position_next_lt !== false) {
                 // We are not inside tag and there still is another tag to parse
                 $token = new
@@ -145,7 +144,9 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 $cursor = $position_next_lt + 1;
                 $inside_tag = true;
                 continue;
-            } elseif (!$inside_tag) {
+            }
+
+            if (!$inside_tag) {
                 // We are not inside tag but there are no more tags
                 // If we're already at the end, break
                 if ($cursor === strlen($html)) {
@@ -166,7 +167,8 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 }
                 $array[] = $token;
                 break;
-            } elseif ($inside_tag && $position_next_gt !== false) {
+            }
+            elseif ($inside_tag && $position_next_gt !== false) {
                 // We are in tag and it is well formed
                 // Grab the internals of the tag
                 $strlen_segment = $position_next_gt - $cursor;
@@ -300,7 +302,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                         $context
                     );
                 } else {
-                    $attr = array();
+                    $attr = [];
                 }
 
                 if ($is_self_closing) {
@@ -316,7 +318,8 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 $cursor = $position_next_gt + 1;
                 $inside_tag = false;
                 continue;
-            } else {
+            }
+            else {
                 // inside tag, but there's no ending > sign
                 if ($e) {
                     $e->send(E_WARNING, 'Lexer: Missing gt');
@@ -356,7 +359,7 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
         $string = (string)$string; // quick typecast
 
         if ($string == '') {
-            return array();
+            return [];
         } // no attributes
 
         $e = false;
@@ -370,8 +373,9 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
         $has_space = strpos($string, ' ');
         if ($num_equal === 0 && !$has_space) {
             // bool attribute
-            return array($string => $string);
-        } elseif ($num_equal === 1 && !$has_space) {
+            return [$string => $string];
+        }
+        if ($num_equal === 1 && !$has_space) {
             // only one attribute
             list($key, $quoted_value) = explode('=', $string);
             $quoted_value = trim($quoted_value);
@@ -379,17 +383,15 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
                 if ($e) {
                     $e->send(E_ERROR, 'Lexer: Missing attribute key');
                 }
-                return array();
+                return [];
             }
             if (!$quoted_value) {
-                return array($key => '');
+                return [$key => ''];
             }
             $first_char = @$quoted_value[0];
             $last_char = @$quoted_value[strlen($quoted_value) - 1];
-
             $same_quote = ($first_char == $last_char);
             $open_quote = ($first_char == '"' || $first_char == "'");
-
             if ($same_quote && $open_quote) {
                 // well behaved
                 $value = substr($quoted_value, 1, strlen($quoted_value) - 2);
@@ -407,11 +409,11 @@ class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
             if ($value === false) {
                 $value = '';
             }
-            return array($key => $this->parseAttr($value, $config));
+            return [$key => $this->parseAttr($value, $config)];
         }
 
         // setup loop environment
-        $array = array(); // return assoc array of attributes
+        $array = []; // return assoc array of attributes
         $cursor = 0; // current position in string (moves forward)
         $size = strlen($string); // size of the string (stays the same)
 

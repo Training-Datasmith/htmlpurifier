@@ -4,9 +4,9 @@ class HTMLPurifier_URIDefinition extends HTMLPurifier_Definition
 {
 
     public $type = 'URI';
-    protected $filters = array();
-    protected $postFilters = array();
-    protected $registeredFilters = array();
+    protected $filters = [];
+    protected $postFilters = [];
+    protected $registeredFilters = [];
 
     /**
      * HTMLPurifier_URI object of the base specified at %URI.Base
@@ -91,7 +91,7 @@ class HTMLPurifier_URIDefinition extends HTMLPurifier_Definition
 
     public function filter(&$uri, $config, $context)
     {
-        foreach ($this->filters as $name => $f) {
+        foreach ($this->filters as $f) {
             $result = $f->filter($uri, $config, $context);
             if (!$result) return false;
         }
@@ -100,7 +100,7 @@ class HTMLPurifier_URIDefinition extends HTMLPurifier_Definition
 
     public function postFilter(&$uri, $config, $context)
     {
-        foreach ($this->postFilters as $name => $f) {
+        foreach ($this->postFilters as $f) {
             $result = $f->filter($uri, $config, $context);
             if (!$result) return false;
         }

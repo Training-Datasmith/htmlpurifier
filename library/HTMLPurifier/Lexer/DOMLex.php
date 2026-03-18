@@ -69,7 +69,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
             $options |= LIBXML_NOBLANKS;
         }
 
-        set_error_handler(array($this, 'muteErrorHandler'));
+        set_error_handler([$this, 'muteErrorHandler']);
         // loadHTML() fails on PHP 5.3 when second parameter is given
         if ($options) {
             $doc->loadHTML($html, $options);
@@ -82,7 +82,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
                       getElementsByTagName('body')->item(0);  // <body>
 
         $div = $body->getElementsByTagName('div')->item(0); // <div>
-        $tokens = array();
+        $tokens = [];
         $this->tokenizeDOM($div, $tokens, $config);
         // If the div has a sibling, that means we tripped across
         // a premature </div> tag.  So remove the div we parsed,
@@ -104,8 +104,8 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
     protected function tokenizeDOM($node, &$tokens, $config)
     {
         $level = 0;
-        $nodes = array($level => new HTMLPurifier_Queue(array($node)));
-        $closingNodes = array();
+        $nodes = [$level => new HTMLPurifier_Queue([$node])];
+        $closingNodes = [];
         do {
             while (!$nodes[$level]->isEmpty()) {
                 $node = $nodes[$level]->shift(); // FIFO
@@ -140,9 +140,11 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
     {
         if (isset($node->tagName)) {
             return $node->tagName;
-        } else if (isset($node->nodeName)) {
+        }
+        if (isset($node->nodeName)) {
             return $node->nodeName;
-        } else if (isset($node->localName)) {
+        }
+        if (isset($node->localName)) {
             return $node->localName;
         }
         return null;
@@ -157,9 +159,11 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
     {
         if (isset($node->data)) {
             return $node->data;
-        } else if (isset($node->nodeValue)) {
+        }
+        if (isset($node->nodeValue)) {
             return $node->nodeValue;
-        } else if (isset($node->textContent)) {
+        }
+        if (isset($node->textContent)) {
             return $node->textContent;
         }
         return null;
@@ -181,12 +185,14 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
         // but we're not getting the character reference nodes because
         // those should have been preprocessed
         if ($node->nodeType === XML_TEXT_NODE) {
-            $data = $this->getData($node); // Handle variable data property
+            $data = $this->getData($node);
+            // Handle variable data property
             if ($data !== null) {
               $tokens[] = $this->factory->createText($data);
             }
             return false;
-        } elseif ($node->nodeType === XML_CDATA_SECTION_NODE) {
+        }
+        if ($node->nodeType === XML_CDATA_SECTION_NODE) {
             // undo libxml's special treatment of <script> and <style> tags
             $last = end($tokens);
             $data = $node->data;
@@ -204,17 +210,19 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
             }
             $tokens[] = $this->factory->createText($this->parseText($data, $config));
             return false;
-        } elseif ($node->nodeType === XML_COMMENT_NODE) {
+        }
+        if ($node->nodeType === XML_COMMENT_NODE) {
             // this is code is only invoked for comments in script/style in versions
             // of libxml pre-2.6.28 (regular comments, of course, are still
             // handled regularly)
             $tokens[] = $this->factory->createComment($node->data);
             return false;
-        } elseif ($node->nodeType !== XML_ELEMENT_NODE) {
+        }
+        if ($node->nodeType !== XML_ELEMENT_NODE) {
             // not-well tested: there may be other nodes we have to grab
             return false;
         }
-        $attr = $node->hasAttributes() ? $this->transformAttrToAssoc($node->attributes) : array();
+        $attr = $node->hasAttributes() ? $this->transformAttrToAssoc($node->attributes) : [];
         $tag_name = $this->getTagName($node); // Handle variable tagName property
         if (empty($tag_name)) {
             return (bool) $node->childNodes->length;
@@ -225,12 +233,11 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
                 $tokens[] = $this->factory->createEmpty($tag_name, $attr);
             }
             return false;
-        } else {
-            if ($collect) {
-                $tokens[] = $this->factory->createStart($tag_name, $attr);
-            }
-            return true;
         }
+        if ($collect) {
+            $tokens[] = $this->factory->createStart($tag_name, $attr);
+        }
+        return true;
     }
 
     /**
@@ -255,9 +262,9 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
         // features, namely, the fact that it implements Iterator and
         // has a ->length attribute
         if ($node_map->length === 0) {
-            return array();
+            return [];
         }
-        $array = array();
+        $array = [];
         foreach ($node_map as $attr) {
             $array[$attr->name] = $attr->value;
         }
@@ -276,10 +283,9 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
     /**
      * Callback function for undoing escaping of stray angled brackets
      * in comments
-     * @param array $matches
      * @return string
      */
-    public function callbackUndoCommentSubst($matches)
+    public function callbackUndoCommentSubst(array $matches)
     {
         return '<!--' . $this->undoCommentSubstr($matches[1]) . $matches[2];
     }
@@ -287,10 +293,9 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
     /**
      * Callback function that entity-izes ampersands in comments so that
      * callbackUndoCommentSubst doesn't clobber them
-     * @param array $matches
      * @return string
      */
-    public function callbackArmorCommentEntities($matches)
+    public function callbackArmorCommentEntities(array $matches)
     {
         return '<!--' . $this->armorEntities($matches[1]) . $matches[2];
     }
@@ -310,7 +315,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
      */
     protected function undoCommentSubstr($string)
     {
-        return strtr($string, array('&amp;' => '&', '&lt;' => '<'));
+        return strtr($string, ['&amp;' => '&', '&lt;' => '<']);
     }
 
     /**
@@ -343,8 +348,7 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
         if ($use_div) $ret .= '<div>';
         $ret .= $html;
         if ($use_div) $ret .= '</div>';
-        $ret .= '</body></html>';
-        return $ret;
+        return $ret . '</body></html>';
     }
 
     /**
@@ -354,21 +358,20 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
     protected function aggressivelyFixLt($html)
     {
         $char = '[^a-z!\/]';
-        $html = $this->manipulateHtmlComments($html, array($this, 'armorEntities'));
+        $html = $this->manipulateHtmlComments($html, [$this, 'armorEntities']);
 
         do {
             $old = $html;
             $html = preg_replace("/<($char)/i", '&lt;\\1', $html);
         } while ($html !== $old);
 
-        return $this->manipulateHtmlComments($html, array($this, 'undoCommentSubstr'));
+        return $this->manipulateHtmlComments($html, [$this, 'undoCommentSubstr']);
     }
 
     /**
      * Modify HTML comments in the given HTML content using a callback.
      *
      * @param string $html
-     * @param callable $callback
      * @return string
      */
     protected function manipulateHtmlComments($html, callable $callback)

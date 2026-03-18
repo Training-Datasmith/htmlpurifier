@@ -28,7 +28,7 @@ class HTMLPurifier_HTMLModule_Iframe extends HTMLPurifier_HTMLModule
         if ($config->get('HTML.SafeIframe')) {
             $this->safe = true;
         }
-        $attrs = array(
+        $attrs = [
             'src' => 'URI#embedded',
             'width' => 'Length',
             'height' => 'Length',
@@ -38,7 +38,7 @@ class HTMLPurifier_HTMLModule_Iframe extends HTMLPurifier_HTMLModule
             'longdesc' => 'URI',
             'marginheight' => 'Pixels',
             'marginwidth' => 'Pixels',
-        );
+        ];
 
         if ($config->get('HTML.Trusted')) {
             $attrs['allowfullscreen'] = 'Bool#allowfullscreen';

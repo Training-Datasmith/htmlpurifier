@@ -28,11 +28,11 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
         $allow_duplicates = $config->get("CSS.AllowDuplicates");
 
         $universal_attrdef = new HTMLPurifier_AttrDef_Enum(
-            array(
+            [
                 'initial',
                 'inherit',
                 'unset',
-            )
+            ]
         );
 
         // According to the CSS2.1 spec, the places where a
@@ -41,7 +41,7 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
         // handle quotes.
         $len = strlen($css);
         $accum = "";
-        $declarations = array();
+        $declarations = [];
         $quoted = false;
         for ($i = 0; $i < $len; $i++) {
             $c = strcspn($css, ";'\"", $i);
@@ -66,7 +66,7 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
         }
         if ($accum != "") $declarations[] = $accum;
 
-        $propvalues = array();
+        $propvalues = [];
         $new_declarations = '';
 
         /**
@@ -131,7 +131,7 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
             $new_declarations .= "$prop:$value;";
         }
 
-        return $new_declarations ? $new_declarations : false;
+        return $new_declarations ?: false;
 
     }
 

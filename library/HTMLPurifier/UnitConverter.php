@@ -20,20 +20,20 @@ class HTMLPurifier_UnitConverter
      * constraint on memory (this is generally not a problem, since
      * the number of measuring systems is small.)
      */
-    protected static $units = array(
-        self::ENGLISH => array(
+    protected static $units = [
+        self::ENGLISH => [
             'px' => 3, // This is as per CSS 2.1 and Firefox. Your mileage may vary
             'pt' => 4,
             'pc' => 48,
             'in' => 288,
-            self::METRIC => array('pt', '0.352777778', 'mm'),
-        ),
-        self::METRIC => array(
+            self::METRIC => ['pt', '0.352777778', 'mm'],
+        ],
+        self::METRIC => [
             'mm' => 1,
             'cm' => 10,
-            self::ENGLISH => array('mm', '2.83464567', 'pt'),
-        ),
-    );
+            self::ENGLISH => ['mm', '2.83464567', 'pt'],
+        ],
+    ];
 
     /**
      * Minimum bcmath precision for output.
@@ -205,22 +205,6 @@ class HTMLPurifier_UnitConverter
     }
 
     /**
-     * Adds two numbers, using arbitrary precision when available.
-     * @param string $s1
-     * @param string $s2
-     * @param int $scale
-     * @return string
-     */
-    private function add($s1, $s2, $scale)
-    {
-        if ($this->bcmath) {
-            return bcadd($s1, $s2, $scale);
-        } else {
-            return $this->scale((float)$s1 + (float)$s2, $scale);
-        }
-    }
-
-    /**
      * Multiples two numbers, using arbitrary precision when available.
      * @param string $s1
      * @param string $s2
@@ -231,9 +215,8 @@ class HTMLPurifier_UnitConverter
     {
         if ($this->bcmath) {
             return bcmul($s1, $s2, $scale);
-        } else {
-            return $this->scale((float)$s1 * (float)$s2, $scale);
         }
+        return $this->scale((float)$s1 * (float)$s2, $scale);
     }
 
     /**
@@ -247,9 +230,8 @@ class HTMLPurifier_UnitConverter
     {
         if ($this->bcmath) {
             return bcdiv($s1, $s2, $scale);
-        } else {
-            return $this->scale((float)$s1 / (float)$s2, $scale);
         }
+        return $this->scale((float)$s1 / (float)$s2, $scale);
     }
 
     /**
@@ -267,17 +249,14 @@ class HTMLPurifier_UnitConverter
         if ($this->bcmath) {
             if ($rp >= 0) {
                 $n = bcadd($n, $neg . '0.' . str_repeat('0', $rp) . '5', $rp + 1);
-                $n = bcdiv($n, '1', $rp);
-            } else {
-                // This algorithm partially depends on the standardized
-                // form of numbers that comes out of bcmath.
-                $n = bcadd($n, $neg . '5' . str_repeat('0', $new_log - $sigfigs), 0);
-                $n = substr($n, 0, $sigfigs + strlen($neg)) . str_repeat('0', $new_log - $sigfigs + 1);
+                return bcdiv($n, '1', $rp);
             }
-            return $n;
-        } else {
-            return $this->scale(round((float)$n, $sigfigs - $new_log - 1), $rp + 1);
+            // This algorithm partially depends on the standardized
+            // form of numbers that comes out of bcmath.
+            $n = bcadd($n, $neg . '5' . str_repeat('0', $new_log - $sigfigs), 0);
+            return substr($n, 0, $sigfigs + strlen($neg)) . str_repeat('0', $new_log - $sigfigs + 1);
         }
+        return $this->scale(round((float)$n, $sigfigs - $new_log - 1), $rp + 1);
     }
 
     /**

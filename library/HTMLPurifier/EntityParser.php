@@ -83,7 +83,7 @@ class HTMLPurifier_EntityParser
     {
         return preg_replace_callback(
             $this->_textEntitiesRegex,
-            array($this, 'entityCallback'),
+            [$this, 'entityCallback'],
             $string
         );
     }
@@ -99,7 +99,7 @@ class HTMLPurifier_EntityParser
     {
         return preg_replace_callback(
             $this->_attrEntitiesRegex,
-            array($this, 'entityCallback'),
+            [$this, 'entityCallback'],
             $string
         );
     }
@@ -113,7 +113,7 @@ class HTMLPurifier_EntityParser
      * @return string Replacement string.
      */
 
-    protected function entityCallback($matches)
+    protected function entityCallback(array $matches)
     {
         $entity = $matches[0];
         $hex_part = isset($matches[1]) ? $matches[1] : null;
@@ -121,29 +121,28 @@ class HTMLPurifier_EntityParser
         $named_part = empty($matches[3]) ? (empty($matches[4]) ? "" : $matches[4]) : $matches[3];
         if ($hex_part !== NULL && $hex_part !== "") {
             return HTMLPurifier_Encoder::unichr(hexdec($hex_part));
-        } elseif ($dec_part !== NULL && $dec_part !== "") {
-            return HTMLPurifier_Encoder::unichr((int) $dec_part);
-        } else {
-            if (!$this->_entity_lookup) {
-                $this->_entity_lookup = HTMLPurifier_EntityLookup::instance();
-            }
-            if (isset($this->_entity_lookup->table[$named_part])) {
-                return $this->_entity_lookup->table[$named_part];
-            } else {
-                // exact match didn't match anything, so test if
-                // any of the semicolon optional match the prefix.
-                // Test that this is an EXACT match is important to
-                // prevent infinite loop
-                if (!empty($matches[3])) {
-                    return preg_replace_callback(
-                        $this->_semiOptionalPrefixRegex,
-                        array($this, 'entityCallback'),
-                        $entity
-                    );
-                }
-                return $entity;
-            }
         }
+        if ($dec_part !== NULL && $dec_part !== "") {
+            return HTMLPurifier_Encoder::unichr((int) $dec_part);
+        }
+        if (!$this->_entity_lookup) {
+            $this->_entity_lookup = HTMLPurifier_EntityLookup::instance();
+        }
+        if (isset($this->_entity_lookup->table[$named_part])) {
+            return $this->_entity_lookup->table[$named_part];
+        }
+        // exact match didn't match anything, so test if
+        // any of the semicolon optional match the prefix.
+        // Test that this is an EXACT match is important to
+        // prevent infinite loop
+        if (!empty($matches[3])) {
+            return preg_replace_callback(
+                $this->_semiOptionalPrefixRegex,
+                [$this, 'entityCallback'],
+                $entity
+            );
+        }
+        return $entity;
     }
 
     // LEGACY CODE BELOW
@@ -161,25 +160,25 @@ class HTMLPurifier_EntityParser
      * @type array
      */
     protected $_special_dec2str =
-            array(
+            [
                     34 => '"',
                     38 => '&',
                     39 => "'",
                     60 => '<',
                     62 => '>'
-            );
+            ];
 
     /**
      * Stripped entity names to decimal conversion table for special entities.
      * @type array
      */
     protected $_special_ent2dec =
-            array(
+            [
                     'quot' => 34,
                     'amp'  => 38,
                     'lt'   => 60,
                     'gt'   => 62
-            );
+            ];
 
     /**
      * Substitutes non-special entities with their parsed equivalents. Since
@@ -194,7 +193,7 @@ class HTMLPurifier_EntityParser
         // it will try to detect missing semicolons, but don't rely on it
         return preg_replace_callback(
             $this->_substituteEntitiesRegex,
-            array($this, 'nonSpecialEntityCallback'),
+            [$this, 'nonSpecialEntityCallback'],
             $string
         );
     }
@@ -208,7 +207,7 @@ class HTMLPurifier_EntityParser
      * @return string Replacement string.
      */
 
-    protected function nonSpecialEntityCallback($matches)
+    protected function nonSpecialEntityCallback(array $matches)
     {
         // replaces all but big five
         $entity = $matches[0];
@@ -221,19 +220,17 @@ class HTMLPurifier_EntityParser
                 return $entity;
             }
             return HTMLPurifier_Encoder::unichr($code);
-        } else {
-            if (isset($this->_special_ent2dec[$matches[3]])) {
-                return $entity;
-            }
-            if (!$this->_entity_lookup) {
-                $this->_entity_lookup = HTMLPurifier_EntityLookup::instance();
-            }
-            if (isset($this->_entity_lookup->table[$matches[3]])) {
-                return $this->_entity_lookup->table[$matches[3]];
-            } else {
-                return $entity;
-            }
         }
+        if (isset($this->_special_ent2dec[$matches[3]])) {
+            return $entity;
+        }
+        if (!$this->_entity_lookup) {
+            $this->_entity_lookup = HTMLPurifier_EntityLookup::instance();
+        }
+        if (isset($this->_entity_lookup->table[$matches[3]])) {
+            return $this->_entity_lookup->table[$matches[3]];
+        }
+        return $entity;
     }
 
     /**
@@ -249,7 +246,7 @@ class HTMLPurifier_EntityParser
     {
         return preg_replace_callback(
             $this->_substituteEntitiesRegex,
-            array($this, 'specialEntityCallback'),
+            [$this, 'specialEntityCallback'],
             $string
         );
     }
@@ -264,7 +261,7 @@ class HTMLPurifier_EntityParser
      *                  or string (respectively).
      * @return string Replacement string.
      */
-    protected function specialEntityCallback($matches)
+    protected function specialEntityCallback(array $matches)
     {
         $entity = $matches[0];
         $is_num = (@$matches[0][1] === '#');
@@ -274,11 +271,10 @@ class HTMLPurifier_EntityParser
             return isset($this->_special_dec2str[$int]) ?
                 $this->_special_dec2str[$int] :
                 $entity;
-        } else {
-            return isset($this->_special_ent2dec[$matches[3]]) ?
-                $this->_special_dec2str[$this->_special_ent2dec[$matches[3]]] :
-                $entity;
         }
+        return isset($this->_special_ent2dec[$matches[3]]) ?
+            $this->_special_dec2str[$this->_special_ent2dec[$matches[3]]] :
+            $entity;
     }
 }
 

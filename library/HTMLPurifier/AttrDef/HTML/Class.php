@@ -17,9 +17,8 @@ class HTMLPurifier_AttrDef_HTML_Class extends HTMLPurifier_AttrDef_HTML_Nmtokens
         $name = $config->getDefinition('HTML')->doctype->name;
         if ($name == "XHTML 1.1" || $name == "XHTML 2.0") {
             return parent::split($string, $config, $context);
-        } else {
-            return preg_split('/\s+/', $string);
         }
+        return preg_split('/\s+/', $string);
     }
 
     /**
@@ -32,7 +31,7 @@ class HTMLPurifier_AttrDef_HTML_Class extends HTMLPurifier_AttrDef_HTML_Nmtokens
     {
         $allowed = $config->get('Attr.AllowedClasses');
         $forbidden = $config->get('Attr.ForbiddenClasses');
-        $ret = array();
+        $ret = [];
         foreach ($tokens as $token) {
             if (($allowed === null || isset($allowed[$token])) &&
                 !isset($forbidden[$token]) &&

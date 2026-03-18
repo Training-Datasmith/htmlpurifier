@@ -52,7 +52,7 @@ class HTMLPurifier_Generator
      * compatibility code.
      * @type array
      */
-    private $_flashStack = array();
+    private $_flashStack = [];
 
     /**
      * Configuration for the generator
@@ -62,9 +62,8 @@ class HTMLPurifier_Generator
 
     /**
      * @param HTMLPurifier_Config $config
-     * @param HTMLPurifier_Context $context
      */
-    public function __construct($config, $context)
+    public function __construct($config)
     {
         $this->config = $config;
         $this->_scriptFix = $config->get('Output.CommentScriptContents');
@@ -80,7 +79,7 @@ class HTMLPurifier_Generator
      * @param HTMLPurifier_Token[] $tokens Array of HTMLPurifier_Token
      * @return string Generated HTML
      */
-    public function generateFromTokens($tokens)
+    public function generateFromTokens(array $tokens)
     {
         if (!$tokens) {
             return '';
@@ -105,13 +104,13 @@ class HTMLPurifier_Generator
             $tidy = new Tidy;
             $tidy->parseString(
                 $html,
-                array(
+                [
                    'indent'=> true,
                    'output-xhtml' => $this->_xhtml,
                    'show-body-only' => true,
                    'indent-spaces' => 2,
                    'wrap' => 68,
-                ),
+                ],
                 'utf8'
             );
             $tidy->cleanRepair();
@@ -141,20 +140,20 @@ class HTMLPurifier_Generator
         if (!$token instanceof HTMLPurifier_Token) {
             trigger_error('Cannot generate HTML from non-HTMLPurifier_Token object', E_USER_WARNING);
             return '';
-
-        } elseif ($token instanceof HTMLPurifier_Token_Start) {
+        }
+        if ($token instanceof HTMLPurifier_Token_Start) {
             $attr = $this->generateAttributes($token->attr, $token->name);
             if ($this->_flashCompat) {
                 if ($token->name == "object") {
                     $flash = new stdClass();
                     $flash->attr = $token->attr;
-                    $flash->param = array();
+                    $flash->param = [];
                     $this->_flashStack[] = $flash;
                 }
             }
             return '<' . $token->name . ($attr ? ' ' : '') . $attr . '>';
-
-        } elseif ($token instanceof HTMLPurifier_Token_End) {
+        }
+        if ($token instanceof HTMLPurifier_Token_End) {
             $_extra = '';
             if ($this->_flashCompat) {
                 if ($token->name == "object" && !empty($this->_flashStack)) {
@@ -162,25 +161,23 @@ class HTMLPurifier_Generator
                 }
             }
             return $_extra . '</' . $token->name . '>';
-
-        } elseif ($token instanceof HTMLPurifier_Token_Empty) {
+        }
+        if ($token instanceof HTMLPurifier_Token_Empty) {
             if ($this->_flashCompat && $token->name == "param" && !empty($this->_flashStack)) {
                 $this->_flashStack[count($this->_flashStack)-1]->param[$token->attr['name']] = $token->attr['value'];
             }
             $attr = $this->generateAttributes($token->attr, $token->name);
-             return '<' . $token->name . ($attr ? ' ' : '') . $attr .
-                ( $this->_xhtml ? ' /': '' ) // <br /> v. <br>
-                . '>';
-
-        } elseif ($token instanceof HTMLPurifier_Token_Text) {
-            return $this->escape($token->data, ENT_NOQUOTES);
-
-        } elseif ($token instanceof HTMLPurifier_Token_Comment) {
-            return '<!--' . $token->data . '-->';
-        } else {
-            return '';
-
+            return '<' . $token->name . ($attr ? ' ' : '') . $attr .
+               ( $this->_xhtml ? ' /': '' ) // <br /> v. <br>
+               . '>';
         }
+        if ($token instanceof HTMLPurifier_Token_Text) {
+            return $this->escape($token->data, ENT_NOQUOTES);
+        }
+        if ($token instanceof HTMLPurifier_Token_Comment) {
+            return '<!--' . $token->data . '-->';
+        }
+        return '';
     }
 
     /**

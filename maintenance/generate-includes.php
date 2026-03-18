@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 require_once 'common.php';
 require_once '../tests/path2class.func.php';
 require_once '../library/HTMLPurifier/Bootstrap.php';
@@ -14,10 +14,10 @@ assertCli();
  * be called.
  */
 
-chdir(dirname(__FILE__) . '/../library/');
+chdir(__DIR__ . '/../library/');
 $FS = new FSTools();
 
-$exclude_dirs = array(
+$exclude_dirs = [
     'HTMLPurifier/Language/',
     'HTMLPurifier/ConfigSchema/',
     'HTMLPurifier/Filter/',
@@ -25,18 +25,18 @@ $exclude_dirs = array(
     /* These should be excluded, but need to have ConfigSchema support first
 
     */
-);
-$exclude_files = array(
+];
+$exclude_files = [
     'HTMLPurifier/Lexer/PEARSax3.php',
     'HTMLPurifier/Lexer/PH5P.php',
     'HTMLPurifier/Printer.php',
-);
+];
 
 // Determine what files need to be included:
 echo 'Scanning for files... ';
 $raw_files = $FS->globr('.', '*.php');
 if (!$raw_files) throw new Exception('Did not find any PHP source files');
-$files = array();
+$files = [];
 foreach ($raw_files as $file) {
     $file = substr($file, 2); // rm leading './'
     if (strncmp('standalone/', $file, 11) === 0) continue; // rm generated files
@@ -68,14 +68,14 @@ echo "done!\n";
  */
 function get_dependency_lookup($file)
 {
-    static $cache = array();
+    static $cache = [];
     if (isset($cache[$file])) return $cache[$file];
     if (!file_exists($file)) {
         echo "File doesn't exist: $file\n";
-        return array();
+        return [];
     }
     $fh = fopen($file, 'r');
-    $deps = array();
+    $deps = [];
     while (!feof($fh)) {
         $line = fgets($fh);
         if (strncmp('class', $line, 5) === 0) {
@@ -111,8 +111,8 @@ function get_dependency_lookup($file)
  */
 function dep_sort($files)
 {
-    $ret = array();
-    $cache = array();
+    $ret = [];
+    $cache = [];
     foreach ($files as $file) {
         if (isset($cache[$file])) continue;
         $deps = get_dependency_lookup($file);

@@ -16,16 +16,16 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 // load library and other paraphernalia
 require_once './include/admin/PhorumInputForm.php';
-require_once (dirname(__FILE__) . '/htmlpurifier/HTMLPurifier.auto.php');
-require_once (dirname(__FILE__) . '/init-config.php');
-require_once (dirname(__FILE__) . '/settings/migrate-sigs-form.php');
-require_once (dirname(__FILE__) . '/settings/migrate-sigs.php');
-require_once (dirname(__FILE__) . '/settings/form.php');
-require_once (dirname(__FILE__) . '/settings/save.php');
+require_once (__DIR__ . '/htmlpurifier/HTMLPurifier.auto.php');
+require_once (__DIR__ . '/init-config.php');
+require_once (__DIR__ . '/settings/migrate-sigs-form.php');
+require_once (__DIR__ . '/settings/migrate-sigs.php');
+require_once (__DIR__ . '/settings/form.php');
+require_once (__DIR__ . '/settings/save.php');
 
 // define friendly configuration directives. you can expand this array
 // to get more web-definable directives
-$PHORUM['mod_htmlpurifier']['directives'] = array(
+$PHORUM['mod_htmlpurifier']['directives'] = [
     'URI.Host', // auto-detectable
     'URI.DisableExternal',
     'URI.DisableExternalResources',
@@ -40,7 +40,7 @@ $PHORUM['mod_htmlpurifier']['directives'] = array(
     '-AutoFormat.Custom',
     'AutoFormatParam',
     'Output.TidyFormat',
-);
+];
 
 // lower this setting if you're getting time outs/out of memory
 $PHORUM['mod_htmlpurifier']['migrate-sigs-increment'] = 100;

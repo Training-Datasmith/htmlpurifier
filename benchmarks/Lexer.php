@@ -7,17 +7,14 @@ require_once '../library/HTMLPurifier.auto.php';
 require_once 'Benchmark/Timer.php'; // to do the timing
 require_once 'Text/Password.php'; // for generating random input
 
-$LEXERS = array();
+$LEXERS = [];
 $RUNS = isset($GLOBALS['HTMLPurifierTest']['Runs'])
     ? $GLOBALS['HTMLPurifierTest']['Runs'] : 2;
 
 require_once 'HTMLPurifier/Lexer/DirectLex.php';
 $LEXERS['DirectLex'] = new HTMLPurifier_Lexer_DirectLex();
-
-if (version_compare(PHP_VERSION, '5', '>=')) {
-    require_once 'HTMLPurifier/Lexer/DOMLex.php';
-    $LEXERS['DOMLex'] = new HTMLPurifier_Lexer_DOMLex();
-}
+require_once 'HTMLPurifier/Lexer/DOMLex.php';
+$LEXERS['DOMLex'] = new HTMLPurifier_Lexer_DOMLex();
 
 // custom class to aid unit testing
 class RowTimer extends Benchmark_Timer
@@ -33,9 +30,8 @@ class RowTimer extends Benchmark_Timer
 
     public function getOutput()
     {
-        $total  = $this->TimeElapsed();
+        $this->TimeElapsed();
         $result = $this->getProfiling();
-        $dashes = '';
 
         $out = '<tr>';
 
@@ -43,9 +39,13 @@ class RowTimer extends Benchmark_Timer
 
         $standard = false;
 
-        foreach ($result as $k => $v) {
-            if ($v['name'] == 'Start' || $v['name'] == 'Stop') continue;
-
+        foreach ($result as $v) {
+            if ($v['name'] == 'Start') {
+                continue;
+            }
+            if ($v['name'] == 'Stop') {
+                continue;
+            }
             //$perc = (($v['diff'] * 100) / $total);
             //$tperc = (($v['total'] * 100) / $total);
 
@@ -63,9 +63,7 @@ class RowTimer extends Benchmark_Timer
 
         }
 
-        $out .= '</tr>';
-
-        return $out;
+        return $out . '</tr>';
     }
 }
 
@@ -130,7 +128,7 @@ while (false !== ($filename = readdir($dh))) {
 
 // crashers, caused infinite loops before
 
-$snippets = array();
+$snippets = [];
 $snippets[] = '<a href="foo>';
 $snippets[] = '<a "=>';
 

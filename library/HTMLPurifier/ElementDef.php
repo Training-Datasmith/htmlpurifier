@@ -29,7 +29,7 @@ class HTMLPurifier_ElementDef
      *       see HTMLPurifier_AttrTypes on how they are expanded during
      *       HTMLPurifier_HTMLDefinition->setup() processing.
      */
-    public $attr = array();
+    public $attr = [];
 
     // XXX: Design note: currently, it's not possible to override
     // previously defined AttrTransforms without messing around with
@@ -47,13 +47,13 @@ class HTMLPurifier_ElementDef
      * List of tags HTMLPurifier_AttrTransform to be done before validation.
      * @type array
      */
-    public $attr_transform_pre = array();
+    public $attr_transform_pre = [];
 
     /**
      * List of tags HTMLPurifier_AttrTransform to be done after validation.
      * @type array
      */
-    public $attr_transform_post = array();
+    public $attr_transform_post = [];
 
     /**
      * HTMLPurifier_ChildDef of this tag.
@@ -95,7 +95,7 @@ class HTMLPurifier_ElementDef
      * Dynamically populated by HTMLPurifier_HTMLDefinition::getElement()
      * @type array
      */
-    public $required_attr = array();
+    public $required_attr = [];
 
     /**
      * Lookup table of tags excluded from all descendants of this tag.
@@ -109,13 +109,13 @@ class HTMLPurifier_ElementDef
      *       Modularization Abstract Modules are blithely unaware of such
      *       distinctions.
      */
-    public $excludes = array();
+    public $excludes = [];
 
     /**
      * This tag is explicitly auto-closed by the following tags.
      * @type array
      */
-    public $autoclose = array();
+    public $autoclose = [];
 
     /**
      * If a foreign element is found in this element, test if it is
@@ -199,7 +199,7 @@ class HTMLPurifier_ElementDef
      * @param $a1 Array by reference that is merged into
      * @param $a2 Array that merges into $a1
      */
-    private function _mergeAssocArray(&$a1, $a2)
+    private function _mergeAssocArray(array &$a1, $a2)
     {
         foreach ($a2 as $k => $v) {
             if ($v === false) {

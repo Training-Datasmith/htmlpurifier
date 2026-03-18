@@ -10,7 +10,7 @@ function phorum_htmlpurifier_migrate_sigs_check()
             exit;
         }
         $PHORUM['mod_htmlpurifier']['migrate-sigs'] = true;
-        phorum_db_update_settings(array("mod_htmlpurifier"=>$PHORUM["mod_htmlpurifier"]));
+        phorum_db_update_settings(["mod_htmlpurifier"=>$PHORUM["mod_htmlpurifier"]]);
         $offset = 1;
     } elseif (!empty($_GET['migrate-sigs']) && $PHORUM['mod_htmlpurifier']['migrate-sigs']) {
         $offset = (int) $_GET['migrate-sigs'];
@@ -29,23 +29,23 @@ function phorum_htmlpurifier_migrate_sigs($offset)
     @set_time_limit(0); // attempt to let this run
     $increment = $PHORUM['mod_htmlpurifier']['migrate-sigs-increment'];
 
-    require_once(dirname(__FILE__) . '/../migrate.php');
+    require_once(__DIR__ . '/../migrate.php');
     // migrate signatures
     // do this in batches so we don't run out of time/space
     $end = $offset + $increment;
-    $user_ids = array();
+    $user_ids = [];
     for ($i = $offset; $i < $end; $i++) {
         $user_ids[] = $i;
     }
     $userinfos = phorum_db_user_get_fields($user_ids, 'signature');
-    foreach ($userinfos as $i => $user) {
+    foreach ($userinfos as $user) {
         if (empty($user['signature'])) continue;
         $sig = $user['signature'];
         // perform standard Phorum processing on the sig
-        $sig = str_replace(array("&","<",">"), array("&amp;","&lt;","&gt;"), $sig);
+        $sig = str_replace(["&","<",">"], ["&amp;","&lt;","&gt;"], $sig);
         $sig = preg_replace("/<((http|https|ftp):\/\/[a-z0-9;\/\?:@=\&\$\-_\.\+!*'\(\),~%]+?)>/i", "$1", $sig);
         // prepare fake data to pass to migration function
-        $fake_data = array(array("author"=>"", "email"=>"", "subject"=>"", 'body' => $sig));
+        $fake_data = [["author"=>"", "email"=>"", "subject"=>"", 'body' => $sig]];
         list($fake_message) = phorum_htmlpurifier_migrate($fake_data);
         $user['signature'] = $fake_message['body'];
         if (!phorum_api_user_save($user)) {

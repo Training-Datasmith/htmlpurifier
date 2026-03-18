@@ -26,9 +26,9 @@ if (isset($_GET['doc'])) {
 
     $xslt = new ConfigDoc_HTMLXSLTProcessor();
     $xslt->importStylesheet("../configdoc/styles/$style.xsl");
-    $xslt->setParameters(array(
+    $xslt->setParameters([
       'css' => '../configdoc/styles/plain.css',
-    ));
+    ]);
     $html = $xslt->transformToHTML($configdoc_xml);
 
     unlink('test-schema.xml');
@@ -61,7 +61,7 @@ $schema = $schema_builder->build($interchange);
 
 $config  = HTMLPurifier_Config::loadArrayFromForm($_GET, 'config', true, true, $schema);
 $printer = new HTMLPurifier_Printer_ConfigForm('config', '?doc#%s');
-echo $printer->render(array(HTMLPurifier_Config::createDefault(), $config));
+echo $printer->render([HTMLPurifier_Config::createDefault(), $config]);
 
 ?>
 </form>

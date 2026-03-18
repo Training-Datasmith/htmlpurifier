@@ -23,7 +23,7 @@ abstract class HTMLPurifier_Definition
      * picture.
      * @type bool
      */
-    public $optimized = null;
+    public $optimized;
 
     /**
      * What type of definition is it?

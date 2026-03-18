@@ -60,8 +60,7 @@ abstract class HTMLPurifier_AttrDef
     public function parseCDATA($string)
     {
         $string = trim($string);
-        $string = str_replace(array("\n", "\t", "\r"), ' ', $string);
-        return $string;
+        return str_replace(["\n", "\t", "\r"], ' ', $string);
     }
 
     /**

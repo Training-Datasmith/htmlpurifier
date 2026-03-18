@@ -31,6 +31,6 @@ class HTMLPurifier_Node_Comment extends HTMLPurifier_Node
     }
 
     public function toTokenPair() {
-        return array(new HTMLPurifier_Token_Comment($this->data, $this->line, $this->col), null);
+        return [new HTMLPurifier_Token_Comment($this->data, $this->line, $this->col), null];
     }
 }

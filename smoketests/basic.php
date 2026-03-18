@@ -4,15 +4,15 @@ require_once 'common.php';
 
 // todo : modularize the HTML in to separate files
 
-$allowed = array(
+$allowed = [
     'allElements' => true,
     'legacy' => true
-);
+];
 
 $page = isset($_GET['p']) ? $_GET['p'] : false;
 if (!isset($allowed[$page])) $page = false;
 
-$strict = isset($_GET['d']) ? (bool) $_GET['d'] : false;
+$strict = isset($_GET['d']) && (bool) $_GET['d'];
 
 echo '<?xml version="1.0" encoding="UTF-8" ?>';
 ?>

@@ -20,6 +20,6 @@ function postfix_is($comp, $subject)
 }
 
 // Load useful stuff like FSTools
-require_once dirname(__FILE__) . '/../extras/HTMLPurifierExtras.auto.php';
+require_once __DIR__ . '/../extras/HTMLPurifierExtras.auto.php';
 
 // vim: et sw=4 sts=4

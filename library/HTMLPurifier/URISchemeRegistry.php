@@ -29,7 +29,7 @@ class HTMLPurifier_URISchemeRegistry
      * Cache of retrieved schemes.
      * @type HTMLPurifier_URIScheme[]
      */
-    protected $schemes = array();
+    protected $schemes = [];
 
     /**
      * Retrieves a scheme validator object

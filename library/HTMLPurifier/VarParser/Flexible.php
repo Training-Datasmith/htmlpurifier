@@ -31,12 +31,12 @@ class HTMLPurifier_VarParser_Flexible extends HTMLPurifier_VarParser
                 return $var;
             case self::C_INT:
                 if (is_string($var) && ctype_digit($var)) {
-                    $var = (int)$var;
+                    return (int)$var;
                 }
                 return $var;
             case self::C_FLOAT:
                 if ((is_string($var) && is_numeric($var)) || is_int($var)) {
-                    $var = (float)$var;
+                    return (float)$var;
                 }
                 return $var;
             case self::C_BOOL:
@@ -60,7 +60,7 @@ class HTMLPurifier_VarParser_Flexible extends HTMLPurifier_VarParser
                     // a single empty string item, but having an empty
                     // array is more intuitive
                     if ($var == '') {
-                        return array();
+                        return [];
                     }
                     if (strpos($var, "\n") === false && strpos($var, "\r") === false) {
                         // simplistic string to array method that only works
@@ -75,7 +75,7 @@ class HTMLPurifier_VarParser_Flexible extends HTMLPurifier_VarParser
                     }
                     if ($type === self::HASH) {
                         // key:value,key2:value2
-                        $nvar = array();
+                        $nvar = [];
                         foreach ($var as $keypair) {
                             $c = explode(':', $keypair, 2);
                             if (!isset($c[1])) {
@@ -93,15 +93,15 @@ class HTMLPurifier_VarParser_Flexible extends HTMLPurifier_VarParser
                 if ($keys === array_keys($keys)) {
                     if ($type == self::ALIST) {
                         return $var;
-                    } elseif ($type == self::LOOKUP) {
-                        $new = array();
+                    }
+                    if ($type == self::LOOKUP) {
+                        $new = [];
                         foreach ($var as $key) {
                             $new[$key] = true;
                         }
                         return $new;
-                    } else {
-                        break;
                     }
+                    break;
                 }
                 if ($type === self::ALIST) {
                     trigger_error("Array list did not have consecutive integer indexes", E_USER_WARNING);
@@ -121,7 +121,7 @@ class HTMLPurifier_VarParser_Flexible extends HTMLPurifier_VarParser
                 }
                 return $var;
             default:
-                $this->errorInconsistent(__CLASS__, $type);
+                $this->errorInconsistent(self::class, $type);
         }
         $this->errorGeneric($var, $type);
     }

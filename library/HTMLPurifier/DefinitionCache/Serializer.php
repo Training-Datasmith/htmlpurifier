@@ -184,8 +184,7 @@ class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCac
     public function generateBaseDirectoryPath($config)
     {
         $base = $config->get('Cache.SerializerPath');
-        $base = is_null($base) ? HTMLPURIFIER_PREFIX . '/HTMLPurifier/DefinitionCache/Serializer' : $base;
-        return $base;
+        return is_null($base) ? HTMLPURIFIER_PREFIX . '/HTMLPurifier/DefinitionCache/Serializer' : $base;
     }
 
     /**
@@ -236,7 +235,8 @@ class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCac
                     E_USER_WARNING
                 );
                 return false;
-            } elseif (!$this->_testPermissions($base, $chmod)) {
+            }
+            if (!$this->_testPermissions($base, $chmod)) {
                 return false;
             }
             if (!@mkdir($directory, $chmod) && !is_dir($directory)) {

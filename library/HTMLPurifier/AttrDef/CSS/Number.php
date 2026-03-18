@@ -77,10 +77,11 @@ class HTMLPurifier_AttrDef_CSS_Number extends HTMLPurifier_AttrDef
         }
 
         $right = rtrim($right, '0');
-
         if ($right === '') {
             return $left ? $sign . $left : '0';
-        } elseif (!ctype_digit($right)) {
+        }
+
+        if (!ctype_digit($right)) {
             return false;
         }
         return $sign . $left . '.' . $right;

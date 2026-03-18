@@ -29,7 +29,7 @@ class HTMLPurifier_ErrorCollector
     /**
      * @type array
      */
-    protected $_stacks = array(array());
+    protected $_stacks = [[]];
 
     /**
      * @type HTMLPurifier_Language
@@ -49,7 +49,7 @@ class HTMLPurifier_ErrorCollector
     /**
      * @type array
      */
-    protected $lines = array();
+    protected $lines = [];
 
     /**
      * @param HTMLPurifier_Context $context
@@ -69,7 +69,7 @@ class HTMLPurifier_ErrorCollector
      */
     public function send($severity, $msg)
     {
-        $args = array();
+        $args = [];
         if (func_num_args() > 2) {
             $args = func_get_args();
             array_shift($args);
@@ -82,7 +82,7 @@ class HTMLPurifier_ErrorCollector
         $attr  = $this->context->get('CurrentAttr', true);
 
         // perform special substitutions, also add custom parameters
-        $subst = array();
+        $subst = [];
         if (!is_null($token)) {
             $args['CurrentToken'] = $token;
         }
@@ -104,12 +104,12 @@ class HTMLPurifier_ErrorCollector
         }
 
         // (numerically indexed)
-        $error = array(
+        $error = [
             self::LINENO   => $line,
             self::SEVERITY => $severity,
             self::MESSAGE  => $msg,
-            self::CHILDREN => array()
-        );
+            self::CHILDREN => []
+        ];
         $this->_current[] = $error;
 
         // NEW CODE BELOW ...
@@ -142,14 +142,14 @@ class HTMLPurifier_ErrorCollector
         if (!empty($attr)) {
             $struct = $struct->getChild(HTMLPurifier_ErrorStruct::ATTR, $attr);
             if (!$struct->value) {
-                $struct->value = array($attr, 'PUT VALUE HERE');
+                $struct->value = [$attr, 'PUT VALUE HERE'];
             }
         }
         if (!empty($cssprop)) {
             $struct = $struct->getChild(HTMLPurifier_ErrorStruct::CSSPROP, $cssprop);
             if (!$struct->value) {
                 // if we tokenize CSS this might be a little more difficult to do
-                $struct->value = array($cssprop, 'PUT VALUE HERE');
+                $struct->value = [$cssprop, 'PUT VALUE HERE'];
             }
         }
 
@@ -173,7 +173,7 @@ class HTMLPurifier_ErrorCollector
      */
     public function getHTMLFormatted($config, $errors = null)
     {
-        $ret = array();
+        $ret = [];
 
         $this->generator = new HTMLPurifier_Generator($config, $this->context);
         if ($errors === null) {
@@ -197,16 +197,15 @@ class HTMLPurifier_ErrorCollector
 
         if (empty($errors)) {
             return '<p>' . $this->locale->getMessage('ErrorCollector: No errors') . '</p>';
-        } else {
-            return '<ul><li>' . implode('</li><li>', $ret) . '</li></ul>';
         }
+        return '<ul><li>' . implode('</li><li>', $ret) . '</li></ul>';
 
     }
 
     private function _renderStruct(&$ret, $struct, $line = null, $col = null)
     {
-        $stack = array($struct);
-        $context_stack = array(array());
+        $stack = [$struct];
+        $context_stack = [[]];
         while ($current = array_pop($stack)) {
             $context = array_pop($context_stack);
             foreach ($current->errors as $error) {

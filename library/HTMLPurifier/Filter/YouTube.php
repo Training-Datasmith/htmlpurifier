@@ -31,7 +31,7 @@ class HTMLPurifier_Filter_YouTube extends HTMLPurifier_Filter
     public function postFilter($html, $config, $context)
     {
         $post_regex = '#<span class="youtube-embed">((?:v|cp)/[A-Za-z0-9\-_=]+)</span>#';
-        return preg_replace_callback($post_regex, array($this, 'postFilterCallback'), (string)$html);
+        return preg_replace_callback($post_regex, [$this, 'postFilterCallback'], (string)$html);
     }
 
     /**
@@ -44,10 +44,9 @@ class HTMLPurifier_Filter_YouTube extends HTMLPurifier_Filter
     }
 
     /**
-     * @param array $matches
      * @return string
      */
-    protected function postFilterCallback($matches)
+    protected function postFilterCallback(array $matches)
     {
         $url = $this->armorUrl($matches[1]);
         return '<object width="425" height="350" type="application/x-shockwave-flash" ' .

@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 require_once 'common.php';
 assertCli();
 
@@ -15,7 +15,7 @@ assertCli();
 /**
  * Global hash that tracks already loaded includes
  */
-$GLOBALS['loaded'] = array();
+$GLOBALS['loaded'] = [];
 
 /**
  * Custom FSTools for this script that overloads some behavior
@@ -108,10 +108,10 @@ function copy_and_remove_includes($file, $sfile)
 function replace_includes_callback($matches)
 {
     $file = $matches[1];
-    $preserve = array(
+    $preserve = [
       // PEAR (external)
       'XML/HTMLSax3.php' => 1
-    );
+    ];
     if (isset($preserve[$file])) {
         return $matches[0];
     }
@@ -124,7 +124,7 @@ echo 'Generating includes file... ';
 shell_exec('php generate-includes.php');
 echo "done!\n";
 
-chdir(dirname(__FILE__) . '/../library/');
+chdir(__DIR__ . '/../library/');
 
 echo 'Creating full file...';
 $contents = replace_includes(file_get_contents('HTMLPurifier.includes.php'));

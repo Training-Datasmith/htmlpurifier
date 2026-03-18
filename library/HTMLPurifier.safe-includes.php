@@ -10,7 +10,7 @@
  * Changes to include_path are not necessary.
  */
 
-$__dir = dirname(__FILE__);
+$__dir = __DIR__;
 
 require_once $__dir . '/HTMLPurifier.php';
 require_once $__dir . '/HTMLPurifier/Arborize.php';

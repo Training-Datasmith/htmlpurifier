@@ -9,7 +9,7 @@ class HTMLPurifier_AttrTypes
      * Lookup array of attribute string identifiers to concrete implementations.
      * @type HTMLPurifier_AttrDef[]
      */
-    protected $info = array();
+    protected $info = [];
 
     /**
      * Constructs the info array, supplying default implementations for attribute
@@ -78,7 +78,6 @@ class HTMLPurifier_AttrTypes
 
         if (!isset($this->info[$type])) {
             throw new Exception('Cannot retrieve undefined attribute type ' . $type);
-            return;
         }
         return $this->info[$type]->make($string);
     }

@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 require_once 'common.php';
 assertCli();
 
@@ -42,7 +42,7 @@ if ( file_exists($output_file) ) exit("Fatal Error: output file already exists.\
 $dh = @opendir($entity_dir);
 if ( !$dh ) exit("Fatal Error: Cannot read entity directory.\n");
 
-$entity_files = array();
+$entity_files = [];
 while (($file = readdir($dh)) !== false) {
     if (@$file[0] === '.') continue;
     if (substr(strrchr($file, "."), 1) !== 'ent') continue;
@@ -52,12 +52,12 @@ closedir($dh);
 
 if ( !$entity_files ) exit("Fatal Error: No entity files to parse.\n");
 
-$entity_table = array();
+$entity_table = [];
 $regexp = '/<!ENTITY\s+([A-Za-z0-9]+)\s+"&#(?:38;#)?([0-9]+);">/';
 
 foreach ( $entity_files as $file ) {
     $contents = file_get_contents($entity_dir . $file);
-    $matches = array();
+    $matches = [];
     preg_match_all($regexp, $contents, $matches, PREG_SET_ORDER);
     foreach ($matches as $match) {
         $entity_table[$match[1]] = unichr($match[2]);

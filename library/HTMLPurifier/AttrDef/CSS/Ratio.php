@@ -22,7 +22,7 @@ class HTMLPurifier_AttrDef_CSS_Ratio extends HTMLPurifier_AttrDef
         $parts = explode('/', $ratio, 2);
         $length = count($parts);
 
-        if ($length < 1 || $length > 2) {
+        if ($length > 2) {
             return false;
         }
 

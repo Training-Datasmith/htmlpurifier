@@ -58,16 +58,15 @@ class HTMLPurifier_ChildDef_StrictBlockquote extends HTMLPurifier_ChildDef_Requi
         $this->elements = $this->real_elements;
 
         if ($result === false) {
-            return array();
+            return [];
         }
         if ($result === true) {
             $result = $children;
         }
 
         $def = $config->getHTMLDefinition();
-        $block_wrap_name = $def->info_block_wrapper;
         $block_wrap = false;
-        $ret = array();
+        $ret = [];
 
         foreach ($result as $node) {
             if ($block_wrap === false) {

@@ -52,7 +52,7 @@ abstract class HTMLPurifier_Injector
      * array('element' => array('attr', 'attr2'), 'element2')
      * @type array
      */
-    public $needed = array();
+    public $needed = [];
 
     /**
      * Number of elements to rewind backwards (relative).

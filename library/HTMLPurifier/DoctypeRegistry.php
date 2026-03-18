@@ -31,20 +31,20 @@ class HTMLPurifier_DoctypeRegistry
     public function register(
         $doctype,
         $xml = true,
-        $modules = array(),
-        $tidy_modules = array(),
-        $aliases = array(),
+        $modules = [],
+        $tidy_modules = [],
+        $aliases = [],
         $dtd_public = null,
         $dtd_system = null
     ) {
         if (!is_array($modules)) {
-            $modules = array($modules);
+            $modules = [$modules];
         }
         if (!is_array($tidy_modules)) {
-            $tidy_modules = array($tidy_modules);
+            $tidy_modules = [$tidy_modules];
         }
         if (!is_array($aliases)) {
-            $aliases = array($aliases);
+            $aliases = [$aliases];
         }
         if (!is_object($doctype)) {
             $doctype = new HTMLPurifier_Doctype(
@@ -87,8 +87,6 @@ class HTMLPurifier_DoctypeRegistry
         }
         if (!isset($this->doctypes[$doctype])) {
             throw new Exception('Doctype ' . htmlspecialchars($doctype) . ' does not exist');
-            $anon = new HTMLPurifier_Doctype($doctype);
-            return $anon;
         }
         return $this->doctypes[$doctype];
     }

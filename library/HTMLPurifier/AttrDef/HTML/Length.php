@@ -49,7 +49,7 @@ class HTMLPurifier_AttrDef_HTML_Length extends HTMLPurifier_AttrDef_HTML_Pixels
         if ($points > 100) {
             return '100%';
         }
-        return ((string)$points) . '%';
+        return ($points) . '%';
     }
 }
 

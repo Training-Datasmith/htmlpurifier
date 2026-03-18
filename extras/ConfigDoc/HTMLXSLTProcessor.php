@@ -53,11 +53,11 @@ class ConfigDoc_HTMLXSLTProcessor
 
         if (class_exists('Tidy')) {
             // cleanup output
-            $config = array(
+            $config = [
                 'indent'        => true,
                 'output-xhtml'  => true,
                 'wrap'          => 80
-            );
+            ];
             $tidy = new Tidy;
             $tidy->parseString($out, $config, 'utf8');
             $tidy->cleanRepair();
@@ -83,7 +83,7 @@ class ConfigDoc_HTMLXSLTProcessor
      */
     public function __call($name, $arguments)
     {
-        call_user_func_array(array($this->xsltProcessor, $name), $arguments);
+        call_user_func_array([$this->xsltProcessor, $name], $arguments);
     }
 
 }

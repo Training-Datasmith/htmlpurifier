@@ -28,7 +28,7 @@
 /**
  * Purifies a data array
  */
-function phorum_htmlpurifier_format($data)
+function phorum_htmlpurifier_format(array $data)
 {
     $PHORUM = $GLOBALS["PHORUM"];
 
@@ -67,7 +67,7 @@ function phorum_htmlpurifier_format($data)
 
             // migration might edit this array, that's why it's defined
             // so early
-            $updated_message = array();
+            $updated_message = [];
 
             // create the $body variable
             if (
@@ -75,7 +75,7 @@ function phorum_htmlpurifier_format($data)
                 !isset($message['meta']['body_cache_serial'])
             ) {
                 // perform migration
-                $fake_data = array();
+                $fake_data = [];
                 list($signature, $edit_message) = phorum_htmlpurifier_remove_sig_and_editmessage($message);
                 $fake_data[$message_id] = $message;
                 $fake_data = phorum_htmlpurifier_migrate($fake_data);
@@ -88,10 +88,10 @@ function phorum_htmlpurifier_format($data)
                 $body = $message['body'];
                 // order is important
                 $body = str_replace("<phorum break>\n", "\n", $body);
-                $body = str_replace(array('&lt;','&gt;','&amp;', '&quot;'), array('<','>','&','"'), $body);
+                $body = str_replace(['&lt;','&gt;','&amp;', '&quot;'], ['<','>','&','"'], $body);
                 if (!$message_id && defined('PHORUM_CONTROL_CENTER')) {
                     // we're in control.php, so it was double-escaped
-                    $body = str_replace(array('&lt;','&gt;','&amp;', '&quot;'), array('<','>','&','"'), $body);
+                    $body = str_replace(['&lt;','&gt;','&amp;', '&quot;'], ['<','>','&','"'], $body);
                 }
             }
 
@@ -126,7 +126,7 @@ function phorum_htmlpurifier_format($data)
 /**
  * Generates a signature based on a message array
  */
-function phorum_htmlpurifier_generate_sig($row)
+function phorum_htmlpurifier_generate_sig(array $row)
 {
     $phorum_sig = '';
     if(isset($row["user"]["signature"])
@@ -142,7 +142,7 @@ function phorum_htmlpurifier_generate_sig($row)
 /**
  * Generates an edit message based on a message array
  */
-function phorum_htmlpurifier_generate_editmessage($row)
+function phorum_htmlpurifier_generate_editmessage(array $row)
 {
     $PHORUM = $GLOBALS['PHORUM'];
     $editmessage = '';
@@ -162,17 +162,17 @@ function phorum_htmlpurifier_generate_editmessage($row)
  * Removes the signature and edit message from a message
  * @param $row Message passed by reference
  */
-function phorum_htmlpurifier_remove_sig_and_editmessage(&$row)
+function phorum_htmlpurifier_remove_sig_and_editmessage(array &$row)
 {
     $signature = phorum_htmlpurifier_generate_sig($row);
     $editmessage = phorum_htmlpurifier_generate_editmessage($row);
-    $replacements = array();
+    $replacements = [];
     // we need to remove add <phorum break> as that is the form these
     // extra bits are in.
     if ($signature) $replacements[str_replace("\n", "<phorum break>\n", $signature)] = '';
     if ($editmessage) $replacements[str_replace("\n", "<phorum break>\n", $editmessage)] = '';
     $row['body'] = strtr($row['body'], $replacements);
-    return array($signature, $editmessage);
+    return [$signature, $editmessage];
 }
 
 /**
@@ -181,7 +181,7 @@ function phorum_htmlpurifier_remove_sig_and_editmessage(&$row)
  * @note This function could generate the actual cache entries, but
  *       since there's data missing that must be deferred to the first read
  */
-function phorum_htmlpurifier_posting($message)
+function phorum_htmlpurifier_posting(array $message)
 {
     $PHORUM = $GLOBALS["PHORUM"];
     unset($message['meta']['body_cache']); // invalidate the cache
@@ -194,7 +194,6 @@ function phorum_htmlpurifier_posting($message)
  */
 function phorum_htmlpurifier_quote($array)
 {
-    $PHORUM = $GLOBALS["PHORUM"];
     $purifier =& HTMLPurifier::getInstance();
     $text = $purifier->purify($array[1]);
     $source = htmlspecialchars($array[0]);
@@ -207,8 +206,8 @@ function phorum_htmlpurifier_quote($array)
  */
 function phorum_htmlpurifier_common()
 {
-    require_once(dirname(__FILE__).'/htmlpurifier/HTMLPurifier.auto.php');
-    require(dirname(__FILE__).'/init-config.php');
+    require_once(__DIR__.'/htmlpurifier/HTMLPurifier.auto.php');
+    require(__DIR__.'/init-config.php');
 
     $config = phorum_htmlpurifier_get_config();
     HTMLPurifier::getInstance($config);
@@ -217,8 +216,8 @@ function phorum_htmlpurifier_common()
     $GLOBALS['PHORUM']['mod_htmlpurifier']['body_cache_serial'] = $config->getSerial();
 
     // load migration
-    if (file_exists(dirname(__FILE__) . '/migrate.php')) {
-        include(dirname(__FILE__) . '/migrate.php');
+    if (file_exists(__DIR__ . '/migrate.php')) {
+        include(__DIR__ . '/migrate.php');
     } else {
         echo '<strong>Error:</strong> No migration path specified for HTML Purifier, please check
         <tt>modes/htmlpurifier/migrate.bbcode.php</tt> for instructions on
@@ -237,13 +236,13 @@ function phorum_htmlpurifier_common()
  * Pre-emptively performs purification if it looks like a WYSIWYG editor
  * is being used
  */
-function phorum_htmlpurifier_before_editor($message)
+function phorum_htmlpurifier_before_editor(array $message)
 {
     if (!empty($GLOBALS['PHORUM']['mod_htmlpurifier']['wysiwyg'])) {
         if (!empty($message['body'])) {
             $body = $message['body'];
             // de-entity-ize contents
-            $body = str_replace(array('&lt;','&gt;','&amp;'), array('<','>','&'), $body);
+            $body = str_replace(['&lt;','&gt;','&amp;'], ['<','>','&'], $body);
             $purifier =& HTMLPurifier::getInstance();
             $body = $purifier->purify($body);
             // re-entity-ize contents
@@ -289,7 +288,7 @@ function phorum_htmlpurifier_editor_after_subject()
                 </p><?php
             }
             $html_definition = $config->getDefinition('HTML');
-            $allowed = array();
+            $allowed = [];
             foreach ($html_definition->info as $name => $x) $allowed[] = "<code>$name</code>";
             sort($allowed);
             $allowed_text = implode(', ', $allowed);

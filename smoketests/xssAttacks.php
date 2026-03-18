@@ -1,13 +1,12 @@
 <?php
 
 require_once('common.php');
-
 function formatCode($string)
 {
     return
         str_replace(
-            array("\t", '»', '\0(null)'),
-            array('<strong>\t</strong>', '<span class="linebreak">»</span>', '<strong>\0</strong>'),
+            ["\t", '»', '\0(null)'],
+            ['<strong>\t</strong>', '<span class="linebreak">»</span>', '<strong>\0</strong>'],
             escapeHTML(
                 str_replace("\0", '\0(null)',
                     wordwrap($string, 28, " »\n", true)
@@ -15,7 +14,6 @@ function formatCode($string)
             )
         );
 }
-
 ?><!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -44,24 +42,18 @@ readability. Linewraps have been marked with <tt>»</tt>.  Some tests are
 omitted for your convenience. Not all control characters are displayed.</p>
 
 <h2>Test</h2>
-<?php
-
-if (version_compare(PHP_VERSION, '5', '<')) exit('<p>Requires PHP 5.</p>');
-
+<?php 
 $xml = simplexml_load_file('xssAttacks.xml');
-
 // programmatically disallow google.com for URI evasion tests
 // not complete
 $config = HTMLPurifier_Config::createDefault();
-$config->set('URI.HostBlacklist', array('google.com'));
+$config->set('URI.HostBlacklist', ['google.com']);
 $purifier = new HTMLPurifier($config);
-
 ?>
 <table cellspacing="0" cellpadding="2">
 <thead><tr><th>Name</th><th width="30%">Raw</th><th>Output</th><th>Render</th></tr></thead>
 <tbody>
-<?php
-
+<?php 
 $i = 0;
 foreach ($xml->attack as $attack) {
     $code = $attack->code;
@@ -89,12 +81,10 @@ foreach ($xml->attack as $attack) {
     </tr>
 <?php
 }
-
 ?>
 </tbody>
 </table>
 </body>
 </html>
-<?php
-
+<?php 
 // vim: et sw=4 sts=4

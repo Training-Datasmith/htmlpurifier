@@ -48,7 +48,7 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
         // assumes URI doesn't have spaces in it
         $bits = explode(' ', $string); // bits to process
 
-        $caught = array();
+        $caught = [];
         $caught['color'] = false;
         $caught['image'] = false;
         $caught['repeat'] = false;
@@ -95,7 +95,7 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
                 validate($caught['position'], $config, $context);
         }
 
-        $ret = array();
+        $ret = [];
         foreach ($caught as $value) {
             if ($value === false) {
                 continue;

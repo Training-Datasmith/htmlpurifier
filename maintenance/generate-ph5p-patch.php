@@ -7,9 +7,9 @@
  * library/HTMLPurifier/Lexer/PH5P.php is modified.
  */
 
-$orig = realpath(dirname(__FILE__) . '/PH5P.php');
-$new  = realpath(dirname(__FILE__) . '/../library/HTMLPurifier/Lexer/PH5P.php');
-$newt = dirname(__FILE__) . '/PH5P.new.php'; // temporary file
+$orig = realpath(__DIR__ . '/PH5P.php');
+$new  = realpath(__DIR__ . '/../library/HTMLPurifier/Lexer/PH5P.php');
+$newt = __DIR__ . '/PH5P.new.php'; // temporary file
 
 // minor text-processing of new file to get into same format as original
 $new_src = file_get_contents($new);

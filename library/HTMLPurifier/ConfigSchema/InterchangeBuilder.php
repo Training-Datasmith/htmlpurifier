@@ -14,7 +14,7 @@ class HTMLPurifier_ConfigSchema_InterchangeBuilder
      */
     public function __construct($varParser = null)
     {
-        $this->varParser = $varParser ? $varParser : new HTMLPurifier_VarParser_Native();
+        $this->varParser = $varParser ?: new HTMLPurifier_VarParser_Native();
     }
 
     /**
@@ -43,10 +43,16 @@ class HTMLPurifier_ConfigSchema_InterchangeBuilder
             $interchange->name = $info['name'];
         }
 
-        $files = array();
+        $files = [];
         $dh = opendir($dir);
         while (false !== ($file = readdir($dh))) {
-            if (!$file || $file[0] == '.' || strrchr($file, '.') !== '.txt') {
+            if (!$file) {
+                continue;
+            }
+            if ($file[0] == '.') {
+                continue;
+            }
+            if (strrchr($file, '.') !== '.txt') {
                 continue;
             }
             $files[] = $file;
@@ -189,7 +195,7 @@ class HTMLPurifier_ConfigSchema_InterchangeBuilder
      */
     protected function lookup($array)
     {
-        $ret = array();
+        $ret = [];
         foreach ($array as $val) {
             $ret[$val] = true;
         }

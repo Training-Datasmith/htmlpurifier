@@ -54,13 +54,12 @@ class HTMLPurifier_ChildDef_Chameleon extends HTMLPurifier_ChildDef
                 $config,
                 $context
             );
-        } else {
-            return $this->inline->validateChildren(
-                $children,
-                $config,
-                $context
-            );
         }
+        return $this->inline->validateChildren(
+            $children,
+            $config,
+            $context
+        );
     }
 }
 

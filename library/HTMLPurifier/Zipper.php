@@ -34,9 +34,9 @@ class HTMLPurifier_Zipper
      * @return Tuple of zipper and element of first position.
      */
     static public function fromArray($array) {
-        $z = new self(array(), array_reverse($array));
+        $z = new self([], array_reverse($array));
         $t = $z->delete(); // delete the "dummy hole"
-        return array($z, $t);
+        return [$z, $t];
     }
 
     /**
@@ -141,7 +141,7 @@ class HTMLPurifier_Zipper
      */
     public function splice($t, $delete, $replacement) {
         // delete
-        $old = array();
+        $old = [];
         $r = $t;
         for ($i = $delete; $i > 0; $i--) {
             $old[] = $r;
@@ -152,6 +152,6 @@ class HTMLPurifier_Zipper
             $this->insertAfter($r);
             $r = $replacement[$i];
         }
-        return array($old, $r);
+        return [$old, $r];
     }
 }

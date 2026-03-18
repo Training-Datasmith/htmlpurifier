@@ -1,7 +1,6 @@
 <?php
 
 require 'common.php';
-
 ?><!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-loose.dtd">
@@ -34,19 +33,13 @@ require 'common.php';
     CSS
 </div>
 </div>
-<?php
-
-if (version_compare(PHP_VERSION, '5', '<')) exit('<p>Requires PHP 5.</p>');
-
+<?php 
 $xml = simplexml_load_file('attrTransform.xml');
-
 // attr transform enabled HTML Purifier
 $config = HTMLPurifier_Config::createDefault();
 $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
 $purifier = new HTMLPurifier($config);
-
 $title = isset($_GET['title']) ? $_GET['title'] : true;
-
 foreach ($xml->group as $group) {
     echo '<h2>' . $group['title'] . '</h2>';
     foreach ($group->sample as $sample) {
@@ -63,10 +56,8 @@ foreach ($xml->group as $group) {
 <?php
     }
 }
-
 ?>
 </body>
 </html>
-<?php
-
+<?php 
 // vim: et sw=4 sts=4

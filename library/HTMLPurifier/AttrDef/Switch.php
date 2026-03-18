@@ -44,9 +44,8 @@ class HTMLPurifier_AttrDef_Switch
         $token = $context->get('CurrentToken', true);
         if (!$token || $token->name !== $this->tag) {
             return $this->withoutTag->validate($string, $config, $context);
-        } else {
-            return $this->withTag->validate($string, $config, $context);
         }
+        return $this->withTag->validate($string, $config, $context);
     }
 }
 

@@ -164,7 +164,7 @@ class HTMLPurifier_Lexer
      * @type array
      */
     protected $_special_entity2str =
-        array(
+        [
             '&quot;' => '"',
             '&amp;' => '&',
             '&lt;' => '<',
@@ -172,7 +172,7 @@ class HTMLPurifier_Lexer
             '&#39;' => "'",
             '&#039;' => "'",
             '&#x27;' => "'"
-        );
+        ];
 
     public function parseText($string, $config) {
         return $this->parseData($string, false, $config);
@@ -250,7 +250,7 @@ class HTMLPurifier_Lexer
     {
         return preg_replace_callback(
             '/<!\[CDATA\[(.+?)\]\]>/s',
-            array('HTMLPurifier_Lexer', 'CDATACallback'),
+            ['HTMLPurifier_Lexer', 'CDATACallback'],
             $string
         );
     }
@@ -264,7 +264,7 @@ class HTMLPurifier_Lexer
     {
         return preg_replace_callback(
             '#<!--//--><!\[CDATA\[//><!--(.+?)//--><!\]\]>#s',
-            array('HTMLPurifier_Lexer', 'CDATACallback'),
+            ['HTMLPurifier_Lexer', 'CDATACallback'],
             $string
         );
     }
@@ -278,7 +278,7 @@ class HTMLPurifier_Lexer
      *                  and 1 the inside of the CDATA section.
      * @return string Escaped internals of the CDATA section.
      */
-    protected static function CDATACallback($matches)
+    protected static function CDATACallback(array $matches)
     {
         // not exactly sure why the character set is needed, but whatever
         return htmlspecialchars($matches[1], ENT_COMPAT, 'UTF-8');
@@ -341,7 +341,7 @@ class HTMLPurifier_Lexer
         if ($config->get('Core.AggressivelyRemoveScript') &&
             !($config->get('HTML.Trusted') || !$config->get('Core.RemoveScriptContents')
             || empty($hidden_elements["script"]))) {
-            $html = preg_replace('#<script[^>]*>.*?</script>#i', '', $html);
+            return preg_replace('#<script[^>]*>.*?</script>#i', '', $html);
         }
 
         return $html;
@@ -353,7 +353,7 @@ class HTMLPurifier_Lexer
      */
     public function extractBody($html)
     {
-        $matches = array();
+        $matches = [];
         $result = preg_match('|(.*?)<body[^>]*>(.*)</body>|is', $html, $matches);
         if ($result) {
             // Make sure it's not in a comment

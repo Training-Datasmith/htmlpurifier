@@ -14,12 +14,11 @@ error_reporting(E_ALL);
 function escapeHTML($string)
 {
     $string = HTMLPurifier_Encoder::cleanUTF8($string);
-    $string = htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
-    return $string;
+    return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
 }
 
 if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
-    function fix_magic_quotes(&$array)
+    function fix_magic_quotes(array &$array)
     {
         foreach ($array as $k => $val) {
             if (!is_array($val)) {

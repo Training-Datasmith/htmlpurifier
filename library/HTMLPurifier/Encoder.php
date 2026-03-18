@@ -31,7 +31,7 @@ class HTMLPurifier_Encoder
      */
     public static function unsafeIconv($in, $out, $text)
     {
-        set_error_handler(array('HTMLPurifier_Encoder', 'muteErrorHandler'));
+        set_error_handler(['HTMLPurifier_Encoder', 'muteErrorHandler']);
         $r = iconv($in, $out, $text);
         restore_error_handler();
         return $r;
@@ -50,7 +50,8 @@ class HTMLPurifier_Encoder
         $code = self::testIconvTruncateBug();
         if ($code == self::ICONV_OK) {
             return self::unsafeIconv($in, $out, $text);
-        } elseif ($code == self::ICONV_TRUNCATES) {
+        }
+        if ($code == self::ICONV_TRUNCATES) {
             // we can only work around this if the input character set
             // is utf-8
             if ($in == 'utf-8') {
@@ -87,12 +88,10 @@ class HTMLPurifier_Encoder
                     $i += $chunk_size;
                 }
                 return $r;
-            } else {
-                return false;
             }
-        } else {
             return false;
         }
+        return false;
     }
 
     /**
@@ -351,9 +350,8 @@ class HTMLPurifier_Encoder
         if ($y) {
             $ret .= chr($y);
         }
-        $ret .= chr($x);
 
-        return $ret;
+        return $ret . chr($x);
     }
 
     /**
@@ -391,26 +389,24 @@ class HTMLPurifier_Encoder
             if ($str === false) {
                 // $encoding is not a valid encoding
                 throw new Exception('Invalid encoding ' . $encoding);
-                return '';
             }
             // If the string is bjorked by Shift_JIS or a similar encoding
             // that doesn't support all of ASCII, convert the naughty
             // characters to their true byte-wise ASCII/UTF-8 equivalents.
             $str = strtr($str, self::testEncodingSupportsASCII($encoding));
             return $str;
-        } elseif ($encoding === 'iso-8859-1' && function_exists('mb_convert_encoding')) {
-            $str = mb_convert_encoding($str, 'UTF-8', 'ISO-8859-1');
-            return $str;
+        }
+        if ($encoding === 'iso-8859-1' && function_exists('mb_convert_encoding')) {
+            return mb_convert_encoding($str, 'UTF-8', 'ISO-8859-1');
         }
         $bug = HTMLPurifier_Encoder::testIconvTruncateBug();
         if ($bug == self::ICONV_OK) {
             throw new Exception('Encoding not supported, please install iconv');
-        } else {
-            throw new Exception(
-                'You have a buggy version of iconv, see https://bugs.php.net/bug.php?id=48147 ' .
-                'and http://sourceware.org/bugzilla/show_bug.cgi?id=13541'
-            );
         }
+        throw new Exception(
+            'You have a buggy version of iconv, see https://bugs.php.net/bug.php?id=48147 ' .
+            'and http://sourceware.org/bugzilla/show_bug.cgi?id=13541'
+        );
     }
 
     /**
@@ -439,7 +435,7 @@ class HTMLPurifier_Encoder
             // Undo our previous fix in convertToUTF8, otherwise iconv will barf
             $ascii_fix = self::testEncodingSupportsASCII($encoding);
             if (!$escape && !empty($ascii_fix)) {
-                $clear_fix = array();
+                $clear_fix = [];
                 foreach ($ascii_fix as $utf8 => $native) {
                     $clear_fix[$utf8] = '';
                 }
@@ -449,9 +445,9 @@ class HTMLPurifier_Encoder
             // Normal stuff
             $str = self::iconv('utf-8', $encoding . '//IGNORE', $str);
             return $str;
-        } elseif ($encoding === 'iso-8859-1' && function_exists('mb_convert_encoding')) {
-            $str = mb_convert_encoding($str, 'ISO-8859-1', 'UTF-8');
-            return $str;
+        }
+        if ($encoding === 'iso-8859-1' && function_exists('mb_convert_encoding')) {
+            return mb_convert_encoding($str, 'ISO-8859-1', 'UTF-8');
         }
         throw new Exception('Encoding not supported');
         // You might be tempted to assume that the ASCII representation
@@ -573,7 +569,7 @@ class HTMLPurifier_Encoder
         // If ICONV_TRUNCATE, all calls involve one character inputs,
         // so bug is not triggered.
         // If ICONV_UNUSABLE, this call is irrelevant
-        static $encodings = array();
+        static $encodings = [];
         if (!$bypass) {
             if (isset($encodings[$encoding])) {
                 return $encodings[$encoding];
@@ -581,15 +577,15 @@ class HTMLPurifier_Encoder
             $lenc = strtolower($encoding);
             switch ($lenc) {
                 case 'shift_jis':
-                    return array("\xC2\xA5" => '\\', "\xE2\x80\xBE" => '~');
+                    return ["\xC2\xA5" => '\\', "\xE2\x80\xBE" => '~'];
                 case 'johab':
-                    return array("\xE2\x82\xA9" => '\\');
+                    return ["\xE2\x82\xA9" => '\\'];
             }
             if (strpos($lenc, 'iso-8859-') === 0) {
-                return array();
+                return [];
             }
         }
-        $ret = array();
+        $ret = [];
         if (self::unsafeIconv('UTF-8', $encoding, 'a') === false) {
             return false;
         }

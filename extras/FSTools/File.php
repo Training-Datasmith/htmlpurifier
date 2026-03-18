@@ -26,7 +26,7 @@ class FSTools_File
     public function __construct($name, $fs = false)
     {
         $this->name = $name;
-        $this->fs = $fs ? $fs : FSTools::singleton();
+        $this->fs = $fs ?: FSTools::singleton();
     }
 
     /** Returns the filename of the file. */
@@ -100,7 +100,7 @@ class FSTools_File
     {
         if (!$this->handle) $this->open('r');
         if ($length === null) return $this->fs->fgets($this->handle);
-        else return $this->fs->fgets($this->handle, $length);
+        return $this->fs->fgets($this->handle, $length);
     }
 
     /** Retrieves a character from an open file */

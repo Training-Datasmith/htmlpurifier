@@ -13,7 +13,7 @@ class HTMLPurifier_Injector_Linkify extends HTMLPurifier_Injector
     /**
      * @type array
      */
-    public $needed = array('a' => array('href'));
+    public $needed = ['a' => ['href']];
 
     /**
      * @param HTMLPurifier_Token $token
@@ -44,7 +44,7 @@ class HTMLPurifier_Injector_Linkify extends HTMLPurifier_Injector
             return;
         }
 
-        $token = array();
+        $token = [];
 
         // $i = index
         // $c = count
@@ -56,7 +56,7 @@ class HTMLPurifier_Injector_Linkify extends HTMLPurifier_Injector
                 }
                 $token[] = new HTMLPurifier_Token_Text($bits[$i]);
             } else {
-                $token[] = new HTMLPurifier_Token_Start('a', array('href' => $bits[$i]));
+                $token[] = new HTMLPurifier_Token_Start('a', ['href' => $bits[$i]]);
                 $token[] = new HTMLPurifier_Token_Text($bits[$i]);
                 $token[] = new HTMLPurifier_Token_End('a');
             }

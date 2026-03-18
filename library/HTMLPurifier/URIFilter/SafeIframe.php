@@ -21,7 +21,7 @@ class HTMLPurifier_URIFilter_SafeIframe extends HTMLPurifier_URIFilter
     /**
      * @type string
      */
-    protected $regexp = null;
+    protected $regexp;
 
     // XXX: The not so good bit about how this is all set up now is we
     // can't check HTML.SafeIframe in the 'prepare' step: we have to

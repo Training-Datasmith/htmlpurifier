@@ -3,9 +3,9 @@
 require_once 'common.php';
 require_once 'HTMLPurifier/Filter/ExtractStyleBlocks.php';
 
-$purifier = new HTMLPurifier(array(
+$purifier = new HTMLPurifier([
     'Filter.ExtractStyleBlocks' => true,
-));
+]);
 
 $html = isset($_POST['html']) ? $_POST['html'] : '';
 $purified_html = $purifier->purify($html);

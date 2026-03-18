@@ -17,7 +17,7 @@
 
 if(!defined("PHORUM")) exit;
 
-require_once(dirname(__FILE__) . "/../bbcode/bbcode.php");
+require_once(__DIR__ . "/../bbcode/bbcode.php");
 
 /**
  * 'format' hook style function that will be called to convert

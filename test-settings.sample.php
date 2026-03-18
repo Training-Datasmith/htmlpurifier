@@ -37,7 +37,7 @@ $GLOBALS['HTMLPurifierTest']['PHPT'] = false;
 // set_include_path('/path/to/phpt/Core/src' . PATH_SEPARATOR . get_include_path());
 
 // For tests/multitest.php, which versions to test?
-$versions_to_test    = array();
+$versions_to_test    = [];
 
 // Stable PHP binary to use when invoking maintenance scripts.
 $php = 'php';

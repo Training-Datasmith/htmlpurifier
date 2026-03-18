@@ -1,15 +1,10 @@
 #!/usr/bin/php
 <?php
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 require_once 'common.php';
 require_once '../library/HTMLPurifier.auto.php';
 assertCli();
-
-if (version_compare(PHP_VERSION, '5.2.2', '<')) {
-    echo "This script requires PHP 5.2.2 or later, for tokenizer line numbers.";
-    exit(1);
-}
 
 /**
  * @file
@@ -21,9 +16,9 @@ if (version_compare(PHP_VERSION, '5.2.2', '<')) {
  */
 
 $FS = new FSTools();
-chdir(dirname(__FILE__) . '/../library/');
+chdir(__DIR__ . '/../library/');
 $raw_files = $FS->globr('.', '*.php');
-$files = array();
+$files = [];
 foreach ($raw_files as $file) {
     $file = substr($file, 2); // rm leading './'
     if (strncmp('standalone/', $file, 11) === 0) continue; // rm generated files
@@ -34,7 +29,7 @@ foreach ($raw_files as $file) {
 /**
  * Moves the $i cursor to the next non-whitespace token
  */
-function consumeWhitespace($tokens, &$i)
+function consumeWhitespace(array $tokens, &$i)
 {
     do {$i++;} while (is_array($tokens[$i]) && $tokens[$i][0] === T_WHITESPACE);
 }
@@ -48,17 +43,16 @@ function consumeWhitespace($tokens, &$i)
  */
 function testToken($token, $value_or_token, $value = null)
 {
-    if (is_null($value)) {
-        if (is_int($value_or_token)) return is_array($token) && $token[0] === $value_or_token;
-        else return $token === $value_or_token;
-    } else {
+    if (!is_null($value)) {
         return is_array($token) && $token[0] === $value_or_token && $token[1] === $value;
     }
+    if (is_int($value_or_token)) return is_array($token) && $token[0] === $value_or_token;
+    return $token === $value_or_token;
 }
 
 $counter = 0;
 $full_counter = 0;
-$tracker = array();
+$tracker = [];
 
 foreach ($files as $file) {
     $tokens = token_get_all(file_get_contents($file));
@@ -66,7 +60,7 @@ foreach ($files as $file) {
     for ($i = 0, $c = count($tokens); $i < $c; $i++) {
         $ok = false;
         // Match $config
-        if (!$ok && testToken($tokens[$i], T_VARIABLE, '$config')) $ok = true;
+        if (testToken($tokens[$i], T_VARIABLE, '$config')) $ok = true;
         // Match $this->config
         while (!$ok && testToken($tokens[$i], T_VARIABLE, '$this')) {
             consumeWhitespace($tokens, $i);
@@ -115,8 +109,8 @@ foreach ($files as $file) {
             $counter++;
             $matched = true;
 
-            if (!isset($tracker[$id])) $tracker[$id] = array();
-            if (!isset($tracker[$id][$file])) $tracker[$id][$file] = array();
+            if (!isset($tracker[$id])) $tracker[$id] = [];
+            if (!isset($tracker[$id][$file])) $tracker[$id][$file] = [];
             $tracker[$id][$file][] = $line;
 
         } while (0);

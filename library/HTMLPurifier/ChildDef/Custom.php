@@ -80,8 +80,7 @@ class HTMLPurifier_ChildDef_Custom extends HTMLPurifier_ChildDef
      */
     public function validateChildren($children, $config, $context)
     {
-        $list_of_children = '';
-        $nesting = 0; // depth into the nest
+        $list_of_children = ''; // depth into the nest
         foreach ($children as $node) {
             if (!empty($node->is_whitespace)) {
                 continue;

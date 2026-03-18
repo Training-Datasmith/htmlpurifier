@@ -23,13 +23,13 @@ class HTMLPurifier_Language
      * Array of localizable messages.
      * @type array
      */
-    public $messages = array();
+    public $messages = [];
 
     /**
      * Array of localizable error codes.
      * @type array
      */
-    public $errorNames = array();
+    public $errorNames = [];
 
     /**
      * True if no message file was found for this language, so English
@@ -117,20 +117,16 @@ class HTMLPurifier_Language
 
     /**
      * Converts an array list into a string readable representation
-     * @param array $array
      * @return string
      */
-    public function listify($array)
+    public function listify(array $array)
     {
         $sep      = $this->getMessage('Item separator');
-        $sep_last = $this->getMessage('Item separator last');
+        $this->getMessage('Item separator last');
         $ret = '';
         for ($i = 0, $c = count($array); $i < $c; $i++) {
-            if ($i == 0) {
-            } elseif ($i + 1 < $c) {
+            if ($i != 0 && $i + 1 < $c) {
                 $ret .= $sep;
-            } else {
-                $ret .= $sep_last;
             }
             $ret .= $array[$i];
         }
@@ -145,7 +141,7 @@ class HTMLPurifier_Language
      * @todo Implement conditionals? Right now, some messages make
      *     reference to line numbers, but those aren't always available
      */
-    public function formatMessage($key, $args = array())
+    public function formatMessage($key, $args = [])
     {
         if (!$this->_loaded) {
             $this->load();
@@ -154,7 +150,7 @@ class HTMLPurifier_Language
             return "[$key]";
         }
         $raw = $this->messages[$key];
-        $subst = array();
+        $subst = [];
         $generator = false;
         foreach ($args as $i => $value) {
             if (is_object($value)) {
@@ -176,13 +172,14 @@ class HTMLPurifier_Language
                     // may need to be factored out into a dedicated class
                     if (!empty($value->attr)) {
                         $stripped_token = clone $value;
-                        $stripped_token->attr = array();
+                        $stripped_token->attr = [];
                         $subst['$'.$i.'.Compact'] = $generator->generateFromToken($stripped_token);
                     }
-                    $subst['$'.$i.'.Line'] = $value->line ? $value->line : 'unknown';
+                    $subst['$'.$i.'.Line'] = $value->line ?: 'unknown';
                 }
                 continue;
-            } elseif (is_array($value)) {
+            }
+            if (is_array($value)) {
                 $keys = array_keys($value);
                 if (array_keys($keys) === $keys) {
                     // list

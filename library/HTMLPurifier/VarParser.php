@@ -23,7 +23,7 @@ class HTMLPurifier_VarParser
      * Lookup table of allowed types. Mainly for backwards compatibility, but
      * also convenient for transforming string type names to the integer constants.
      */
-    public static $types = array(
+    public static $types = [
         'string' => self::C_STRING,
         'istring' => self::ISTRING,
         'text' => self::TEXT,
@@ -35,18 +35,18 @@ class HTMLPurifier_VarParser
         'list' => self::ALIST,
         'hash' => self::HASH,
         'mixed' => self::C_MIXED
-    );
+    ];
 
     /**
      * Lookup table of types that are string, and can have aliases or
      * allowed value lists.
      */
-    public static $stringTypes = array(
+    public static $stringTypes = [
         self::C_STRING => true,
         self::ISTRING => true,
         self::TEXT => true,
         self::ITEXT => true,
-    );
+    ];
 
     /**
      * Validate a variable according to type.
@@ -63,9 +63,8 @@ class HTMLPurifier_VarParser
         if (is_string($type)) {
             if (!isset(HTMLPurifier_VarParser::$types[$type])) {
                 throw new HTMLPurifier_VarParserException("Invalid type '$type'");
-            } else {
-                $type = HTMLPurifier_VarParser::$types[$type];
             }
+            $type = HTMLPurifier_VarParser::$types[$type];
         }
         $var = $this->parseImplementation($var, $type, $allow_null);
         if ($allow_null && $var === null) {
@@ -82,7 +81,7 @@ class HTMLPurifier_VarParser
                     break;
                 }
                 if ($type == self::ISTRING || $type == self::ITEXT) {
-                    $var = strtolower($var);
+                    return strtolower($var);
                 }
                 return $var;
             case (self::C_INT):
