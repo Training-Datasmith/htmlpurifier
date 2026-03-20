@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates an integer.
  * @note While this class was modeled off the CSS definition, no currently
@@ -9,26 +8,23 @@ declare(strict_types=1);
  *       orphans, z-index, counter-increment, counter-reset.  Some of the
  *       HTML attributes, however, find use for a non-negative version of this.
  */
-class HTMLPurifier_AttrDef_Integer extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_integer extends Html_Purifier_attr_Def
 {
     /**
      * Whether or not negative values are allowed.
      * @type bool
      */
     protected $negative = true;
-
     /**
      * Whether or not zero is allowed.
      * @type bool
      */
     protected $zero = true;
-
     /**
      * Whether or not positive values are allowed.
      * @type bool
      */
     protected $positive = true;
-
     /**
      * @param $negative Bool indicating whether or not negative values are allowed
      * @param $zero Bool indicating whether or not zero is allowed
@@ -40,7 +36,6 @@ class HTMLPurifier_AttrDef_Integer extends HTMLPurifier_AttrDef
         $this->zero = $zero;
         $this->positive = $positive;
     }
-
     /**
      * @param string $integer
      * @param HTMLPurifier_Config $config
@@ -49,31 +44,29 @@ class HTMLPurifier_AttrDef_Integer extends HTMLPurifier_AttrDef
      */
     public function validate($integer, $config, $context)
     {
-        $integer = $this->parseCDATA($integer);
+        $integer = $this->parse_cdata($integer);
         if ($integer === '') {
             return false;
         }
-
         // we could possibly simply typecast it to integer, but there are
         // certain fringe cases that must not return an integer.
-
         // clip leading sign
         if ($this->negative && $integer[0] === '-') {
             $digits = substr($integer, 1);
             if ($digits === '0') {
                 $integer = '0';
-            } // rm minus sign for zero
+            }
+            // rm minus sign for zero
         } elseif ($this->positive && $integer[0] === '+') {
-            $digits = $integer = substr($integer, 1); // rm unnecessary plus
+            $digits = $integer = substr($integer, 1);
+            // rm unnecessary plus
         } else {
             $digits = $integer;
         }
-
         // test if it's numeric
         if (!ctype_digit($digits)) {
             return false;
         }
-
         // perform scope tests
         if (!$this->zero && $integer == 0) {
             return false;
@@ -84,9 +77,7 @@ class HTMLPurifier_AttrDef_Integer extends HTMLPurifier_AttrDef
         if (!$this->negative && $integer < 0) {
             return false;
         }
-
         return $integer;
     }
 }
-
 // vim: et sw=4 sts=4

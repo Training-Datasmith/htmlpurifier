@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Defines allowed child nodes and validates nodes against it.
  */
-abstract class HTMLPurifier_ChildDef
+abstract class Html_Purifier_child_Def
 {
     /**
      * Type of child definition, usually right-most part of class name lowercase.
@@ -13,7 +12,6 @@ abstract class HTMLPurifier_ChildDef
      * @type string
      */
     public $type;
-
     /**
      * Indicates whether or not an empty array of children is okay.
      *
@@ -22,24 +20,21 @@ abstract class HTMLPurifier_ChildDef
      * @type bool
      */
     public $allow_empty;
-
     /**
      * Lookup array of all elements that this definition could possibly allow.
      * @type array
      */
     public $elements = [];
-
     /**
      * Get lookup of tag names that should not close this element automatically.
      * All other elements will do so.
      * @param HTMLPurifier_Config $config HTMLPurifier_Config object
      * @return array
      */
-    public function getAllowedElements($config)
+    public function get_allowed_elements($config)
     {
         return $this->elements;
     }
-
     /**
      * Validates nodes according to definition and returns modification.
      *
@@ -48,7 +43,6 @@ abstract class HTMLPurifier_ChildDef
      * @param HTMLPurifier_Context $context HTMLPurifier_Context object
      * @return bool|array true to leave nodes as is, false to remove parent node, array of replacement children
      */
-    abstract public function validateChildren($children, $config, $context);
+    abstract public function validate_children($children, $config, $context);
 }
-
 // vim: et sw=4 sts=4

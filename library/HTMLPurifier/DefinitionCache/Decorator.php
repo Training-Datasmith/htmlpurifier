@@ -1,25 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCache
+declare (strict_types=1);
+class Html_Purifier_definition_Cache_decorator extends Html_Purifier_definition_Cache
 {
     /**
      * Cache object we are decorating
      * @type HTMLPurifier_DefinitionCache
      */
     public $cache;
-
     /**
      * The name of the decorator
      * @var string
      */
     public $name;
-
     public function __construct()
     {
     }
-
     /**
      * Lazy decorator function
      * @param HTMLPurifier_DefinitionCache $cache Reference to cache object to decorate
@@ -29,20 +25,18 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         $decorator = $this->copy();
         // reference is necessary for mocks in PHP 4
-        $decorator->cache = & $cache;
+        $decorator->cache =& $cache;
         $decorator->type = $cache->type;
         return $decorator;
     }
-
     /**
      * Cross-compatible clone substitute
      * @return HTMLPurifier_DefinitionCache_Decorator
      */
     public function copy()
     {
-        return new HTMLPurifier_DefinitionCache_Decorator();
+        return new Html_Purifier_definition_Cache_decorator();
     }
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config
@@ -52,7 +46,6 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         return $this->cache->add($def, $config);
     }
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config
@@ -62,7 +55,6 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         return $this->cache->set($def, $config);
     }
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config
@@ -72,7 +64,6 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         return $this->cache->replace($def, $config);
     }
-
     /**
      * @param HTMLPurifier_Config $config
      * @return mixed
@@ -81,7 +72,6 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         return $this->cache->get($config);
     }
-
     /**
      * @param HTMLPurifier_Config $config
      * @return mixed
@@ -90,7 +80,6 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         return $this->cache->remove($config);
     }
-
     /**
      * @param HTMLPurifier_Config $config
      * @return mixed
@@ -99,7 +88,6 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
     {
         return $this->cache->flush($config);
     }
-
     /**
      * @param HTMLPurifier_Config $config
      * @return mixed
@@ -109,5 +97,4 @@ class HTMLPurifier_DefinitionCache_Decorator extends HTMLPurifier_DefinitionCach
         return $this->cache->cleanup($config);
     }
 }
-
 // vim: et sw=4 sts=4

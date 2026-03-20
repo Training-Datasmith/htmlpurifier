@@ -1,22 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates a boolean attribute
  */
-class HTMLPurifier_AttrDef_HTML_Bool extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_html_bool extends Html_Purifier_attr_Def
 {
     /**
      * @type string
      */
     protected $name;
-
     /**
      * @type bool
      */
     public $minimized = true;
-
     /**
      * @param bool|string $name
      */
@@ -24,7 +21,6 @@ class HTMLPurifier_AttrDef_HTML_Bool extends HTMLPurifier_AttrDef
     {
         $this->name = $name;
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -35,15 +31,13 @@ class HTMLPurifier_AttrDef_HTML_Bool extends HTMLPurifier_AttrDef
     {
         return $this->name;
     }
-
     /**
      * @param string $string Name of attribute
      * @return HTMLPurifier_AttrDef_HTML_Bool
      */
     public function make($string)
     {
-        return new HTMLPurifier_AttrDef_HTML_Bool($string);
+        return new Html_Purifier_attr_Def_html_bool($string);
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Definition that allows a set of elements, and allows no children.
  * @note This is a hack to reuse code from HTMLPurifier_ChildDef_Required,
@@ -9,27 +8,25 @@ declare(strict_types=1);
  *       is to overload a returned false with an array.  Thus, it will never
  *       return false.
  */
-class HTMLPurifier_ChildDef_Optional extends HTMLPurifier_ChildDef_Required
+class Html_Purifier_child_Def_optional extends Html_Purifier_child_Def_required
 {
     /**
      * @type bool
      */
     public $allow_empty = true;
-
     /**
      * @type string
      */
     public $type = 'optional';
-
     /**
      * @param array $children
      * @param HTMLPurifier_Config $config
      * @param HTMLPurifier_Context $context
      * @return array
      */
-    public function validateChildren($children, $config, $context)
+    public function validate_children($children, $config, $context)
     {
-        $result = parent::validateChildren($children, $config, $context);
+        $result = parent::validate_children($children, $config, $context);
         // we assume that $children is not modified
         if ($result !== false) {
             return $result;
@@ -43,5 +40,4 @@ class HTMLPurifier_ChildDef_Optional extends HTMLPurifier_ChildDef_Required
         return [];
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,24 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Post-transform that performs validation to the name attribute; if
  * it is present with an equivalent id attribute, it is passed through;
  * otherwise validation is performed.
  */
-class HTMLPurifier_AttrTransform_NameSync extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_name_Sync extends Html_Purifier_attr_Transform
 {
     /**
      * @type HTMLPurifier_AttrDef_HTML_ID
      */
-    public $idDef;
-
+    public $id_def;
     public function __construct()
     {
-        $this->idDef = new HTMLPurifier_AttrDef_HTML_ID();
+        $this->id_def = new Html_Purifier_attr_Def_html_id();
     }
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config
@@ -34,7 +31,7 @@ class HTMLPurifier_AttrTransform_NameSync extends HTMLPurifier_AttrTransform
         if (isset($attr['id']) && $attr['id'] === $name) {
             return $attr;
         }
-        $result = $this->idDef->validate($name, $config, $context);
+        $result = $this->id_def->validate($name, $config, $context);
         if ($result === false) {
             unset($attr['name']);
         } else {
@@ -43,5 +40,4 @@ class HTMLPurifier_AttrTransform_NameSync extends HTMLPurifier_AttrTransform
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // Enum = Enumerated
 /**
  * Validates a keyword against a list of valid values.
@@ -9,7 +8,7 @@ declare(strict_types=1);
  *          built-in strtolower and ctype_lower functions, which may
  *          cause problems with international comparisons
  */
-class HTMLPurifier_AttrDef_Enum extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_enum extends Html_Purifier_attr_Def
 {
     /**
      * Lookup table of valid values.
@@ -17,13 +16,12 @@ class HTMLPurifier_AttrDef_Enum extends HTMLPurifier_AttrDef
      * @todo Make protected
      */
     public $valid_values = [];
-
     /**
      * Bool indicating whether or not enumeration is case sensitive.
      * @note In general this is always case insensitive.
      */
-    protected $case_sensitive = false; // values according to W3C spec
-
+    protected $case_sensitive = false;
+    // values according to W3C spec
     /**
      * @param array $valid_values List of valid values
      * @param bool $case_sensitive Whether or not case sensitive
@@ -33,7 +31,6 @@ class HTMLPurifier_AttrDef_Enum extends HTMLPurifier_AttrDef
         $this->valid_values = array_flip($valid_values);
         $this->case_sensitive = $case_sensitive;
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -48,10 +45,8 @@ class HTMLPurifier_AttrDef_Enum extends HTMLPurifier_AttrDef
             $string = ctype_lower($string) ? $string : strtolower($string);
         }
         $result = isset($this->valid_values[$string]);
-
         return $result ? $string : false;
     }
-
     /**
      * @param string $string In form of comma-delimited list of case-insensitive
      *      valid values. Example: "foo,bar,baz". Prepend "s:" to make
@@ -67,8 +62,7 @@ class HTMLPurifier_AttrDef_Enum extends HTMLPurifier_AttrDef
             $sensitive = false;
         }
         $values = explode(',', $string);
-        return new HTMLPurifier_AttrDef_Enum($values, $sensitive);
+        return new Html_Purifier_attr_Def_enum($values, $sensitive);
     }
 }
-
 // vim: et sw=4 sts=4

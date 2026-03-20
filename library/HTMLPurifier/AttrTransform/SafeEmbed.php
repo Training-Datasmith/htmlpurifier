@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
-class HTMLPurifier_AttrTransform_SafeEmbed extends HTMLPurifier_AttrTransform
+declare (strict_types=1);
+class Html_Purifier_attr_Transform_safe_Embed extends Html_Purifier_attr_Transform
 {
     /**
      * @type string
      */
     public $name = 'SafeEmbed';
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config
@@ -23,5 +21,4 @@ class HTMLPurifier_AttrTransform_SafeEmbed extends HTMLPurifier_AttrTransform
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

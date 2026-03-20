@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Sets height/width defaults for <textarea>
  */
-class HTMLPurifier_AttrTransform_Textarea extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_textarea extends Html_Purifier_attr_Transform
 {
     /**
      * @param array $attr
@@ -25,5 +24,4 @@ class HTMLPurifier_AttrTransform_Textarea extends HTMLPurifier_AttrTransform
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

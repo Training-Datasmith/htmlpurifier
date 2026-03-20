@@ -1,25 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * @todo Unit test
  */
-class HTMLPurifier_ContentSets
+class Html_Purifier_content_Sets
 {
     /**
      * List of content set strings (pipe separators) indexed by name.
      * @type array
      */
     public $info = [];
-
     /**
      * List of content set lookups (element => true) indexed by name.
      * @type array
      * @note This is in HTMLPurifier_HTMLDefinition->info_content_sets
      */
     public $lookup = [];
-
     /**
      * Synchronized list of defined content sets (keys of info).
      * @type array
@@ -30,7 +27,6 @@ class HTMLPurifier_ContentSets
      * @type array
      */
     protected $values = [];
-
     /**
      * Merges in module's content sets, expands identifiers in the content
      * sets and populates the keys, values and lookup member variables.
@@ -45,7 +41,7 @@ class HTMLPurifier_ContentSets
         // sorry, no way of overloading
         foreach ($modules as $module) {
             foreach ($module->content_sets as $key => $value) {
-                $temp = $this->convertToLookup($value);
+                $temp = $this->convert_to_lookup($value);
                 if (isset($this->lookup[$key])) {
                     // add it into the existing content set
                     $this->lookup[$key] = array_merge($this->lookup[$key], $temp);
@@ -68,43 +64,36 @@ class HTMLPurifier_ContentSets
                 $this->lookup[$i] += $add;
             }
         }
-
         foreach ($this->lookup as $key => $lookup) {
             $this->info[$key] = implode(' | ', array_keys($lookup));
         }
-        $this->keys   = array_keys($this->info);
+        $this->keys = array_keys($this->info);
         $this->values = array_values($this->info);
     }
-
     /**
      * Accepts a definition; generates and assigns a ChildDef for it
      * @param HTMLPurifier_ElementDef $def HTMLPurifier_ElementDef reference
      * @param HTMLPurifier_HTMLModule $module Module that defined the ElementDef
      */
-    public function generateChildDef(&$def, $module)
+    public function generate_child_def(&$def, $module)
     {
-        if (!empty($def->child)) { // already done!
+        if (!empty($def->child)) {
+            // already done!
             return;
         }
         $content_model = $def->content_model;
         if (is_string($content_model)) {
             // Assume that $this->keys is alphanumeric
-            $def->content_model = preg_replace_callback(
-                '/\b(' . implode('|', $this->keys) . ')\b/',
-                [$this, 'generateChildDefCallback'],
-                $content_model
-            );
+            $def->content_model = preg_replace_callback('/\b(' . implode('|', $this->keys) . ')\b/', [$this, 'generateChildDefCallback'], $content_model);
             //$def->content_model = str_replace(
             //    $this->keys, $this->values, $content_model);
         }
-        $def->child = $this->getChildDef($def, $module);
+        $def->child = $this->get_child_def($def, $module);
     }
-
-    public function generateChildDefCallback($matches)
+    public function generate_child_def_callback($matches)
     {
         return $this->info[$matches[0]];
     }
-
     /**
      * Instantiates a ChildDef based on content_model and content_model_type
      * member variables in HTMLPurifier_ElementDef
@@ -114,49 +103,41 @@ class HTMLPurifier_ContentSets
      * @param HTMLPurifier_HTMLModule $module Module that defined the ElementDef
      * @return HTMLPurifier_ChildDef corresponding to ElementDef
      */
-    public function getChildDef($def, $module)
+    public function get_child_def($def, $module)
     {
         $value = $def->content_model;
         if (is_object($value)) {
-            trigger_error(
-                'Literal object child definitions should be stored in '.
-                'ElementDef->child not ElementDef->content_model',
-                E_USER_NOTICE
-            );
+            trigger_error('Literal object child definitions should be stored in ' . 'ElementDef->child not ElementDef->content_model', E_USER_NOTICE);
             return $value;
         }
         switch ($def->content_model_type) {
             case 'required':
-                return new HTMLPurifier_ChildDef_Required($value);
+                return new Html_Purifier_child_Def_required($value);
             case 'optional':
-                return new HTMLPurifier_ChildDef_Optional($value);
+                return new Html_Purifier_child_Def_optional($value);
             case 'empty':
-                return new HTMLPurifier_ChildDef_Empty();
+                return new Html_Purifier_child_Def_empty();
             case 'custom':
-                return new HTMLPurifier_ChildDef_Custom($value);
+                return new Html_Purifier_child_Def_custom($value);
         }
         // defer to its module
         $return = false;
-        if ($module->defines_child_def) { // save a func call
-            $return = $module->getChildDef($def);
+        if ($module->defines_child_def) {
+            // save a func call
+            $return = $module->get_child_def($def);
         }
         if ($return !== false) {
             return $return;
         }
-
-        throw new Exception(
-            'Could not determine which ChildDef class to instantiate',
-            E_USER_ERROR
-        );
+        throw new Exception('Could not determine which ChildDef class to instantiate', E_USER_ERROR);
     }
-
     /**
      * Converts a string list of elements separated by pipes into
      * a lookup array.
      * @param string $string List of elements
      * @return array Lookup array of elements
      */
-    protected function convertToLookup($string)
+    protected function convert_to_lookup($string)
     {
         $array = explode('|', str_replace(' ', '', $string));
         $ret = [];
@@ -166,5 +147,4 @@ class HTMLPurifier_ContentSets
         return $ret;
     }
 }
-
 // vim: et sw=4 sts=4

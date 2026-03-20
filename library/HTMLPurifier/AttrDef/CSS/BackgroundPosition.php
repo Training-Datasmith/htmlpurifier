@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /* W3C says:
     [ // adjective and number must be in correct order, even if
       // you could switch them without introducing ambiguity.
@@ -27,7 +26,6 @@ declare(strict_types=1);
     center, (none) = 50%
     bottom, right = 100%
 */
-
 /* QuirksMode says:
     keyword + length/percentage must be ordered correctly, as per W3C
 
@@ -36,31 +34,26 @@ declare(strict_types=1);
 
     Minor issue though, not strictly necessary.
 */
-
 // control freaks may appreciate the ability to convert these to
 // percentages or something, but it's not necessary
-
 /**
  * Validates the value of background-position.
  */
-class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_background_Position extends Html_Purifier_attr_Def
 {
     /**
      * @type HTMLPurifier_AttrDef_CSS_Length
      */
     protected $length;
-
     /**
      * @type HTMLPurifier_AttrDef_CSS_Percentage
      */
     protected $percentage;
-
     public function __construct()
     {
-        $this->length = new HTMLPurifier_AttrDef_CSS_Length();
-        $this->percentage = new HTMLPurifier_AttrDef_CSS_Percentage();
+        $this->length = new Html_Purifier_attr_Def_css_length();
+        $this->percentage = new Html_Purifier_attr_Def_css_percentage();
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -69,31 +62,24 @@ class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
      */
     public function validate($string, $config, $context)
     {
-        $string = $this->parseCDATA($string);
+        $string = $this->parse_cdata($string);
         $bits = explode(' ', $string);
-
         $keywords = [];
-        $keywords['h'] = false; // left, right
-        $keywords['v'] = false; // top, bottom
-        $keywords['ch'] = false; // center (first word)
-        $keywords['cv'] = false; // center (second word)
+        $keywords['h'] = false;
+        // left, right
+        $keywords['v'] = false;
+        // top, bottom
+        $keywords['ch'] = false;
+        // center (first word)
+        $keywords['cv'] = false;
+        // center (second word)
         $measures = [];
-
         $i = 0;
-
-        $lookup = [
-            'top' => 'v',
-            'bottom' => 'v',
-            'left' => 'h',
-            'right' => 'h',
-            'center' => 'c',
-        ];
-
+        $lookup = ['top' => 'v', 'bottom' => 'v', 'left' => 'h', 'right' => 'h', 'center' => 'c'];
         foreach ($bits as $bit) {
             if ($bit === '') {
                 continue;
             }
-
             // test for keyword
             $lbit = ctype_lower($bit) ? $bit : strtolower($bit);
             if (isset($lookup[$lbit])) {
@@ -108,14 +94,12 @@ class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
                 $keywords[$status] = $lbit;
                 $i++;
             }
-
             // test for length
             $r = $this->length->validate($bit, $config, $context);
             if ($r !== false) {
                 $measures[] = $r;
                 $i++;
             }
-
             // test for percentage
             $r = $this->percentage->validate($bit, $config, $context);
             if ($r !== false) {
@@ -123,23 +107,21 @@ class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
                 $i++;
             }
         }
-
         if (!$i) {
             return false;
-        } // no valid values were caught
-
+        }
+        // no valid values were caught
         $ret = [];
-
         // first keyword
         if ($keywords['h']) {
             $ret[] = $keywords['h'];
         } elseif ($keywords['ch']) {
             $ret[] = $keywords['ch'];
-            $keywords['cv'] = false; // prevent re-use: center = center center
+            $keywords['cv'] = false;
+            // prevent re-use: center = center center
         } elseif (count($measures)) {
             $ret[] = array_shift($measures);
         }
-
         if ($keywords['v']) {
             $ret[] = $keywords['v'];
         } elseif ($keywords['cv']) {
@@ -147,12 +129,10 @@ class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
         } elseif (count($measures)) {
             $ret[] = array_shift($measures);
         }
-
         if (empty($ret)) {
             return false;
         }
         return implode(' ', $ret);
     }
 }
-
 // vim: et sw=4 sts=4

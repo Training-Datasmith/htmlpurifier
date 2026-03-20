@@ -1,30 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates a host according to the IPv4, IPv6 and DNS (future) specifications.
  */
-class HTMLPurifier_AttrDef_URI_Host extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_uri_host extends Html_Purifier_attr_Def
 {
     /**
      * IPv4 sub-validator.
      * @type HTMLPurifier_AttrDef_URI_IPv4
      */
     protected $ipv4;
-
     /**
      * IPv6 sub-validator.
      * @type HTMLPurifier_AttrDef_URI_IPv6
      */
     protected $ipv6;
-
     public function __construct()
     {
-        $this->ipv4 = new HTMLPurifier_AttrDef_URI_IPv4();
-        $this->ipv6 = new HTMLPurifier_AttrDef_URI_IPv6();
+        $this->ipv4 = new Html_Purifier_attr_Def_uri_i_Pv4();
+        $this->ipv6 = new Html_Purifier_attr_Def_uri_i_Pv6();
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -52,39 +48,37 @@ class HTMLPurifier_AttrDef_URI_Host extends HTMLPurifier_AttrDef
             }
             return '[' . $valid . ']';
         }
-
         // need to do checks on unusual encodings too
         $ipv4 = $this->ipv4->validate($string, $config, $context);
         if ($ipv4 !== false) {
             return $ipv4;
         }
-
         // A regular domain name.
-
         // This doesn't match I18N domain names, but we don't have proper IRI support,
         // so force users to insert Punycode.
-
         // Underscores defined as Unreserved Characters in RFC 3986 are
         // allowed in a URI. There are cases where we want to consider a
         // URI containing "_" such as "_dmarc.example.com".
         // Underscores are not allowed in the default. If you want to
         // allow it, set Core.AllowHostnameUnderscore to true.
-        $underscore = $config->get('Core.AllowHostnameUnderscore') ? '_' : '';     // alpha
-        $an  = "[a-z0-9$underscore]";  // alphanum
-        $and = "[a-z0-9-$underscore]"; // alphanum | "-"
+        $underscore = $config->get('Core.AllowHostnameUnderscore') ? '_' : '';
+        // alpha
+        $an = "[a-z0-9{$underscore}]";
+        // alphanum
+        $and = "[a-z0-9-{$underscore}]";
+        // alphanum | "-"
         // domainlabel = alphanum | alphanum *( alphanum | "-" ) alphanum
-        $domainlabel = "$an(?:$and*$an)?";
+        $domainlabel = "{$an}(?:{$and}*{$an})?";
         // AMENDED as per RFC 3696
         // toplabel    = alphanum | alphanum *( alphanum | "-" ) alphanum
         //      side condition: not all numeric
-        $toplabel = "$an(?:$and*$an)?";
+        $toplabel = "{$an}(?:{$and}*{$an})?";
         // hostname    = *( domainlabel "." ) toplabel [ "." ]
-        if (preg_match("/^(?:$domainlabel\.)*($toplabel)\.?$/i", $string, $matches)) {
+        if (preg_match("/^(?:{$domainlabel}\\.)*({$toplabel})\\.?\$/i", $string, $matches)) {
             if (!ctype_digit($matches[1])) {
                 return $string;
             }
         }
-
         // PHP 5.3 and later support this functionality natively
         if (function_exists('idn_to_ascii')) {
             if (defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46')) {
@@ -92,7 +86,6 @@ class HTMLPurifier_AttrDef_URI_Host extends HTMLPurifier_AttrDef
             } else {
                 $string = idn_to_ascii($string);
             }
-
             // If we have Net_IDNA2 support, we can support IRIs by
             // punycoding them. (This is the most portable thing to do,
             // since otherwise we have to assume browsers support
@@ -122,11 +115,10 @@ class HTMLPurifier_AttrDef_URI_Host extends HTMLPurifier_AttrDef
             }
         }
         // Try again
-        if (preg_match("/^($domainlabel\.)*$toplabel\.?$/i", $string)) {
+        if (preg_match("/^({$domainlabel}\\.)*{$toplabel}\\.?\$/i", $string)) {
             return $string;
         }
         return false;
     }
 }
-
 // vim: et sw=4 sts=4

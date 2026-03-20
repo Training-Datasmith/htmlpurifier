@@ -1,26 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Special-case enum attribute definition that lazy loads allowed frame targets
  */
-class HTMLPurifier_AttrDef_HTML_FrameTarget extends HTMLPurifier_AttrDef_Enum
+class Html_Purifier_attr_Def_html_frame_Target extends Html_Purifier_attr_Def_enum
 {
     /**
      * @type array
      */
-    public $valid_values = false; // uninitialized value
-
+    public $valid_values = false;
+    // uninitialized value
     /**
      * @type bool
      */
     protected $case_sensitive = false;
-
     public function __construct()
     {
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -35,5 +32,4 @@ class HTMLPurifier_AttrDef_HTML_FrameTarget extends HTMLPurifier_AttrDef_Enum
         return parent::validate($string, $config, $context);
     }
 }
-
 // vim: et sw=4 sts=4

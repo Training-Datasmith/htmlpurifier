@@ -1,23 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Performs miscellaneous cross attribute validation and filtering for
  * input elements. This is meant to be a post-transform.
  */
-class HTMLPurifier_AttrTransform_Input extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_input extends Html_Purifier_attr_Transform
 {
     /**
      * @type HTMLPurifier_AttrDef_HTML_Pixels
      */
     protected $pixels;
-
     public function __construct()
     {
-        $this->pixels = new HTMLPurifier_AttrDef_HTML_Pixels();
+        $this->pixels = new Html_Purifier_attr_Def_html_pixels();
     }
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config
@@ -54,5 +51,4 @@ class HTMLPurifier_AttrTransform_Input extends HTMLPurifier_AttrTransform
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

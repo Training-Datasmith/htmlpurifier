@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-abstract class HTMLPurifier_AttrDef_URI_Email extends HTMLPurifier_AttrDef
+declare (strict_types=1);
+abstract class Html_Purifier_attr_Def_uri_email extends Html_Purifier_attr_Def
 {
     /**
      * Unpacks a mailbox into its display-name and address
@@ -13,9 +12,6 @@ abstract class HTMLPurifier_AttrDef_URI_Email extends HTMLPurifier_AttrDef
     {
         // needs to be implemented
     }
-
 }
-
 // sub-implementations
-
 // vim: et sw=4 sts=4

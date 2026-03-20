@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // constants are slow, so we use as few as possible
 if (!defined('HTMLPURIFIER_PREFIX')) {
     define('HTMLPURIFIER_PREFIX', realpath(__DIR__ . '/..'));
 }
-
 // accommodations for versions earlier than 5.0.2
 // borrowed from PHP_Compat, LGPL licensed, by Aidan Lister <aidan@php.net>
 if (!defined('PHP_EOL')) {
@@ -21,7 +19,6 @@ if (!defined('PHP_EOL')) {
             define('PHP_EOL', "\n");
     }
 }
-
 /**
  * Bootstrap class that contains meta-functionality for HTML Purifier such as
  * the autoload function.
@@ -29,7 +26,7 @@ if (!defined('PHP_EOL')) {
  * @note
  *      This class may be used without any other files from HTML Purifier.
  */
-class HTMLPurifier_Bootstrap
+class Html_Purifier_bootstrap
 {
     /**
      * Autoload function for HTML Purifier
@@ -38,7 +35,7 @@ class HTMLPurifier_Bootstrap
      */
     public static function autoload($class)
     {
-        $file = HTMLPurifier_Bootstrap::getPath($class);
+        $file = Html_Purifier_bootstrap::get_path($class);
         if (!$file) {
             return false;
         }
@@ -50,13 +47,12 @@ class HTMLPurifier_Bootstrap
         require_once HTMLPURIFIER_PREFIX . '/' . $file;
         return true;
     }
-
     /**
      * Returns the path for a specific class.
      * @param string $class Class path to get
      * @return string
      */
-    public static function getPath($class)
+    public static function get_path($class)
     {
         if (strncmp('HTMLPurifier', $class, 12) !== 0) {
             return false;
@@ -73,11 +69,10 @@ class HTMLPurifier_Bootstrap
         }
         return $file;
     }
-
     /**
      * "Pre-registers" our autoloader on the SPL stack.
      */
-    public static function registerAutoload()
+    public static function register_autoload()
     {
         $autoload = ['HTMLPurifier_Bootstrap', 'autoload'];
         if (spl_autoload_functions() === false) {
@@ -88,5 +83,4 @@ class HTMLPurifier_Bootstrap
         }
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Pre-transform that changes deprecated border attribute to CSS.
  */
-class HTMLPurifier_AttrTransform_Border extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_border extends Html_Purifier_attr_Transform
 {
     /**
      * @param array $attr
@@ -18,11 +17,10 @@ class HTMLPurifier_AttrTransform_Border extends HTMLPurifier_AttrTransform
         if (!isset($attr['border'])) {
             return $attr;
         }
-        $border_width = $this->confiscateAttr($attr, 'border');
+        $border_width = $this->confiscate_attr($attr, 'border');
         // some validation should happen here
-        $this->prependCSS($attr, "border:{$border_width}px solid;");
+        $this->prepend_css($attr, "border:{$border_width}px solid;");
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

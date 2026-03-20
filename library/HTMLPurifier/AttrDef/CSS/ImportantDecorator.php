@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Decorator which enables !important to be used in CSS values.
  */
-class HTMLPurifier_AttrDef_CSS_ImportantDecorator extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_important_Decorator extends Html_Purifier_attr_Def
 {
     /**
      * @type HTMLPurifier_AttrDef
@@ -15,7 +14,6 @@ class HTMLPurifier_AttrDef_CSS_ImportantDecorator extends HTMLPurifier_AttrDef
      * @type bool
      */
     public $allow;
-
     /**
      * @param HTMLPurifier_AttrDef $def Definition to wrap
      * @param bool $allow Whether or not to allow !important
@@ -25,7 +23,6 @@ class HTMLPurifier_AttrDef_CSS_ImportantDecorator extends HTMLPurifier_AttrDef
         $this->def = $def;
         $this->allow = $allow;
     }
-
     /**
      * Intercepts and removes !important if necessary
      * @param string $string
@@ -54,5 +51,4 @@ class HTMLPurifier_AttrDef_CSS_ImportantDecorator extends HTMLPurifier_AttrDef
         return $string;
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Decorator which enables CSS properties to be disabled for specific elements.
  */
-class HTMLPurifier_AttrDef_CSS_DenyElementDecorator extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_deny_Element_Decorator extends Html_Purifier_attr_Def
 {
     /**
      * @type HTMLPurifier_AttrDef
@@ -15,7 +14,6 @@ class HTMLPurifier_AttrDef_CSS_DenyElementDecorator extends HTMLPurifier_AttrDef
      * @type string
      */
     public $element;
-
     /**
      * @param HTMLPurifier_AttrDef $def Definition to wrap
      * @param string $element Element to deny
@@ -25,7 +23,6 @@ class HTMLPurifier_AttrDef_CSS_DenyElementDecorator extends HTMLPurifier_AttrDef
         $this->def = $def;
         $this->element = $element;
     }
-
     /**
      * Checks if CurrentToken is set and equal to $this->element
      * @param string $string
@@ -42,5 +39,4 @@ class HTMLPurifier_AttrDef_CSS_DenyElementDecorator extends HTMLPurifier_AttrDef
         return $this->def->validate($string, $config, $context);
     }
 }
-
 // vim: et sw=4 sts=4

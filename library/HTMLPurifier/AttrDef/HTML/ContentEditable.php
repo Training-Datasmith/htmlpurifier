@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-class HTMLPurifier_AttrDef_HTML_ContentEditable extends HTMLPurifier_AttrDef
+declare (strict_types=1);
+class Html_Purifier_attr_Def_html_content_Editable extends Html_Purifier_attr_Def
 {
     public function validate($string, $config, $context)
     {
@@ -10,9 +9,7 @@ class HTMLPurifier_AttrDef_HTML_ContentEditable extends HTMLPurifier_AttrDef
         if ($config->get('HTML.Trusted')) {
             $allowed = ['', 'true', 'false'];
         }
-
-        $enum = new HTMLPurifier_AttrDef_Enum($allowed);
-
+        $enum = new Html_Purifier_attr_Def_enum($allowed);
         return $enum->validate($string, $config, $context);
     }
 }

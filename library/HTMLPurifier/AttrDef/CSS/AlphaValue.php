@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
-class HTMLPurifier_AttrDef_CSS_AlphaValue extends HTMLPurifier_AttrDef_CSS_Number
+declare (strict_types=1);
+class Html_Purifier_attr_Def_css_alpha_Value extends Html_Purifier_attr_Def_css_number
 {
     public function __construct()
     {
-        parent::__construct(); // opacity is non-negative, but we will clamp it
+        parent::__construct();
+        // opacity is non-negative, but we will clamp it
     }
-
     /**
      * @param string $number
      * @param HTMLPurifier_Config $config
@@ -21,7 +20,7 @@ class HTMLPurifier_AttrDef_CSS_AlphaValue extends HTMLPurifier_AttrDef_CSS_Numbe
         if ($result === false) {
             return $result;
         }
-        $float = (float)$result;
+        $float = (float) $result;
         if ($float < 0.0) {
             $result = '0';
         }
@@ -31,5 +30,4 @@ class HTMLPurifier_AttrDef_CSS_AlphaValue extends HTMLPurifier_AttrDef_CSS_Numbe
         return $result;
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,19 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Dummy AttrDef that mimics another AttrDef, BUT it generates clones
  * with make.
  */
-class HTMLPurifier_AttrDef_Clone extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_clone extends Html_Purifier_attr_Def
 {
     /**
      * What we're cloning.
      * @type HTMLPurifier_AttrDef
      */
     protected $clone;
-
     /**
      * @param HTMLPurifier_AttrDef $clone
      */
@@ -21,7 +19,6 @@ class HTMLPurifier_AttrDef_Clone extends HTMLPurifier_AttrDef
     {
         $this->clone = $clone;
     }
-
     /**
      * @param string $v
      * @param HTMLPurifier_Config $config
@@ -32,7 +29,6 @@ class HTMLPurifier_AttrDef_Clone extends HTMLPurifier_AttrDef
     {
         return $this->clone->validate($v, $config, $context);
     }
-
     /**
      * @param string $string
      * @return HTMLPurifier_AttrDef
@@ -42,5 +38,4 @@ class HTMLPurifier_AttrDef_Clone extends HTMLPurifier_AttrDef
         return clone $this->clone;
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates the HTML attribute style, otherwise known as CSS.
  * @note We don't implement the whole CSS specification, so it might be
@@ -13,7 +12,7 @@ declare(strict_types=1);
  *       but would make these components a lot more viable for a CSS
  *       filtering solution.
  */
-class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css extends Html_Purifier_attr_Def
 {
     /**
      * @param string $css
@@ -23,19 +22,10 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
      */
     public function validate($css, $config, $context)
     {
-        $css = $this->parseCDATA($css);
-
-        $definition = $config->getCSSDefinition();
+        $css = $this->parse_cdata($css);
+        $definition = $config->get_css_definition();
         $allow_duplicates = $config->get('CSS.AllowDuplicates');
-
-        $universal_attrdef = new HTMLPurifier_AttrDef_Enum(
-            [
-                'initial',
-                'inherit',
-                'unset',
-            ]
-        );
-
+        $universal_attrdef = new Html_Purifier_attr_Def_enum(['initial', 'inherit', 'unset']);
         // According to the CSS2.1 spec, the places where a
         // non-delimiting semicolon can appear are in strings
         // escape sequences.   So here is some dumb hack to
@@ -57,29 +47,24 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
                 if ($d == $quoted) {
                     $quoted = false;
                 }
+            } else if ($d == ';') {
+                $declarations[] = $accum;
+                $accum = '';
             } else {
-                if ($d == ';') {
-                    $declarations[] = $accum;
-                    $accum = '';
-                } else {
-                    $accum .= $d;
-                    $quoted = $d;
-                }
+                $accum .= $d;
+                $quoted = $d;
             }
         }
         if ($accum != '') {
             $declarations[] = $accum;
         }
-
         $propvalues = [];
         $new_declarations = '';
-
         /**
          * Name of the current CSS property being validated.
          */
         $property = false;
         $context->register('CurrentCSSProperty', $property);
-
         foreach ($declarations as $declaration) {
             if (!$declaration) {
                 continue;
@@ -110,36 +95,25 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
             }
             $result = $universal_attrdef->validate($value, $config, $context);
             if ($result === false) {
-                $result = $definition->info[$property]->validate(
-                    $value,
-                    $config,
-                    $context
-                );
+                $result = $definition->info[$property]->validate($value, $config, $context);
             }
             if ($result === false) {
                 continue;
             }
             if ($allow_duplicates) {
-                $new_declarations .= "$property:$result;";
+                $new_declarations .= "{$property}:{$result};";
             } else {
                 $propvalues[$property] = $result;
             }
         }
-
         $context->destroy('CurrentCSSProperty');
-
         // procedure does not write the new CSS simultaneously, so it's
         // slightly inefficient, but it's the only way of getting rid of
         // duplicates. Perhaps config to optimize it, but not now.
-
         foreach ($propvalues as $prop => $value) {
-            $new_declarations .= "$prop:$value;";
+            $new_declarations .= "{$prop}:{$value};";
         }
-
         return $new_declarations ?: false;
-
     }
-
 }
-
 // vim: et sw=4 sts=4

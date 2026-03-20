@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates a URI in CSS syntax, which uses url('http://example.com')
  * @note While theoretically speaking a URI in a CSS document could
@@ -11,13 +10,13 @@ declare(strict_types=1);
  *          the separator, you cannot put a literal semicolon in
  *          in the URI. Try percent encoding it, in that case.
  */
-class HTMLPurifier_AttrDef_CSS_URI extends HTMLPurifier_AttrDef_URI
+class Html_Purifier_attr_Def_css_uri extends Html_Purifier_attr_Def_uri
 {
     public function __construct()
     {
-        parent::__construct(true); // always embedded
+        parent::__construct(true);
+        // always embedded
     }
-
     /**
      * @param string $uri_string
      * @param HTMLPurifier_Config $config
@@ -28,8 +27,7 @@ class HTMLPurifier_AttrDef_CSS_URI extends HTMLPurifier_AttrDef_URI
     {
         // parse the URI out of the string and then pass it onto
         // the parent object
-
-        $uri_string = $this->parseCDATA($uri_string);
+        $uri_string = $this->parse_cdata($uri_string);
         if (strpos($uri_string, 'url(') !== 0) {
             return false;
         }
@@ -42,7 +40,6 @@ class HTMLPurifier_AttrDef_CSS_URI extends HTMLPurifier_AttrDef_URI
             return false;
         }
         $uri = trim(substr($uri_string, 0, $new_length));
-
         if (!empty($uri) && ($uri[0] == "'" || $uri[0] == '"')) {
             $quote = $uri[0];
             $new_length = strlen($uri) - 1;
@@ -51,28 +48,21 @@ class HTMLPurifier_AttrDef_CSS_URI extends HTMLPurifier_AttrDef_URI
             }
             $uri = substr($uri, 1, $new_length - 1);
         }
-
-        $uri = $this->expandCSSEscape($uri);
-
+        $uri = $this->expand_css_escape($uri);
         $result = parent::validate($uri, $config, $context);
-
         if ($result === false) {
             return false;
         }
-
         // extra sanity check; should have been done by URI
-        $result = str_replace(['"', '\\', "\n", "\x0c", "\r"], '', $result);
-
+        $result = str_replace(['"', '\\', "\n", "\f", "\r"], '', $result);
         // suspicious characters are ()'; we're going to percent encode
         // them for safety.
         $result = str_replace(['(', ')', "'"], ['%28', '%29', '%27'], $result);
-
         // there's an extra bug where ampersands lose their escaping on
         // an innerHTML cycle, so a very unlucky query parameter could
         // then change the meaning of the URL.  Unfortunately, there's
         // not much we can do about that...
-        return "url(\"$result\")";
+        return "url(\"{$result}\")";
     }
 }
-
 // vim: et sw=4 sts=4

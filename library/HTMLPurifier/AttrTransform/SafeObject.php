@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Writes default type for all objects. Currently only supports flash.
  */
-class HTMLPurifier_AttrTransform_SafeObject extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_safe_Object extends Html_Purifier_attr_Transform
 {
     /**
      * @type string
      */
     public $name = 'SafeObject';
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config
@@ -26,5 +24,4 @@ class HTMLPurifier_AttrTransform_SafeObject extends HTMLPurifier_AttrTransform
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

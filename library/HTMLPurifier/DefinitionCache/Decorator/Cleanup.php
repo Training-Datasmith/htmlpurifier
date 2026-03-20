@@ -1,26 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Definition cache decorator class that cleans up the cache
  * whenever there is a cache miss.
  */
-class HTMLPurifier_DefinitionCache_Decorator_Cleanup extends HTMLPurifier_DefinitionCache_Decorator
+class Html_Purifier_definition_Cache_decorator_cleanup extends Html_Purifier_definition_Cache_decorator
 {
     /**
      * @type string
      */
     public $name = 'Cleanup';
-
     /**
      * @return HTMLPurifier_DefinitionCache_Decorator_Cleanup
      */
     public function copy()
     {
-        return new HTMLPurifier_DefinitionCache_Decorator_Cleanup();
+        return new Html_Purifier_definition_Cache_decorator_cleanup();
     }
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config
@@ -34,7 +31,6 @@ class HTMLPurifier_DefinitionCache_Decorator_Cleanup extends HTMLPurifier_Defini
         }
         return $status;
     }
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config
@@ -48,7 +44,6 @@ class HTMLPurifier_DefinitionCache_Decorator_Cleanup extends HTMLPurifier_Defini
         }
         return $status;
     }
-
     /**
      * @param HTMLPurifier_Definition $def
      * @param HTMLPurifier_Config $config
@@ -62,7 +57,6 @@ class HTMLPurifier_DefinitionCache_Decorator_Cleanup extends HTMLPurifier_Defini
         }
         return $status;
     }
-
     /**
      * @param HTMLPurifier_Config $config
      * @return mixed
@@ -76,5 +70,4 @@ class HTMLPurifier_DefinitionCache_Decorator_Cleanup extends HTMLPurifier_Defini
         return $ret;
     }
 }
-
 // vim: et sw=4 sts=4

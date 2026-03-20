@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Converts HTMLPurifier_ConfigSchema_Interchange to our runtime
  * representation used to perform checks on user configuration.
  */
-class HTMLPurifier_ConfigSchema_Builder_ConfigSchema
+class Html_Purifier_config_Schema_builder_config_Schema
 {
     /**
      * @param HTMLPurifier_ConfigSchema_Interchange $interchange
@@ -14,36 +13,21 @@ class HTMLPurifier_ConfigSchema_Builder_ConfigSchema
      */
     public function build($interchange)
     {
-        $schema = new HTMLPurifier_ConfigSchema();
+        $schema = new Html_Purifier_config_Schema();
         foreach ($interchange->directives as $d) {
-            $schema->add(
-                $d->id->key,
-                $d->default,
-                $d->type,
-                $d->typeAllowsNull
-            );
+            $schema->add($d->id->key, $d->default, $d->type, $d->type_allows_null);
             if ($d->allowed !== null) {
-                $schema->addAllowedValues(
-                    $d->id->key,
-                    $d->allowed
-                );
+                $schema->add_allowed_values($d->id->key, $d->allowed);
             }
             foreach ($d->aliases as $alias) {
-                $schema->addAlias(
-                    $alias->key,
-                    $d->id->key
-                );
+                $schema->add_alias($alias->key, $d->id->key);
             }
-            if ($d->valueAliases !== null) {
-                $schema->addValueAliases(
-                    $d->id->key,
-                    $d->valueAliases
-                );
+            if ($d->value_aliases !== null) {
+                $schema->add_value_aliases($d->id->key, $d->value_aliases);
             }
         }
-        $schema->postProcess();
+        $schema->post_process();
         return $schema;
     }
 }
-
 // vim: et sw=4 sts=4

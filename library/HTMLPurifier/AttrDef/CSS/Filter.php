@@ -1,24 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Microsoft's proprietary filter: CSS property
  * @note Currently supports the alpha filter. In the future, this will
  *       probably need an extensible framework
  */
-class HTMLPurifier_AttrDef_CSS_Filter extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_filter extends Html_Purifier_attr_Def
 {
     /**
      * @type HTMLPurifier_AttrDef_Integer
      */
-    protected $intValidator;
-
+    protected $int_validator;
     public function __construct()
     {
-        $this->intValidator = new HTMLPurifier_AttrDef_Integer();
+        $this->int_validator = new Html_Purifier_attr_Def_integer();
     }
-
     /**
      * @param string $value
      * @param HTMLPurifier_Config $config
@@ -27,17 +24,14 @@ class HTMLPurifier_AttrDef_CSS_Filter extends HTMLPurifier_AttrDef
      */
     public function validate($value, $config, $context)
     {
-        $value = $this->parseCDATA($value);
+        $value = $this->parse_cdata($value);
         if ($value === 'none') {
             return $value;
         }
         // if we looped this we could support multiple filters
         $function_length = strcspn($value, '(');
         $function = trim(substr($value, 0, $function_length));
-        if ($function !== 'alpha' &&
-            $function !== 'Alpha' &&
-            $function !== 'progid:DXImageTransform.Microsoft.Alpha'
-        ) {
+        if ($function !== 'alpha' && $function !== 'Alpha' && $function !== 'progid:DXImageTransform.Microsoft.Alpha') {
             return false;
         }
         $cursor = $function_length + 1;
@@ -56,23 +50,22 @@ class HTMLPurifier_AttrDef_CSS_Filter extends HTMLPurifier_AttrDef
             if ($key !== 'opacity') {
                 continue;
             }
-            $value = $this->intValidator->validate($value, $config, $context);
+            $value = $this->int_validator->validate($value, $config, $context);
             if ($value === false) {
                 continue;
             }
-            $int = (int)$value;
+            $int = (int) $value;
             if ($int > 100) {
                 $value = '100';
             }
             if ($int < 0) {
                 $value = '0';
             }
-            $ret_params[] = "$key=$value";
+            $ret_params[] = "{$key}={$value}";
             $lookup[$key] = true;
         }
         $ret_parameters = implode(',', $ret_params);
-        return "$function($ret_parameters)";
+        return "{$function}({$ret_parameters})";
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates arbitrary text according to the HTML spec.
  */
-class HTMLPurifier_AttrDef_Text extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_text extends Html_Purifier_attr_Def
 {
     /**
      * @param string $string
@@ -15,8 +14,7 @@ class HTMLPurifier_AttrDef_Text extends HTMLPurifier_AttrDef
      */
     public function validate($string, $config, $context)
     {
-        return $this->parseCDATA($string);
+        return $this->parse_cdata($string);
     }
 }
-
 // vim: et sw=4 sts=4

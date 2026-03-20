@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Processes an entire attribute array for corrections needing multiple values.
  *
@@ -15,8 +14,7 @@ declare(strict_types=1);
  * HTMLPurifier_AttrDef validation.  See HTMLPurifier_HTMLDefinition for
  * more details.
  */
-
-abstract class HTMLPurifier_AttrTransform
+abstract class Html_Purifier_attr_Transform
 {
     /**
      * Abstract: makes changes to the attributes dependent on multiple values.
@@ -28,26 +26,24 @@ abstract class HTMLPurifier_AttrTransform
      * @return array Processed attribute array.
      */
     abstract public function transform($attr, $config, $context);
-
     /**
      * Prepends CSS properties to the style attribute, creating the
      * attribute if it doesn't exist.
      * @param array &$attr Attribute array to process (passed by reference)
      * @param string $css CSS to prepend
      */
-    public function prependCSS(array &$attr, $css)
+    public function prepend_css(array &$attr, $css)
     {
         $attr['style'] = isset($attr['style']) ? $attr['style'] : '';
         $attr['style'] = $css . $attr['style'];
     }
-
     /**
      * Retrieves and removes an attribute
      * @param array &$attr Attribute array to process (passed by reference)
      * @param mixed $key Key of attribute to confiscate
      * @return mixed
      */
-    public function confiscateAttr(array &$attr, $key)
+    public function confiscate_attr(array &$attr, $key)
     {
         if (!isset($attr[$key])) {
             return null;
@@ -57,5 +53,4 @@ abstract class HTMLPurifier_AttrTransform
         return $value;
     }
 }
-
 // vim: et sw=4 sts=4

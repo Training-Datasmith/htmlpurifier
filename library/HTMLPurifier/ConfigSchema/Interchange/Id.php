@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Represents a directive ID in the interchange format.
  */
-class HTMLPurifier_ConfigSchema_Interchange_Id
+class Html_Purifier_config_Schema_interchange_id
 {
     /**
      * @type string
      */
     public $key;
-
     /**
      * @param string $key
      */
@@ -19,41 +17,36 @@ class HTMLPurifier_ConfigSchema_Interchange_Id
     {
         $this->key = $key;
     }
-
     /**
      * @return string
      * @warning This is NOT magic, to ensure that people don't abuse SPL and
      *          cause problems for PHP 5.0 support.
      */
-    public function toString()
+    public function to_string()
     {
         return $this->key;
     }
-
     /**
      * @return string
      */
-    public function getRootNamespace()
+    public function get_root_namespace()
     {
         return substr($this->key, 0, strpos($this->key, '.'));
     }
-
     /**
      * @return string
      */
-    public function getDirective()
+    public function get_directive()
     {
         return substr($this->key, strpos($this->key, '.') + 1);
     }
-
     /**
      * @param string $id
      * @return HTMLPurifier_ConfigSchema_Interchange_Id
      */
     public static function make($id)
     {
-        return new HTMLPurifier_ConfigSchema_Interchange_Id($id);
+        return new Html_Purifier_config_Schema_interchange_id($id);
     }
 }
-
 // vim: et sw=4 sts=4

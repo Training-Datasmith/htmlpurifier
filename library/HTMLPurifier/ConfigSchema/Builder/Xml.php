@@ -1,38 +1,33 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Converts HTMLPurifier_ConfigSchema_Interchange to an XML format,
  * which can be further processed to generate documentation.
  */
-class HTMLPurifier_ConfigSchema_Builder_Xml extends XMLWriter
+class Html_Purifier_config_Schema_builder_xml extends Xml_Writer
 {
     /**
      * @type HTMLPurifier_ConfigSchema_Interchange
      */
     protected $interchange;
-
     /**
      * @type string
      */
     private $namespace;
-
     /**
      * @param string $html
      */
-    protected function writeHTMLDiv($html)
+    protected function write_html_div($html)
     {
-        $this->startElement('div');
-
-        $purifier = HTMLPurifier::getInstance();
+        $this->start_element('div');
+        $purifier = Html_Purifier::get_instance();
         $html = $purifier->purify($html);
-        $this->writeAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-        $this->writeRaw($html);
-
-        $this->endElement(); // div
+        $this->write_attribute('xmlns', 'http://www.w3.org/1999/xhtml');
+        $this->write_raw($html);
+        $this->end_element();
+        // div
     }
-
     /**
      * @param mixed $var
      * @return string
@@ -44,7 +39,6 @@ class HTMLPurifier_ConfigSchema_Builder_Xml extends XMLWriter
         }
         return var_export($var, true);
     }
-
     /**
      * @param HTMLPurifier_ConfigSchema_Interchange $interchange
      */
@@ -52,94 +46,91 @@ class HTMLPurifier_ConfigSchema_Builder_Xml extends XMLWriter
     {
         // global access, only use as last resort
         $this->interchange = $interchange;
-
-        $this->setIndent(true);
-        $this->startDocument('1.0', 'UTF-8');
-        $this->startElement('configdoc');
-        $this->writeElement('title', $interchange->name);
-
+        $this->set_indent(true);
+        $this->start_document('1.0', 'UTF-8');
+        $this->start_element('configdoc');
+        $this->write_element('title', $interchange->name);
         foreach ($interchange->directives as $directive) {
-            $this->buildDirective($directive);
+            $this->build_directive($directive);
         }
-
         if ($this->namespace) {
-            $this->endElement();
-        } // namespace
-
-        $this->endElement(); // configdoc
+            $this->end_element();
+        }
+        // namespace
+        $this->end_element();
+        // configdoc
         $this->flush();
     }
-
     /**
      * @param HTMLPurifier_ConfigSchema_Interchange_Directive $directive
      */
-    public function buildDirective($directive)
+    public function build_directive($directive)
     {
         // Kludge, although I suppose having a notion of a "root namespace"
         // certainly makes things look nicer when documentation is built.
         // Depends on things being sorted.
-        if (!$this->namespace || $this->namespace !== $directive->id->getRootNamespace()) {
+        if (!$this->namespace || $this->namespace !== $directive->id->get_root_namespace()) {
             if ($this->namespace) {
-                $this->endElement();
-            } // namespace
-            $this->namespace = $directive->id->getRootNamespace();
-            $this->startElement('namespace');
-            $this->writeAttribute('id', $this->namespace);
-            $this->writeElement('name', $this->namespace);
+                $this->end_element();
+            }
+            // namespace
+            $this->namespace = $directive->id->get_root_namespace();
+            $this->start_element('namespace');
+            $this->write_attribute('id', $this->namespace);
+            $this->write_element('name', $this->namespace);
         }
-
-        $this->startElement('directive');
-        $this->writeAttribute('id', $directive->id->toString());
-
-        $this->writeElement('name', $directive->id->getDirective());
-
-        $this->startElement('aliases');
+        $this->start_element('directive');
+        $this->write_attribute('id', $directive->id->to_string());
+        $this->write_element('name', $directive->id->get_directive());
+        $this->start_element('aliases');
         foreach ($directive->aliases as $alias) {
-            $this->writeElement('alias', $alias->toString());
+            $this->write_element('alias', $alias->to_string());
         }
-        $this->endElement(); // aliases
-
-        $this->startElement('constraints');
+        $this->end_element();
+        // aliases
+        $this->start_element('constraints');
         if ($directive->version) {
-            $this->writeElement('version', $directive->version);
+            $this->write_element('version', $directive->version);
         }
-        $this->startElement('type');
-        if ($directive->typeAllowsNull) {
-            $this->writeAttribute('allow-null', 'yes');
+        $this->start_element('type');
+        if ($directive->type_allows_null) {
+            $this->write_attribute('allow-null', 'yes');
         }
         $this->text($directive->type);
-        $this->endElement(); // type
+        $this->end_element();
+        // type
         if ($directive->allowed) {
-            $this->startElement('allowed');
+            $this->start_element('allowed');
             foreach ($directive->allowed as $value => $x) {
-                $this->writeElement('value', $value);
+                $this->write_element('value', $value);
             }
-            $this->endElement(); // allowed
+            $this->end_element();
+            // allowed
         }
-        $this->writeElement('default', $this->export($directive->default));
-        $this->writeAttribute('xml:space', 'preserve');
+        $this->write_element('default', $this->export($directive->default));
+        $this->write_attribute('xml:space', 'preserve');
         if ($directive->external) {
-            $this->startElement('external');
+            $this->start_element('external');
             foreach ($directive->external as $project) {
-                $this->writeElement('project', $project);
+                $this->write_element('project', $project);
             }
-            $this->endElement();
+            $this->end_element();
         }
-        $this->endElement(); // constraints
-
-        if ($directive->deprecatedVersion) {
-            $this->startElement('deprecated');
-            $this->writeElement('version', $directive->deprecatedVersion);
-            $this->writeElement('use', $directive->deprecatedUse->toString());
-            $this->endElement(); // deprecated
+        $this->end_element();
+        // constraints
+        if ($directive->deprecated_version) {
+            $this->start_element('deprecated');
+            $this->write_element('version', $directive->deprecated_version);
+            $this->write_element('use', $directive->deprecated_use->to_string());
+            $this->end_element();
+            // deprecated
         }
-
-        $this->startElement('description');
-        $this->writeHTMLDiv($directive->description);
-        $this->endElement(); // description
-
-        $this->endElement(); // directive
+        $this->start_element('description');
+        $this->write_html_div($directive->description);
+        $this->end_element();
+        // description
+        $this->end_element();
+        // directive
     }
 }
-
 // vim: et sw=4 sts=4

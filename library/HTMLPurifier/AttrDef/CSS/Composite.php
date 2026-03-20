@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Allows multiple validators to attempt to validate attribute.
  *
@@ -11,7 +10,7 @@ declare(strict_types=1);
  * especially useful for CSS values, which often are a choice between
  * an enumerated set of predefined values or a flexible data type.
  */
-class HTMLPurifier_AttrDef_CSS_Composite extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_composite extends Html_Purifier_attr_Def
 {
     /**
      * List of objects that may process strings.
@@ -19,7 +18,6 @@ class HTMLPurifier_AttrDef_CSS_Composite extends HTMLPurifier_AttrDef
      * @todo Make protected
      */
     public $defs;
-
     /**
      * @param HTMLPurifier_AttrDef[] $defs List of HTMLPurifier_AttrDef objects
      */
@@ -27,7 +25,6 @@ class HTMLPurifier_AttrDef_CSS_Composite extends HTMLPurifier_AttrDef
     {
         $this->defs = $defs;
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -45,5 +42,4 @@ class HTMLPurifier_AttrDef_CSS_Composite extends HTMLPurifier_AttrDef
         return false;
     }
 }
-
 // vim: et sw=4 sts=4

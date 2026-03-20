@@ -1,32 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Represents a Length as defined by CSS.
  */
-class HTMLPurifier_AttrDef_CSS_Length extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_length extends Html_Purifier_attr_Def
 {
     /**
      * @type HTMLPurifier_Length|string
      */
     protected $min;
-
     /**
      * @type HTMLPurifier_Length|string
      */
     protected $max;
-
     /**
      * @param HTMLPurifier_Length|string $min Minimum length, or null for no bound. String is also acceptable.
      * @param HTMLPurifier_Length|string $max Maximum length, or null for no bound. String is also acceptable.
      */
     public function __construct($min = null, $max = null)
     {
-        $this->min = $min !== null ? HTMLPurifier_Length::make($min) : null;
-        $this->max = $max !== null ? HTMLPurifier_Length::make($max) : null;
+        $this->min = $min !== null ? Html_Purifier_length::make($min) : null;
+        $this->max = $max !== null ? Html_Purifier_length::make($max) : null;
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -35,8 +31,7 @@ class HTMLPurifier_AttrDef_CSS_Length extends HTMLPurifier_AttrDef
      */
     public function validate($string, $config, $context)
     {
-        $string = $this->parseCDATA($string);
-
+        $string = $this->parse_cdata($string);
         // Optimizations
         if ($string === '') {
             return false;
@@ -47,14 +42,12 @@ class HTMLPurifier_AttrDef_CSS_Length extends HTMLPurifier_AttrDef
         if (strlen($string) === 1) {
             return false;
         }
-
-        $length = HTMLPurifier_Length::make($string);
-        if (!$length->isValid()) {
+        $length = Html_Purifier_length::make($string);
+        if (!$length->is_valid()) {
             return false;
         }
-
         if ($this->min) {
-            $c = $length->compareTo($this->min);
+            $c = $length->compare_to($this->min);
             if ($c === false) {
                 return false;
             }
@@ -63,7 +56,7 @@ class HTMLPurifier_AttrDef_CSS_Length extends HTMLPurifier_AttrDef
             }
         }
         if ($this->max) {
-            $c = $length->compareTo($this->max);
+            $c = $length->compare_to($this->max);
             if ($c === false) {
                 return false;
             }
@@ -71,8 +64,7 @@ class HTMLPurifier_AttrDef_CSS_Length extends HTMLPurifier_AttrDef
                 return false;
             }
         }
-        return $length->toString();
+        return $length->to_string();
     }
 }
-
 // vim: et sw=4 sts=4

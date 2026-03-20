@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Implements required attribute stipulation for <script>
  */
-class HTMLPurifier_AttrTransform_ScriptRequired extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_script_Required extends Html_Purifier_attr_Transform
 {
     /**
      * @param array $attr
@@ -21,5 +20,4 @@ class HTMLPurifier_AttrTransform_ScriptRequired extends HTMLPurifier_AttrTransfo
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

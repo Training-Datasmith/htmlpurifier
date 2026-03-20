@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // must be called POST validation
-
 /**
  * Adds rel="noreferrer" to any links which target a different window
  * than the current one.  This is used to prevent malicious websites
@@ -11,7 +9,7 @@ declare(strict_types=1);
  * to do phishing.
  * This transform is controlled by %HTML.TargetNoreferrer.
  */
-class HTMLPurifier_AttrTransform_TargetNoreferrer extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_target_Noreferrer extends Html_Purifier_attr_Transform
 {
     /**
      * @param array $attr
@@ -32,7 +30,6 @@ class HTMLPurifier_AttrTransform_TargetNoreferrer extends HTMLPurifier_AttrTrans
         if (!empty($rels) || isset($attr['rel'])) {
             $attr['rel'] = implode(' ', $rels);
         }
-
         return $attr;
     }
 }

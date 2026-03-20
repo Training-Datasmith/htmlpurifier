@@ -1,27 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Decorator that, depending on a token, switches between two definitions.
  */
-class HTMLPurifier_AttrDef_Switch
+class Html_Purifier_attr_Def_switch
 {
     /**
      * @type string
      */
     protected $tag;
-
     /**
      * @type HTMLPurifier_AttrDef
      */
-    protected $withTag;
-
+    protected $with_tag;
     /**
      * @type HTMLPurifier_AttrDef
      */
-    protected $withoutTag;
-
+    protected $without_tag;
     /**
      * @param string $tag Tag name to switch upon
      * @param HTMLPurifier_AttrDef $with_tag Call if token matches tag
@@ -30,10 +26,9 @@ class HTMLPurifier_AttrDef_Switch
     public function __construct($tag, $with_tag, $without_tag)
     {
         $this->tag = $tag;
-        $this->withTag = $with_tag;
-        $this->withoutTag = $without_tag;
+        $this->with_tag = $with_tag;
+        $this->without_tag = $without_tag;
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -44,10 +39,9 @@ class HTMLPurifier_AttrDef_Switch
     {
         $token = $context->get('CurrentToken', true);
         if (!$token || $token->name !== $this->tag) {
-            return $this->withoutTag->validate($string, $config, $context);
+            return $this->without_tag->validate($string, $config, $context);
         }
-        return $this->withTag->validate($string, $config, $context);
+        return $this->with_tag->validate($string, $config, $context);
     }
 }
-
 // vim: et sw=4 sts=4

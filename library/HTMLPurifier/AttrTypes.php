@@ -1,18 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Provides lookup array of attribute types to HTMLPurifier_AttrDef objects
  */
-class HTMLPurifier_AttrTypes
+class Html_Purifier_attr_Types
 {
     /**
      * Lookup array of attribute string identifiers to concrete implementations.
      * @type HTMLPurifier_AttrDef[]
      */
     protected $info = [];
-
     /**
      * Constructs the info array, supplying default implementations for attribute
      * types.
@@ -25,45 +23,38 @@ class HTMLPurifier_AttrTypes
         // With the old implementation of Enum, that ignored its
         // arguments when handling a make dispatch, the IAlign
         // definition wouldn't work.
-
         // pseudo-types, must be instantiated via shorthand
-        $this->info['Enum']    = new HTMLPurifier_AttrDef_Enum();
-        $this->info['Bool']    = new HTMLPurifier_AttrDef_HTML_Bool();
-
-        $this->info['CDATA']    = new HTMLPurifier_AttrDef_Text();
-        $this->info['ID']       = new HTMLPurifier_AttrDef_HTML_ID();
-        $this->info['Length']   = new HTMLPurifier_AttrDef_HTML_Length();
-        $this->info['MultiLength'] = new HTMLPurifier_AttrDef_HTML_MultiLength();
-        $this->info['NMTOKENS'] = new HTMLPurifier_AttrDef_HTML_Nmtokens();
-        $this->info['Pixels']   = new HTMLPurifier_AttrDef_HTML_Pixels();
-        $this->info['Text']     = new HTMLPurifier_AttrDef_Text();
-        $this->info['URI']      = new HTMLPurifier_AttrDef_URI();
-        $this->info['LanguageCode'] = new HTMLPurifier_AttrDef_Lang();
-        $this->info['Color']    = new HTMLPurifier_AttrDef_HTML_Color();
-        $this->info['IAlign']   = self::makeEnum('top,middle,bottom,left,right');
-        $this->info['LAlign']   = self::makeEnum('top,bottom,left,right');
-        $this->info['FrameTarget'] = new HTMLPurifier_AttrDef_HTML_FrameTarget();
-        $this->info['ContentEditable'] = new HTMLPurifier_AttrDef_HTML_ContentEditable();
-
+        $this->info['Enum'] = new Html_Purifier_attr_Def_enum();
+        $this->info['Bool'] = new Html_Purifier_attr_Def_html_bool();
+        $this->info['CDATA'] = new Html_Purifier_attr_Def_text();
+        $this->info['ID'] = new Html_Purifier_attr_Def_html_id();
+        $this->info['Length'] = new Html_Purifier_attr_Def_html_length();
+        $this->info['MultiLength'] = new Html_Purifier_attr_Def_html_multi_Length();
+        $this->info['NMTOKENS'] = new Html_Purifier_attr_Def_html_nmtokens();
+        $this->info['Pixels'] = new Html_Purifier_attr_Def_html_pixels();
+        $this->info['Text'] = new Html_Purifier_attr_Def_text();
+        $this->info['URI'] = new Html_Purifier_attr_Def_uri();
+        $this->info['LanguageCode'] = new Html_Purifier_attr_Def_lang();
+        $this->info['Color'] = new Html_Purifier_attr_Def_html_color();
+        $this->info['IAlign'] = self::make_enum('top,middle,bottom,left,right');
+        $this->info['LAlign'] = self::make_enum('top,bottom,left,right');
+        $this->info['FrameTarget'] = new Html_Purifier_attr_Def_html_frame_Target();
+        $this->info['ContentEditable'] = new Html_Purifier_attr_Def_html_content_Editable();
         // unimplemented aliases
-        $this->info['ContentType'] = new HTMLPurifier_AttrDef_Text();
-        $this->info['ContentTypes'] = new HTMLPurifier_AttrDef_Text();
-        $this->info['Charsets'] = new HTMLPurifier_AttrDef_Text();
-        $this->info['Character'] = new HTMLPurifier_AttrDef_Text();
-
+        $this->info['ContentType'] = new Html_Purifier_attr_Def_text();
+        $this->info['ContentTypes'] = new Html_Purifier_attr_Def_text();
+        $this->info['Charsets'] = new Html_Purifier_attr_Def_text();
+        $this->info['Character'] = new Html_Purifier_attr_Def_text();
         // "proprietary" types
-        $this->info['Class'] = new HTMLPurifier_AttrDef_HTML_Class();
-
+        $this->info['Class'] = new Html_Purifier_attr_Def_html_class();
         // number is really a positive integer (one or more digits)
         // FIXME: ^^ not always, see start and value of list items
-        $this->info['Number']   = new HTMLPurifier_AttrDef_Integer(false, false, true);
+        $this->info['Number'] = new Html_Purifier_attr_Def_integer(false, false, true);
     }
-
-    private static function makeEnum($in)
+    private static function make_enum($in)
     {
-        return new HTMLPurifier_AttrDef_Clone(new HTMLPurifier_AttrDef_Enum(explode(',', $in)));
+        return new Html_Purifier_attr_Def_clone(new Html_Purifier_attr_Def_enum(explode(',', $in)));
     }
-
     /**
      * Retrieves a type
      * @param string $type String type name
@@ -77,13 +68,11 @@ class HTMLPurifier_AttrTypes
         } else {
             $string = '';
         }
-
         if (!isset($this->info[$type])) {
             throw new Exception('Cannot retrieve undefined attribute type ' . $type);
         }
         return $this->info[$type]->make($string);
     }
-
     /**
      * Sets a new implementation for a type
      * @param string $type String type name
@@ -94,5 +83,4 @@ class HTMLPurifier_AttrTypes
         $this->info[$type] = $impl;
     }
 }
-
 // vim: et sw=4 sts=4

@@ -1,29 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates the border property as defined by CSS.
  */
-class HTMLPurifier_AttrDef_CSS_Border extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_border extends Html_Purifier_attr_Def
 {
     /**
      * Local copy of properties this property is shorthand for.
      * @type HTMLPurifier_AttrDef[]
      */
     protected $info = [];
-
     /**
      * @param HTMLPurifier_Config $config
      */
     public function __construct($config)
     {
-        $def = $config->getCSSDefinition();
+        $def = $config->get_css_definition();
         $this->info['border-width'] = $def->info['border-width'];
         $this->info['border-style'] = $def->info['border-style'];
         $this->info['border-top-color'] = $def->info['border-top-color'];
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -32,11 +29,13 @@ class HTMLPurifier_AttrDef_CSS_Border extends HTMLPurifier_AttrDef
      */
     public function validate($string, $config, $context)
     {
-        $string = $this->parseCDATA($string);
-        $string = $this->mungeRgb($string);
+        $string = $this->parse_cdata($string);
+        $string = $this->munge_rgb($string);
         $bits = explode(' ', $string);
-        $done = []; // segments we've finished
-        $ret = ''; // return value
+        $done = [];
+        // segments we've finished
+        $ret = '';
+        // return value
         foreach ($bits as $bit) {
             foreach ($this->info as $propname => $validator) {
                 if (isset($done[$propname])) {
@@ -53,5 +52,4 @@ class HTMLPurifier_AttrDef_CSS_Border extends HTMLPurifier_AttrDef
         return rtrim($ret);
     }
 }
-
 // vim: et sw=4 sts=4

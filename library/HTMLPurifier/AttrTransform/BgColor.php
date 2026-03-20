@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Pre-transform that changes deprecated bgcolor attribute to CSS.
  */
-class HTMLPurifier_AttrTransform_BgColor extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_bg_Color extends Html_Purifier_attr_Transform
 {
     /**
      * @param array $attr
@@ -18,13 +17,10 @@ class HTMLPurifier_AttrTransform_BgColor extends HTMLPurifier_AttrTransform
         if (!isset($attr['bgcolor'])) {
             return $attr;
         }
-
-        $bgcolor = $this->confiscateAttr($attr, 'bgcolor');
+        $bgcolor = $this->confiscate_attr($attr, 'bgcolor');
         // some validation should happen here
-
-        $this->prependCSS($attr, "background-color:$bgcolor;");
+        $this->prepend_css($attr, "background-color:{$bgcolor};");
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

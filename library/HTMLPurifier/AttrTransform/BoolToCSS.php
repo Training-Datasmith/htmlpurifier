@@ -1,24 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Pre-transform that changes converts a boolean attribute to fixed CSS
  */
-class HTMLPurifier_AttrTransform_BoolToCSS extends HTMLPurifier_AttrTransform
+class Html_Purifier_attr_Transform_bool_To_Css extends Html_Purifier_attr_Transform
 {
     /**
      * Name of boolean attribute that is trigger.
      * @type string
      */
     protected $attr;
-
     /**
      * CSS declarations to add to style, needs trailing semicolon.
      * @type string
      */
     protected $css;
-
     /**
      * @param string $attr attribute name to convert from
      * @param string $css CSS declarations to add to style (needs semicolon)
@@ -28,7 +25,6 @@ class HTMLPurifier_AttrTransform_BoolToCSS extends HTMLPurifier_AttrTransform
         $this->attr = $attr;
         $this->css = $css;
     }
-
     /**
      * @param array $attr
      * @param HTMLPurifier_Config $config
@@ -41,9 +37,8 @@ class HTMLPurifier_AttrTransform_BoolToCSS extends HTMLPurifier_AttrTransform
             return $attr;
         }
         unset($attr[$this->attr]);
-        $this->prependCSS($attr, $this->css);
+        $this->prepend_css($attr, $this->css);
         return $attr;
     }
 }
-
 // vim: et sw=4 sts=4

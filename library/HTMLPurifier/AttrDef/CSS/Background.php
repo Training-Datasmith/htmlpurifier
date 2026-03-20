@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Validates shorthand CSS property background.
  * @warning Does not support url tokens that have internal spaces.
  */
-class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
+class Html_Purifier_attr_Def_css_background extends Html_Purifier_attr_Def
 {
     /**
      * Local copy of component validators.
@@ -14,13 +13,12 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
      * @note See HTMLPurifier_AttrDef_Font::$info for a similar impl.
      */
     protected $info;
-
     /**
      * @param HTMLPurifier_Config $config
      */
     public function __construct($config)
     {
-        $def = $config->getCSSDefinition();
+        $def = $config->get_css_definition();
         $this->info['background-color'] = $def->info['background-color'];
         $this->info['background-image'] = $def->info['background-image'];
         $this->info['background-repeat'] = $def->info['background-repeat'];
@@ -28,7 +26,6 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
         $this->info['background-position'] = $def->info['background-position'];
         $this->info['background-size'] = $def->info['background-size'];
     }
-
     /**
      * @param string $string
      * @param HTMLPurifier_Config $config
@@ -38,17 +35,15 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
     public function validate($string, $config, $context)
     {
         // regular pre-processing
-        $string = $this->parseCDATA($string);
+        $string = $this->parse_cdata($string);
         if ($string === '') {
             return false;
         }
-
         // munge rgb() decl if necessary
-        $string = $this->mungeRgb($string);
-
+        $string = $this->munge_rgb($string);
         // assumes URI doesn't have spaces in it
-        $bits = explode(' ', $string); // bits to process
-
+        $bits = explode(' ', $string);
+        // bits to process
         $caught = [];
         $caught['color'] = false;
         $caught['image'] = false;
@@ -56,9 +51,8 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
         $caught['attachment'] = false;
         $caught['position'] = false;
         $caught['size'] = false;
-
-        $i = 0; // number of catches
-
+        $i = 0;
+        // number of catches
         foreach ($bits as $bit) {
             if ($bit === '') {
                 continue;
@@ -87,15 +81,12 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
                 break;
             }
         }
-
         if (!$i) {
             return false;
         }
         if ($caught['position'] !== false) {
-            $caught['position'] = $this->info['background-position']->
-                validate($caught['position'], $config, $context);
+            $caught['position'] = $this->info['background-position']->validate($caught['position'], $config, $context);
         }
-
         $ret = [];
         foreach ($caught as $value) {
             if ($value === false) {
@@ -103,12 +94,10 @@ class HTMLPurifier_AttrDef_CSS_Background extends HTMLPurifier_AttrDef
             }
             $ret[] = $value;
         }
-
         if (empty($ret)) {
             return false;
         }
         return implode(' ', $ret);
     }
 }
-
 // vim: et sw=4 sts=4
