@@ -13,10 +13,35 @@ declare(strict_types=1);
 class HTMLPurifier_Strategy_RemoveForeignElements extends HTMLPurifier_Strategy
 {
     /**
-     * @param HTMLPurifier_Token[] $tokens
-     * @param HTMLPurifier_Config $config
-     * @param HTMLPurifier_Context $context
-     * @return array|HTMLPurifier_Token[]
+     * Removes all unrecognised tags and processes hidden elements from the token stream.
+     *
+     * This is the primary XSS-prevention pass.  It enforces the HTML element
+     * whitelist defined in the HTMLDefinition: any token whose element name is
+     * not in $definition->info is either escaped to text (if Core.EscapeInvalidTags
+     * is set) or dropped entirely.  Elements listed in Core.HiddenElements (e.g.
+     * `script`, `style`) are removed along with all their children.
+     *
+     * @security This method is the first line of defence against unknown tags.
+     *           Unknown tags are dropped, not escaped, by default.  Dropping is
+     *           safer than escaping because even escaped markup can be
+     *           misinterpreted by some browsers in quirks mode.
+     *
+     * @security Comment handling is conservative: comments are stripped unless
+     *           HTML.Trusted is true or the comment data matches HTML.AllowedComments
+     *           / HTML.AllowedCommentsRegexp.  Double-hyphens within allowed comments
+     *           are collapsed to a single hyphen to prevent `-->` injection.
+     *
+     * @security Tag transforms (e.g., converting `<font>` to `<span>`) are applied
+     *           before whitelist checking so that legacy tags are normalised before
+     *           filtering.
+     *
+     * @complexity O(n) in the number of input tokens; each token is inspected once.
+     *
+     * @param HTMLPurifier_Token[] $tokens  The input token stream from the Lexer.
+     * @param HTMLPurifier_Config  $config  The current purification configuration.
+     * @param HTMLPurifier_Context $context Per-purification shared state.
+     *
+     * @return HTMLPurifier_Token[] The filtered token stream with unknown elements removed.
      */
     public function execute($tokens, $config, $context)
     {

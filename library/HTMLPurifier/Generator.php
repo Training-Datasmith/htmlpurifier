@@ -76,9 +76,27 @@ class HTMLPurifier_Generator
     }
 
     /**
-     * Generates HTML from an array of tokens.
-     * @param HTMLPurifier_Token[] $tokens Array of HTMLPurifier_Token
-     * @return string Generated HTML
+     * Generates an HTML string from an array of clean tokens.
+     *
+     * This method is called after all purification strategies have run.  It
+     * serialises the token stream back to an HTML string, handling XHTML
+     * self-closing syntax, attribute quoting, and optional Tidy formatting.
+     *
+     * @security This method must ONLY be called with tokens that have already
+     *           been through the full purification pipeline (RemoveForeignElements,
+     *           MakeWellFormed, FixNesting, ValidateAttributes).  Passing raw,
+     *           unpurified tokens will produce unsafe output.
+     *
+     * @security Attribute values are HTML-entity-encoded by generateFromToken()
+     *           via htmlspecialchars().  Do not bypass this step.
+     *
+     * @complexity O(n) in the number of tokens; the optional Tidy pass adds
+     *             an O(n log n) formatting step if Output.TidyFormat is enabled.
+     *
+     * @param HTMLPurifier_Token[] $tokens  The purified token stream.
+     *
+     * @return string The serialised HTML string.  Safe to insert into a page
+     *                provided the surrounding context is also safe.
      */
     public function generateFromTokens(array $tokens)
     {
@@ -132,9 +150,20 @@ class HTMLPurifier_Generator
     }
 
     /**
-     * Generates HTML from a single token.
-     * @param HTMLPurifier_Token $token HTMLPurifier_Token object.
-     * @return string Generated HTML
+     * Generates an HTML fragment from a single token.
+     *
+     * Handles start tags, end tags, empty (self-closing) tags, text nodes, and
+     * comment tokens.  Attribute values are HTML-entity-encoded with
+     * htmlspecialchars(ENT_COMPAT, 'UTF-8') to prevent attribute injection.
+     *
+     * @security Text tokens are NOT re-escaped here because they should already
+     *           have been converted to safe content by the purification pipeline.
+     *           If you add tokens to the stream manually (outside the pipeline)
+     *           you MUST ensure they do not contain unescaped HTML.
+     *
+     * @param HTMLPurifier_Token $token  A single purified token.
+     *
+     * @return string The HTML string representation of the token.
      */
     public function generateFromToken($token)
     {
